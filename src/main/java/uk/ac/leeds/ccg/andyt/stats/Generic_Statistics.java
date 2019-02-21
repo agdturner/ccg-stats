@@ -28,7 +28,7 @@ import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import uk.ac.leeds.ccg.andyt.generic.logging.Generic_Log;
-import uk.ac.leeds.ccg.andyt.math.Generic_BigDecimal;
+import uk.ac.leeds.ccg.andyt.math.Math_BigDecimal;
 import uk.ac.leeds.ccg.andyt.generic.util.Generic_Collections;
 
 /**
@@ -121,7 +121,7 @@ public class Generic_Statistics {
             moment3 = moment3.add(meandiff.pow(3));
             moment4 = moment4.add(meandiff.pow(4));
         }
-        BigDecimal variance = Generic_BigDecimal.divideRoundIfNecessary(
+        BigDecimal variance = Math_BigDecimal.divideRoundIfNecessary(
                 moment2,
                 n_BigDecimal,
                 decimalPlaces,
@@ -132,7 +132,7 @@ public class Generic_Statistics {
         secondOrderStatistics[3] = moment4;
         secondOrderStatistics[4] = variance;
         try {
-        secondOrderStatistics[5] = Generic_BigDecimal.power(
+        secondOrderStatistics[5] = Math_BigDecimal.power(
                 variance,
                 BigDecimal.valueOf(0.5d),
                 decimalPlaces,
@@ -247,14 +247,13 @@ public class Generic_Statistics {
                 result[9] = BigDecimal.ONE;
                 result[10] = BigDecimal.ONE;
             } else {
-                result[1] = Generic_BigDecimal.divideRoundIfNecessary(
-                        result[0],
-                        Generic_BigDecimal.TWO,
+                result[1] = Math_BigDecimal.divideRoundIfNecessary(result[0],
+                        Math_BigDecimal.TWO,
                         decimalPlaces,
                         roundingMode);
-                result[8] = Generic_BigDecimal.TWO;
-                result[9] = Generic_BigDecimal.TWO;
-                result[10] = Generic_BigDecimal.TWO;
+                result[8] = Math_BigDecimal.TWO;
+                result[9] = Math_BigDecimal.TWO;
+                result[10] = Math_BigDecimal.TWO;
             }
             result[2] = new BigDecimal(result[1].toString());
             result[3] = new BigDecimal(result[1].toString());
@@ -286,20 +285,18 @@ public class Generic_Statistics {
             BigDecimal value1 = sortedData.get(1);
             BigDecimal value2 = sortedData.get(2);
             result[0] = value.add(value1).add(value2);
-            result[1] = Generic_BigDecimal.divideRoundIfNecessary(
+            result[1] = Math_BigDecimal.divideRoundIfNecessary(
                     result[0],
                     BigInteger.valueOf(3),
                     decimalPlaces,
                     roundingMode);
             result[2] = new BigDecimal(value1.toString());
-            result[3] = Generic_BigDecimal.divideRoundIfNecessary(
-                    value.add(value1),
-                    Generic_BigDecimal.TWO,
+            result[3] = Math_BigDecimal.divideRoundIfNecessary(value.add(value1),
+                    Math_BigDecimal.TWO,
                     decimalPlaces,
                     roundingMode);
-            result[4] = Generic_BigDecimal.divideRoundIfNecessary(
-                    value1.add(value2),
-                    Generic_BigDecimal.TWO,
+            result[4] = Math_BigDecimal.divideRoundIfNecessary(value1.add(value2),
+                    Math_BigDecimal.TWO,
                     decimalPlaces,
                     roundingMode);
             if (value.compareTo(value1) == 0) {
@@ -307,18 +304,18 @@ public class Generic_Statistics {
                 if (value.compareTo(value2) == 0) {
                     result[8] = BigDecimal.ONE;
                     result[9] = BigDecimal.ONE;
-                    result[10] = Generic_BigDecimal.TWO;
+                    result[10] = Math_BigDecimal.TWO;
                 } else {
-                    result[8] = Generic_BigDecimal.TWO;
+                    result[8] = Math_BigDecimal.TWO;
                     result[9] = BigDecimal.ONE;
-                    result[10] = Generic_BigDecimal.TWO;
+                    result[10] = Math_BigDecimal.TWO;
                 }
             } else {
                 if (value1.compareTo(value2) == 0) {
                     result[5] = new BigDecimal(value1.toString());
-                    result[8] = Generic_BigDecimal.TWO;
+                    result[8] = Math_BigDecimal.TWO;
                     result[9] = BigDecimal.ONE;
-                    result[10] = Generic_BigDecimal.TWO;
+                    result[10] = Math_BigDecimal.TWO;
                 } else {
                     result[5] = new BigDecimal(result[1].toString());
                     result[8] = BigDecimal.valueOf(3);
@@ -400,7 +397,7 @@ public class Generic_Statistics {
              * result[10] = numberOfSameValuesInAnyPartOfMode;
              */
         }
-        result[1] = Generic_BigDecimal.divideRoundIfNecessary(
+        result[1] = Math_BigDecimal.divideRoundIfNecessary(
                 result[0],
                 BigDecimal.valueOf(n),
                 decimalPlaces,
@@ -413,9 +410,8 @@ public class Generic_Statistics {
             BigDecimal value1 = sortedData.get(1);
             BigDecimal value2 = sortedData.get(2);
             BigDecimal value3 = sortedData.get(3);
-            result[2] = Generic_BigDecimal.divideRoundIfNecessary(
-                    value1.add(value2),
-                    Generic_BigDecimal.TWO,
+            result[2] = Math_BigDecimal.divideRoundIfNecessary(value1.add(value2),
+                    Math_BigDecimal.TWO,
                     decimalPlaces,
                     roundingMode);
             result[3] = new BigDecimal(value1.toString());
@@ -444,7 +440,7 @@ public class Generic_Statistics {
                         while (modeIte.hasNext()) {
                             modeMean = modeMean.add(modeIte.next());
                         }
-                        result[5] = Generic_BigDecimal.divideRoundIfNecessary(
+                        result[5] = Math_BigDecimal.divideRoundIfNecessary(
                                 modeMean,
                                 BigDecimal.valueOf(maxCountValues.size()),
                                 decimalPlaces,
@@ -516,7 +512,7 @@ public class Generic_Statistics {
                                      */
                                     if (n % 4 == 0) {
                                         result[3] =
-                                                Generic_BigDecimal.divideRoundIfNecessary(
+                                                Math_BigDecimal.divideRoundIfNecessary(
                                                 result[3].multiply(BigDecimal.valueOf(3)).add(value),
                                                 //result[3].add(value.multiply(BigDecimal.valueOf(3))),
                                                 BigDecimal.valueOf(4),
@@ -525,7 +521,7 @@ public class Generic_Statistics {
                                     }
                                     if (n % 4 == 2) {
                                         result[3] =
-                                                Generic_BigDecimal.divideRoundIfNecessary(
+                                                Math_BigDecimal.divideRoundIfNecessary(
                                                 result[3].multiply(BigDecimal.valueOf(3)).add(value),
                                                 //result[3].add(value.multiply(BigDecimal.valueOf(3))),
                                                 BigDecimal.valueOf(4),
@@ -534,18 +530,16 @@ public class Generic_Statistics {
                                     }
                                     if (n % 4 == 3) {
                                         result[3] =
-                                                Generic_BigDecimal.divideRoundIfNecessary(
-                                                result[3].add(value),
-                                                Generic_BigDecimal.TWO,
+                                                Math_BigDecimal.divideRoundIfNecessary(result[3].add(value),
+                                                Math_BigDecimal.TWO,
                                                 decimalPlaces,
                                                 roundingMode);
                                     }
                                 }
                             } else {
                                 result[3] =
-                                        Generic_BigDecimal.divideRoundIfNecessary(
-                                        result[3].add(value),
-                                        Generic_BigDecimal.TWO,
+                                        Math_BigDecimal.divideRoundIfNecessary(result[3].add(value),
+                                        Math_BigDecimal.TWO,
                                         decimalPlaces,
                                         roundingMode);
                             }
@@ -571,9 +565,8 @@ public class Generic_Statistics {
                 if (count >= ndiv2) {
                     if (interpolateMedian) {
                         if (medianInitialised) {
-                            result[2] = Generic_BigDecimal.divideRoundIfNecessary(
-                                    result[2].add(value),
-                                    Generic_BigDecimal.TWO,
+                            result[2] = Math_BigDecimal.divideRoundIfNecessary(result[2].add(value),
+                                    Math_BigDecimal.TWO,
                                     decimalPlaces,
                                     roundingMode);
                             medianFinalised = true;
@@ -605,7 +598,7 @@ public class Generic_Statistics {
                                      */
                                     if (n % 4 == 0) {
                                         result[4] =
-                                                Generic_BigDecimal.divideRoundIfNecessary(
+                                                Math_BigDecimal.divideRoundIfNecessary(
                                                 //result[4].multiply(BigDecimal.valueOf(3)).add(value),
                                                 result[4].add(value.multiply(BigDecimal.valueOf(3))),
                                                 BigDecimal.valueOf(4),
@@ -614,7 +607,7 @@ public class Generic_Statistics {
                                     }
                                     if (n % 4 == 2) {
                                         result[4] =
-                                                Generic_BigDecimal.divideRoundIfNecessary(
+                                                Math_BigDecimal.divideRoundIfNecessary(
                                                 //result[4].multiply(BigDecimal.valueOf(3)).add(value),
                                                 result[4].add(value.multiply(BigDecimal.valueOf(3))),
                                                 BigDecimal.valueOf(4),
@@ -623,18 +616,16 @@ public class Generic_Statistics {
                                     }
                                     if (n % 4 == 3) {
                                         result[4] =
-                                                Generic_BigDecimal.divideRoundIfNecessary(
-                                                result[4].add(value),
-                                                Generic_BigDecimal.TWO,
+                                                Math_BigDecimal.divideRoundIfNecessary(result[4].add(value),
+                                                Math_BigDecimal.TWO,
                                                 decimalPlaces,
                                                 roundingMode);
                                     }
                                 }
                             } else {
                                 result[4] =
-                                        Generic_BigDecimal.divideRoundIfNecessary(
-                                        result[4].add(value),
-                                        Generic_BigDecimal.TWO,
+                                        Math_BigDecimal.divideRoundIfNecessary(result[4].add(value),
+                                        Math_BigDecimal.TWO,
                                         decimalPlaces,
                                         roundingMode);
                             }
@@ -670,7 +661,7 @@ public class Generic_Statistics {
             while (modeIte.hasNext()) {
                 modeMean = modeMean.add(modeIte.next());
             }
-            result[5] = Generic_BigDecimal.divideRoundIfNecessary(
+            result[5] = Math_BigDecimal.divideRoundIfNecessary(
                     modeMean,
                     BigDecimal.valueOf(maxCountValues.size()),
                     decimalPlaces,
