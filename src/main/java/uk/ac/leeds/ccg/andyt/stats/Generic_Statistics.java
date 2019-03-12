@@ -38,10 +38,10 @@ public class Generic_Statistics {
     }
 
     /**
-     * Returns the sum of all values in data
+     * Calculates and returns the sum of all values in data.
      *
-     * @param data
-     * @return
+     * @param data the list of values to be summed.
+     * @return the sum of all values in data.
      */
     public static BigDecimal getSum(List<BigDecimal> data) {
         BigDecimal r = BigDecimal.ZERO;
@@ -52,6 +52,24 @@ public class Generic_Statistics {
         return r;
     }
 
+    /**
+     * For printing stats to std.out.
+     *
+     * @param stats Expected to be of length 11 with:
+     * <ul>
+     * <li>stats[0] is the sum</li>
+     * <li>stats[1] is the mean</li>
+     * <li>stats[2] is the median</li>
+     * <li>stats[3] is the q1</li>
+     * <li>stats[4] is the q3</li>
+     * <li>stats[5] is the mode</li>
+     * <li>stats[6] is the min</li>
+     * <li>stats[7] is the max</li>
+     * <li>stats[8] is the number of different values</li>
+     * <li>stats[9] is the number of different values in the mode</li>
+     * <li>stats[10] is the number of same values in any part of the mode</li>
+     * </ul>
+     */
     public static void printStatistics(BigDecimal[] stats) {
         System.out.println("Sum " + stats[0]);
         System.out.println("Mean " + stats[1]);
@@ -62,37 +80,41 @@ public class Generic_Statistics {
         System.out.println("Min " + stats[6]);
         System.out.println("Max " + stats[7]);
         System.out.println("Number Of Different Values " + stats[8]);
-        System.out.println("Number Of Different Values In Mode " + stats[9]);
-        System.out.println("Number Of Same Values In Any Part Of Mode " + stats[10]);
+        System.out.println("Number Of Different Values In The Mode "
+                + stats[9]);
+        System.out.println("Number Of Same Values In Any Part Of The Mode "
+                + stats[10]);
     }
 
     /**
+     * Calculates and returns a number of statistics for data.
      *
-     * @param data
-     * @param decimalPlaces
-     * @param roundingMode
-     * @return Object[] result: result[0] = BigDecimal[] obtained from
-     * <code>getSummaryStatistics_1(ArrayList<BigDecimal>,int,int,RoundingMode)</code>
-     * result[1] = BigDecimal[] secondOrderStatistics; secondOrderStatistics[0]
-     * = moment1 = sum of the (differences from the mean)
-     * secondOrderStatistics[1] = moment2 = sum of the (differences from the
-     * mean squared) secondOrderStatistics[2] = moment3 = sum of the
-     * (differences from the mean cubed) secondOrderStatistics[3] = moment4 =
-     * sum of the (differences from the mean squared squared)
-     * secondOrderStatistics[4] = variance = (sum of the (differences from the
-     * mean))/n
-     * @TODO secondOrderStatistics[5] = skewness
-     * @TODO secondOrderStatistics[6] = kurtosis
+     * @TODO skewness and kurtosis...
+     * @param data the data.
+     * @param dp decimal places used for calculations.
+     * @param rm RoundingMode
+     * @return Object[] r where:
+     * <ul>
+     * <li>r[0] = BigDecimal[] obtained from
+     * {@link #getSummaryStatistics_0(java.util.ArrayList, int, java.math.RoundingMode)</li>
+     * <li>r[1] = BigDecimal[] where:
+     * <ul>
+     * <li>r[1][0] = moment1 = sum of the (differences from the mean)</li>
+     * <li>r[1][1] = moment2 = sum of the (differences from the mean
+     * squared)</li>
+     * <li>r[1][2] = moment3 = sum of the (differences from the mean cubed)</li>
+     * <li>r[1][3] = moment4 = sum of the (differences from the mean squared
+     * squared)</li>
+     * <li>r[1][4] = variance = (sum of the (differences from the mean))</li>
+     * </ul>
+     * </ul>
      */
-    public static Object[] getSummaryStatistics_1(
-            ArrayList<BigDecimal> data,
-            int decimalPlaces,
-            RoundingMode roundingMode) {
-        Object[] result = new Object[2];
-        BigDecimal[] summaryStatistics_0 = getSummaryStatistics_0(
-                data, decimalPlaces, roundingMode);
-        result[0] = summaryStatistics_0;
-        BigDecimal[] secondOrderStatistics = new BigDecimal[6];
+    public static Object[] getSummaryStatistics_1(ArrayList<BigDecimal> data,
+            int dp, RoundingMode rm) {
+        Object[] r = new Object[2];
+        BigDecimal[] stats0 = getSummaryStatistics_0(data, dp, rm);
+        r[0] = stats0;
+        BigDecimal[] stats1 = new BigDecimal[6];
 
         BigDecimal moment1 = BigDecimal.ZERO;
         BigDecimal moment2 = BigDecimal.ZERO;
@@ -103,51 +125,39 @@ public class Generic_Statistics {
         int n = data.size();
         BigDecimal n_BigDecimal = BigDecimal.valueOf(n);
         if (n < 2) {
-            secondOrderStatistics[0] = BigDecimal.ZERO;
-            secondOrderStatistics[1] = BigDecimal.ZERO;
-            secondOrderStatistics[2] = BigDecimal.ZERO;
-            secondOrderStatistics[3] = BigDecimal.ZERO;
-            secondOrderStatistics[4] = BigDecimal.ZERO;
+            stats1[0] = BigDecimal.ZERO;
+            stats1[1] = BigDecimal.ZERO;
+            stats1[2] = BigDecimal.ZERO;
+            stats1[3] = BigDecimal.ZERO;
+            stats1[4] = BigDecimal.ZERO;
         }
         BigDecimal value;
         BigDecimal meandiff;
         Iterator<BigDecimal> ite = data.iterator();
         while (ite.hasNext()) {
             value = ite.next();
-            meandiff = value.subtract(summaryStatistics_0[1]);
+            meandiff = value.subtract(stats0[1]);
             moment1 = moment1.add(meandiff);
             moment2 = moment2.add(meandiff.pow(2));
             moment3 = moment3.add(meandiff.pow(3));
             moment4 = moment4.add(meandiff.pow(4));
         }
         BigDecimal variance = Math_BigDecimal.divideRoundIfNecessary(
-                moment2,
-                n_BigDecimal,
-                decimalPlaces,
-                roundingMode);
-        secondOrderStatistics[0] = moment1;
-        secondOrderStatistics[1] = moment2;
-        secondOrderStatistics[2] = moment3;
-        secondOrderStatistics[3] = moment4;
-        secondOrderStatistics[4] = variance;
+                moment2, n_BigDecimal, dp, rm);
+        stats1[0] = moment1;
+        stats1[1] = moment2;
+        stats1[2] = moment3;
+        stats1[3] = moment4;
+        stats1[4] = variance;
         try {
-            secondOrderStatistics[5] = Math_BigDecimal.power(
-                    variance,
-                    BigDecimal.valueOf(0.5d),
-                    decimalPlaces,
-                    roundingMode);
+            stats1[5] = Math_BigDecimal.power(variance, 
+                    BigDecimal.valueOf(0.5d),                    dp,                    rm);
         } catch (UnsupportedOperationException e) {
             // A terrible hack!
-            secondOrderStatistics[5] = variance.divide(BigDecimal.valueOf(2));
+            stats1[5] = variance.divide(BigDecimal.valueOf(2));
         }
-        result[1] = secondOrderStatistics;
-//        System.out.println("Moment 1 " + moment1.toPlainString());
-//        System.out.println("Moment 2 " + moment2.toPlainString());
-//        System.out.println("Moment 3 " + moment3.toPlainString());
-//        System.out.println("Moment 4 " + moment4.toPlainString());
-//        System.out.println("Variance " + variance.toPlainString());
-//        System.out.println("Standard Devation /n " + secondOrderStatistics[5].toPlainString());
-        return result;
+        r[1] = stats1;
+        return r;
     }
 
     /**
@@ -315,10 +325,10 @@ public class Generic_Statistics {
             r[5] = new BigDecimal(v.toString());
             r[6] = new BigDecimal(v.toString());
             r[7] = new BigDecimal(v.toString());
-            //result[8] = BigDecimal.ONE;
-            //result[9] = BigDecimal.ONE;
-            //result[10] = BigDecimal.ONE;
-            //printStatistics(result);
+            //r[8] = BigDecimal.ONE;
+            //r[9] = BigDecimal.ONE;
+            //r[10] = BigDecimal.ONE;
+            //printStatistics(r);
             return r;
         }
         r[1] = Math_BigDecimal.divideRoundIfNecessary(r[0],
@@ -471,13 +481,13 @@ public class Generic_Statistics {
                                      */
                                     if (n % 4 == 0) {
                                         r[4] = Math_BigDecimal.divideRoundIfNecessary(
-                                                //result[4].multiply(BigDecimal.valueOf(3)).add(value),
+                                                //r[4].multiply(BigDecimal.valueOf(3)).add(value),
                                                 r[4].add(v.multiply(BigDecimal.valueOf(3))),
                                                 BigDecimal.valueOf(4), dp, rm);
                                     }
                                     if (n % 4 == 2) {
                                         r[4] = Math_BigDecimal.divideRoundIfNecessary(
-                                                //result[4].multiply(BigDecimal.valueOf(3)).add(value),
+                                                //r[4].multiply(BigDecimal.valueOf(3)).add(value),
                                                 r[4].add(v.multiply(BigDecimal.valueOf(3))),
                                                 BigDecimal.valueOf(4), dp, rm);
                                     }
@@ -527,7 +537,6 @@ public class Generic_Statistics {
         }
         r[6] = sortedData.get(0);
         r[7] = sortedData.get(sortedData.size() - 1);
-        //printStatistics(result);
         return r;
     }
 
@@ -557,7 +566,6 @@ public class Generic_Statistics {
                 m0.keySet(), m1.keySet());
         r[0] = keys;
         Iterator<Integer> completeKeySetIterator = keys.iterator();
-        ;
         while (completeKeySetIterator.hasNext()) {
             Integer k = completeKeySetIterator.next();
             Object v = m0.get(k);
