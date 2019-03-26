@@ -19,7 +19,9 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.RoundingMode;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
+import java.util.DoubleSummaryStatistics;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -150,8 +152,8 @@ public class Generic_Statistics {
         stats1[3] = moment4;
         stats1[4] = variance;
         try {
-            stats1[5] = Math_BigDecimal.power(variance, 
-                    BigDecimal.valueOf(0.5d),                    dp,                    rm);
+            stats1[5] = Math_BigDecimal.power(variance,
+                    BigDecimal.valueOf(0.5d), dp, rm);
         } catch (UnsupportedOperationException e) {
             // A terrible hack!
             stats1[5] = variance.divide(BigDecimal.valueOf(2));
@@ -592,24 +594,24 @@ public class Generic_Statistics {
 
     /**
      * Calculates and returns the sum of squared difference between the values
-     * in map0 and map1
+     * in {@link m0} and {@link m1}.
      *
      * @param m0
      * @param m1
      * @param map0Name Used for logging and can be null
      * @param map1Name Used for logging and can be null
      * @param keyName Used for logging and can be null
-     * @return
+     * @return {@code Object[]} r of length 3, where:
+     * <ul>
+     * <li>r[0] is a {@code HashSet<Integer>} - the union of the keys in {@link m0} and {@link m1}.</li>
+     * <li></li>
+     * <li></li>
+     * </ul>
      */
     public static Object[] getFirstOrderStatistics1(
             TreeMap<Integer, BigDecimal> m0, TreeMap<Integer, BigDecimal> m1,
             String map0Name, String map1Name, String keyName) {
-        String m = "getFirstOrderStatistics1()";
         Object[] r = new Object[3];
-        BigDecimal map0Value;
-        BigDecimal map1Value;
-        BigDecimal diff;
-        BigDecimal diff2;
         BigDecimal sumDiff = BigDecimal.ZERO;
         BigDecimal sumDiff2 = BigDecimal.ZERO;
         HashSet<Integer> keys = Generic_Collections.getCompleteKeySet_HashSet(
@@ -619,25 +621,72 @@ public class Generic_Statistics {
         while (completeKeySetIterator.hasNext()) {
             Integer k = completeKeySetIterator.next();
             Object v = m0.get(k);
+            BigDecimal v0;
             if (v == null) {
-                map0Value = BigDecimal.ZERO;
+                v0 = BigDecimal.ZERO;
             } else {
                 //map0Value = new BigDecimal((BigInteger) value);
-                map0Value = (BigDecimal) v;
+                v0 = (BigDecimal) v;
             }
             v = m1.get(k);
+            BigDecimal v1;
             if (v == null) {
-                map1Value = BigDecimal.ZERO;
+                v1 = BigDecimal.ZERO;
             } else {
-                map1Value = (BigDecimal) v;
+                v1 = (BigDecimal) v;
             }
-            diff = map1Value.subtract(map0Value);
+            BigDecimal diff = v1.subtract(v0);
             sumDiff = sumDiff.add(diff);
-            diff2 = diff.multiply(diff);
+            BigDecimal diff2 = diff.multiply(diff);
             sumDiff2 = sumDiff2.add(diff2);
         }
         r[1] = sumDiff;
         r[2] = sumDiff2;
+        return r;
+    }
+
+    /**
+     * Calculates and returns summary statistics for {@link c}.
+     *
+     * @param c A collection of values that summary statistics are calculated
+     * for.
+     * @return {@code double[]} r where:
+     * <ul>
+     * <li>r[0] is the max of the values in {@code c}</li>
+     * <li>r[1] is the min of the values in {@code c}</li>
+     * <li>r[2] is the count of the values in {@code c}</li>
+     * <li>r[3] is the sum of the values in {@code c}</li>
+     * <li>r[4] is the average value in {@code c}</li>
+     * <li>r[5] is the size of {@code c}</li>
+     * <li>r[6] is the count of zero values in {@code c}</li>
+     * <li>r[7] is the count of negative values in {@code c}</li>
+     * </ul>
+     */
+    protected static double[] getSummaryStatistics(Collection<Double> c) {
+        DoubleSummaryStatistics stats = c.stream().collect(
+                DoubleSummaryStatistics::new,
+                DoubleSummaryStatistics::accept,
+                DoubleSummaryStatistics::combine);
+        double[] r = new double[8];
+        r[0] = stats.getMax();
+        r[1] = stats.getMin();
+        r[2] = stats.getCount();
+        r[3] = stats.getSum();
+        r[4] = stats.getAverage();
+        int countNegative = 0;
+        int countZero = 0;
+        Iterator<Double> ite = c.iterator();
+        while (ite.hasNext()) {
+            double v = ite.next();
+            if (v == 0.0d) {
+                countZero++;
+            } else if (v < 0.0d) {
+                countNegative++;
+            }
+        }
+        r[5] = c.size();
+        r[6] = countZero;
+        r[7] = countNegative;
         return r;
     }
 }
