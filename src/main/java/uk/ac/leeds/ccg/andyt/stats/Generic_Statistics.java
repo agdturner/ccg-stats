@@ -662,7 +662,7 @@ public class Generic_Statistics {
      * <li>r[7] is the count of negative values in {@code c}</li>
      * </ul>
      */
-    protected static double[] getSummaryStatistics(Collection<Double> c) {
+    public static double[] getSummaryStatistics(Collection<Double> c) {
         DoubleSummaryStatistics stats = c.stream().collect(
                 DoubleSummaryStatistics::new,
                 DoubleSummaryStatistics::accept,
