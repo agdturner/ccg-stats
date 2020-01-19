@@ -27,12 +27,12 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.TreeMap;
-import uk.ac.leeds.ccg.andyt.math.Math_BigDecimal;
-import uk.ac.leeds.ccg.andyt.generic.util.Generic_Collections;
+import uk.ac.leeds.ccg.math.Math_BigDecimal;
+import uk.ac.leeds.ccg.generic.util.Generic_Collections;
 
 /**
- *
- * @author geoagdt
+ * @author Andy Turner
+ * @version 1.0.0
  */
 public class Generic_Statistics {
 
