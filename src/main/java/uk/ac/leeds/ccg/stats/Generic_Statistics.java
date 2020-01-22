@@ -89,16 +89,17 @@ public class Generic_Statistics {
     }
 
     /**
-     * Calculates and returns a number of statistics for data.
+     * Calculates and returns a number of statistics for data. This method could
+     * be extended to calculate the skewness and kurtosis.
      *
-     * @TODO skewness and kurtosis...
-     * @param data the data.
-     * @param dp decimal places used for calculations.
-     * @param rm RoundingMode
+     * @param data The data.
+     * @param dp The decimal places used for calculations.
+     * @param rm The RoundingMode.
      * @return Object[] r where:
      * <ul>
      * <li>r[0] = BigDecimal[] obtained from
-     * {@link #getSummaryStatistics_0(java.util.ArrayList, int, java.math.RoundingMode)</li>
+     * {@link #getSummaryStatistics_0(java.util.ArrayList, int, java.math.RoundingMode)}
+     * </li>
      * <li>r[1] = BigDecimal[] where:
      * <ul>
      * <li>r[1][0] = moment1 = sum of the (differences from the mean)</li>
@@ -166,9 +167,9 @@ public class Generic_Statistics {
      * There is no universal agreement on calculating quartiles:
      * http://en.wikipedia.org/wiki/Quartile
      *
-     * @param data
-     * @param dp
-     * @param rm
+     * @param data The data.
+     * @param dp The decimal places.
+     * @param rm The RoundingMode.
      * @return BigDecimal[] r where:
      * <ul>
      * <li>{@code r[0] = sum}</li>
@@ -185,9 +186,7 @@ public class Generic_Statistics {
      * </ul>
      */
     public static BigDecimal[] getSummaryStatistics_0(
-            ArrayList<BigDecimal> data,
-            int dp,
-            RoundingMode rm) {
+            ArrayList<BigDecimal> data, int dp, RoundingMode rm) {
         BigDecimal[] r = new BigDecimal[12];
         // Deal with special cases
         int n = data.size();
@@ -544,88 +543,40 @@ public class Generic_Statistics {
 
     /**
      * Calculates and returns the sum of squared difference between the values
-     * in map0 and map1
+     * in {@code m0} and {@code m1}.
      *
-     * @param m0
-     * @param m1
-     * @param map0Name Used for logging and can be null
-     * @param map1Name Used for logging and can be null
-     * @param keyName Used for logging and can be null
-     * @return
-     */
-    public static Object[] getFirstOrderStatistics0(
-            TreeMap<Integer, BigDecimal> m0, TreeMap<Integer, BigDecimal> m1,
-            String map0Name, String map1Name, String keyName) {
-        String m = "getFirstOrderStatistics0()";
-        Object[] r = new Object[3];
-        BigDecimal map0Value;
-        BigDecimal map1Value;
-        BigDecimal diff;
-        BigDecimal diff2;
-        BigDecimal sumDiff = BigDecimal.ZERO;
-        BigDecimal sumDiff2 = BigDecimal.ZERO;
-        HashSet<Integer> keys = Generic_Collections.getCompleteKeySet_HashSet(
-                m0.keySet(), m1.keySet());
-        r[0] = keys;
-        Iterator<Integer> completeKeySetIterator = keys.iterator();
-        while (completeKeySetIterator.hasNext()) {
-            Integer k = completeKeySetIterator.next();
-            Object v = m0.get(k);
-            if (v == null) {
-                map0Value = BigDecimal.ZERO;
-            } else {
-                map0Value = (BigDecimal) v;
-            }
-            v = m1.get(k);
-            if (v == null) {
-                map1Value = BigDecimal.ZERO;
-            } else {
-                map1Value = (BigDecimal) v;
-            }
-            diff = map1Value.subtract(map0Value);
-            sumDiff = sumDiff.add(diff);
-            diff2 = diff.multiply(diff);
-            sumDiff2 = sumDiff2.add(diff2);
-        }
-        r[1] = sumDiff;
-        r[2] = sumDiff2;
-        return r;
-    }
-
-    /**
-     * Calculates and returns the sum of squared difference between the values
-     * in {@link m0} and {@link m1}.
-     *
-     * @param m0
-     * @param m1
-     * @param map0Name Used for logging and can be null
-     * @param map1Name Used for logging and can be null
-     * @param keyName Used for logging and can be null
+     * @param m0 A map of values.
+     * @param m1 A map of values.
+     * @param map0Name Used for logging and can be null.
+     * @param map1Name Used for logging and can be null.
+     * @param keyName Used for logging and can be null.
      * @return {@code Object[]} r of length 3, where:
      * <ul>
-     * <li>r[0] is a {@code HashSet<Integer>} - the union of the keys in {@link m0} and {@link m1}.</li>
-     * <li></li>
-     * <li></li>
+     * <li>r[0] is a {@code HashSet<Integer>} - the union of the keys in
+     * {@code m0} and {@code m1}.</li>
+     * <li>r[1] is the sum of differences between the values in {@code m0} and
+     * {@code m1}.</li>
+     * <li>r[2] is the sum of squared differences between the values in
+     * {@code m0} and {@code m1}.</li>
      * </ul>
      */
-    public static Object[] getFirstOrderStatistics1(
+    public static Object[] getFirstOrderStatistics(
             TreeMap<Integer, BigDecimal> m0, TreeMap<Integer, BigDecimal> m1,
             String map0Name, String map1Name, String keyName) {
         Object[] r = new Object[3];
         BigDecimal sumDiff = BigDecimal.ZERO;
         BigDecimal sumDiff2 = BigDecimal.ZERO;
-        HashSet<Integer> keys = Generic_Collections.getCompleteKeySet_HashSet(
-                m0.keySet(), m1.keySet());
+        HashSet<Integer> keys = Generic_Collections.getUnion(m0.keySet(),
+                m1.keySet());
         r[0] = keys;
-        Iterator<Integer> completeKeySetIterator = keys.iterator();
-        while (completeKeySetIterator.hasNext()) {
-            Integer k = completeKeySetIterator.next();
+        Iterator<Integer> ite = keys.iterator();
+        while (ite.hasNext()) {
+            Integer k = ite.next();
             Object v = m0.get(k);
             BigDecimal v0;
             if (v == null) {
                 v0 = BigDecimal.ZERO;
             } else {
-                //map0Value = new BigDecimal((BigInteger) value);
                 v0 = (BigDecimal) v;
             }
             v = m1.get(k);
@@ -646,7 +597,7 @@ public class Generic_Statistics {
     }
 
     /**
-     * Calculates and returns summary statistics for {@link c}.
+     * Calculates and returns summary statistics for {@code c}.
      *
      * @param c A collection of values that summary statistics are calculated
      * for.
