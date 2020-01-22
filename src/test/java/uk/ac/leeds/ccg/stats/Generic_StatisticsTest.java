@@ -271,18 +271,18 @@ public class Generic_StatisticsTest {
 //    }
 //
 //    /**
-//     * Test of getFirstOrderStatistics1 method, of class Generic_Statistics.
+//     * Test of getFirstOrderStatistics method, of class Generic_Statistics.
 //     */
 //    @Test
 //    public void testGetFirstOrderStatistics1() {
-//        System.out.println("getFirstOrderStatistics1");
+//        System.out.println("getFirstOrderStatistics");
 //        TreeMap<Integer, BigDecimal> map0 = null;
 //        TreeMap<Integer, BigDecimal> map1 = null;
 //        String map0Name = "";
 //        String map1Name = "";
 //        String keyName = "";
 //        Object[] expResult = null;
-//        Object[] result = Generic_Statistics.getFirstOrderStatistics1(map0, map1, map0Name, map1Name, keyName);
+//        Object[] result = Generic_Statistics.getFirstOrderStatistics(map0, map1, map0Name, map1Name, keyName);
 //        assertEquals(expResult, result);
 //        // TODO review the generated test code and remove the default call to fail.
 //        fail("The test case is a prototype.");
