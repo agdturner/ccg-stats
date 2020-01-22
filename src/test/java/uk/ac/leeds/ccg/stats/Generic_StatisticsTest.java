@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package uk.ac.leeds.ccg.andyt.stats;
+package uk.ac.leeds.ccg.stats;
 
+import uk.ac.leeds.ccg.stats.Generic_Statistics;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
