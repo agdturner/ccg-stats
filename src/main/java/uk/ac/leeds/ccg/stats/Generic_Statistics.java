@@ -13,7 +13,7 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package uk.ac.leeds.ccg.andyt.stats;
+package uk.ac.leeds.ccg.stats;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
