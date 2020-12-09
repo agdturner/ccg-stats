@@ -16,7 +16,11 @@
 package uk.ac.leeds.ccg.stats.summary;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.Objects;
+import uk.ac.leeds.ccg.math.Math_BigDecimal;
 
 /**
  * A POJO for storing summary statistics for a collection of double values.
@@ -24,7 +28,7 @@ import java.util.Objects;
  * @author Andy Turner
  * @version 1.0
  */
-public class Stats_BigDecimal2 extends Stats_BigDecimal {
+public class Stats_BigDecimal2 extends Stats_BigDecimal1 {
 
     /**
      * For storing the sum of all the (differences from the mean).
@@ -46,12 +50,49 @@ public class Stats_BigDecimal2 extends Stats_BigDecimal {
      * squared).
      */
     public BigDecimal m4;
-    
+
+    public Stats_BigDecimal2() {
+    }
+
+    /**
+     * @param data The data collection.
+     * @param dp The decimal places.
+     * @param rm The RoundingMode.
+     */
+    public Stats_BigDecimal2(Collection<BigDecimal> data, int dp,
+            RoundingMode rm) {
+        super(data, dp, rm);
+        switch (n) {
+            case 0:
+                break;
+            case 1:
+                m1 = BigDecimal.ZERO;
+                m2 = BigDecimal.ZERO;
+                m3 = BigDecimal.ZERO;
+                m4 = BigDecimal.ZERO;
+                break;
+            default:
+                m1 = BigDecimal.ZERO;
+                m2 = BigDecimal.ZERO;
+                m3 = BigDecimal.ZERO;
+                m4 = BigDecimal.ZERO;
+                Iterator<BigDecimal> ite = data.iterator();
+                while (ite.hasNext()) {
+                    BigDecimal i = ite.next();
+                    m1 = m1.add(i.subtract(mean).abs());
+                    m2 = m2.add(i.subtract(mean).pow(2));
+                    m3 = m3.add(i.subtract(mean).pow(3).abs());
+                    m4 = m4.add(i.subtract(mean).pow(4));
+                }
+                break;
+        }
+    }
+
     @Override
     public String toString() {
         return getClass().getName() + "[" + toString1() + "]";
     }
-    
+
     @Override
     public String toString1() {
         return super.toString1()
@@ -60,19 +101,17 @@ public class Stats_BigDecimal2 extends Stats_BigDecimal {
                 + ", m3=" + m3.toString()
                 + ", m4=" + m4.toString();
     }
-    
+
     @Override
     public boolean equals(Object o) {
         if (o instanceof Stats_BigDecimal2) {
             Stats_BigDecimal2 s = (Stats_BigDecimal2) o;
-            if (s.hashCode() == this.hashCode()) {
-                if (super.equals(o)) {
-                    if (s.m1.compareTo(m1) == 0) {
-                        if (s.m2.compareTo(m2) == 0) {
-                            if (s.m3.compareTo(m3) == 0) {
-                                if (s.m4.compareTo(m4) == 0) {
-                                    return true;
-                                }
+            if (super.equals(o)) {
+                if (s.m1.compareTo(m1) == 0) {
+                    if (s.m2.compareTo(m2) == 0) {
+                        if (s.m3.compareTo(m3) == 0) {
+                            if (s.m4.compareTo(m4) == 0) {
+                                return true;
                             }
                         }
                     }

@@ -16,7 +16,11 @@
 package uk.ac.leeds.ccg.stats.summary;
 
 import java.math.BigDecimal;
-import java.util.Objects; 
+import java.math.RoundingMode;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.Objects;
+import uk.ac.leeds.ccg.math.Math_BigDecimal;
 
 /**
  * A POJO for storing summary statistics.
@@ -46,11 +50,50 @@ public class Stats_BigDecimal extends Stats_n {
      */
     public BigDecimal max;
 
+    public Stats_BigDecimal() {
+    }
+
+    /**
+     * @param data The data collection.
+     * @param dp The decimal places.
+     * @param rm The RoundingMode.
+     */
+    public Stats_BigDecimal(Collection<BigDecimal> data, int dp,
+            RoundingMode rm) {
+        n = data.size();
+        switch (n) {
+            case 0:
+                break;
+            case 1:
+                BigDecimal v = data.stream().findAny().get();
+                sum = v;
+                min = v;
+                max = v;
+                mean = v;
+                break;
+            default:
+                sum = BigDecimal.ZERO;
+                BigDecimal v2 = data.iterator().next();
+                min = v2;
+                max = v2;
+                Iterator<BigDecimal> ite = data.iterator();
+                while (ite.hasNext()) {
+                    BigDecimal i = ite.next();
+                    sum = sum.add(i);
+                    min = min.min(i);
+                    max = max.max(i);
+                }
+                mean = Math_BigDecimal.divideRoundIfNecessary(sum,
+                        BigDecimal.valueOf(n), dp, rm);
+                break;
+        }
+    }
+
     @Override
     public String toString() {
         return getClass().getName() + "[" + toString1() + "]";
     }
-    
+
     @Override
     public String toString1() {
         return super.toString1()
@@ -64,14 +107,12 @@ public class Stats_BigDecimal extends Stats_n {
     public boolean equals(Object o) {
         if (o instanceof Stats_BigDecimal) {
             Stats_BigDecimal s = (Stats_BigDecimal) o;
-            if (s.hashCode() == this.hashCode()) {
-                if (n == n) {
-                    if (s.sum.compareTo(sum) == 0) {
-                        if (s.min.compareTo(min) == 0) {
-                            if (s.max.compareTo(max) ==0) {
-                                if (s.mean.compareTo(mean) == 0) {
-                                    return true;
-                                }
+            if (n == n) {
+                if (s.sum.compareTo(sum) == 0) {
+                    if (s.min.compareTo(min) == 0) {
+                        if (s.max.compareTo(max) == 0) {
+                            if (s.mean.compareTo(mean) == 0) {
+                                return true;
                             }
                         }
                     }

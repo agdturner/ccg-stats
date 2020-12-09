@@ -17,15 +17,18 @@ package uk.ac.leeds.ccg.stats.summary;
 
 import ch.obermuhlner.math.big.BigRational;
 import java.math.BigInteger;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.Objects;
 
 /**
  * A POJO for storing summary statistics.
+ *
  * @author Andy Turner
  * @version 1.0
  */
 public class Stats_BigRational extends Stats_n {
-    
+
     /**
      * For storing the sum of all values.
      */
@@ -45,12 +48,12 @@ public class Stats_BigRational extends Stats_n {
      * For storing the maximum value.
      */
     public BigRational max;
-    
+
     @Override
     public String toString() {
         return getClass().getName() + "[" + toString1() + "]";
     }
-    
+
     @Override
     public String toString1() {
         return super.toString1()
@@ -59,7 +62,41 @@ public class Stats_BigRational extends Stats_n {
                 + ", max=" + max.toString()
                 + ", mean=" + mean.toString();
     }
-    
+
+    public Stats_BigRational() {
+    }
+
+    /**
+     * @param data The data collection.
+     */
+    public Stats_BigRational(Collection<BigRational> data) {
+        n = data.size();
+        switch (n) {
+            case 0:
+                break;
+            case 1:
+                BigRational v = data.stream().findAny().get();
+                sum = v;
+                min = v;
+                max = v;
+                mean = v;
+                break;
+            default:
+                sum = BigRational.ZERO;
+                BigRational v2 = data.iterator().next();
+                min = v2;
+                max = v2;
+                Iterator<BigRational> ite = data.iterator();
+                while (ite.hasNext()) {
+                    BigRational i = ite.next();
+                    sum = sum.add(i);
+                    min = BigRational.min(i, min);
+                    max = BigRational.max(i, max);
+                }
+                mean = sum.divide(BigInteger.valueOf(n));
+        }
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o instanceof Stats_BigRational) {

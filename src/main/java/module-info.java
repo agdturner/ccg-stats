@@ -1,4 +1,4 @@
-module uk.ac.leeds.ccg.data {
+module uk.ac.leeds.ccg.stats {
     requires transitive java.logging;
     requires java.desktop;
     requires uk.ac.leeds.ccg.generic;

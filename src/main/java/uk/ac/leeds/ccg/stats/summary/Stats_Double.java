@@ -15,6 +15,9 @@
  */
 package uk.ac.leeds.ccg.stats.summary;
 
+import java.util.Collection;
+import java.util.DoubleSummaryStatistics;
+
 /**
  * A POJO for storing summary statistics for a collection of double values.
  *
@@ -42,6 +45,24 @@ public class Stats_Double extends Stats_n {
      * For storing the maximum value.
      */
     public double max;
+    
+    public Stats_Double(){}
+    
+    /**
+     * @param data A collection of values that summary statistics are calculated
+     * for.
+     */
+    public Stats_Double(Collection<Double> data) {
+        DoubleSummaryStatistics stats = data.parallelStream().collect(
+                DoubleSummaryStatistics::new,
+                DoubleSummaryStatistics::accept,
+                DoubleSummaryStatistics::combine);
+        max = stats.getMax();
+        min = stats.getMin();
+        sum = stats.getSum();
+        mean = stats.getAverage();
+        n = data.size();
+    }
     
     @Override
     public String toString() {

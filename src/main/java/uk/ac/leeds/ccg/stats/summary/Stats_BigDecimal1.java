@@ -16,7 +16,13 @@
 package uk.ac.leeds.ccg.stats.summary;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
+import uk.ac.leeds.ccg.math.Math_BigDecimal;
 
 /**
  * A POJO for storing summary statistics for a collection of double values.
@@ -51,6 +57,60 @@ public class Stats_BigDecimal1 extends Stats_BigDecimal {
      */
     public int nNeg;
 
+    public Stats_BigDecimal1() {
+    }
+
+    /**
+     * @param data The data collection.
+     * @param dp The decimal places.
+     * @param rm The RoundingMode.
+     */
+    public Stats_BigDecimal1(Collection<BigDecimal> data, int dp,
+            RoundingMode rm) {
+        super(data, dp, rm);
+        switch (n) {
+            case 0:
+                break;
+            case 1:
+                BigDecimal v = data.stream().findAny().get();
+                median = v;
+                int c = v.compareTo(BigDecimal.ZERO);
+                if (c == -1) {
+                    nNeg = 1;
+                } else if (c == 0) {
+                    nZero = 1;
+                }
+                q1 = v;
+                q3 = v;
+                break;
+            default:
+                Iterator<BigDecimal> ite = data.iterator();
+                while (ite.hasNext()) {
+                    BigDecimal i = ite.next();
+                    int co = i.compareTo(BigDecimal.ZERO);
+                    if (co == -1) {
+                        nNeg++;
+                    } else if (co == 0) {
+                        nZero++;
+                    }
+                }
+                List<BigDecimal> sd = data.stream().sorted().collect(Collectors.toList());
+                if (n % 2 == 0) {
+                    median = sd.stream().skip(n / 2 - 1).limit(2)
+                            .reduce(BigDecimal.ZERO, BigDecimal::add)
+                            .divide(BigDecimal.valueOf(2));
+                } else {
+                    int mid = n / 2;
+                    median = sd.stream().skip(mid).findFirst().get();
+                }
+                int q1p = n / 4;
+                int q3p = n - q1p - 1;
+                q1 = sd.stream().skip(q1p).findFirst().get();
+                q3 = sd.stream().skip(q3p).findFirst().get();
+                break;
+        }
+    }
+
     @Override
     public String toString() {
         return getClass().getName() + "[" + toString1() + "]";
@@ -70,14 +130,12 @@ public class Stats_BigDecimal1 extends Stats_BigDecimal {
     public boolean equals(Object o) {
         if (o instanceof Stats_BigDecimal1) {
             Stats_BigDecimal1 s = (Stats_BigDecimal1) o;
-            if (s.hashCode() == this.hashCode()) {
-                if (super.equals(o)) {
-                    if (s.nNeg == nNeg) {
-                        if (s.nZero == nZero) {
-                            if (s.q1.compareTo(q1) == 0) {
-                                if (s.q3.compareTo(q3) == 0) {
-                                    return true;
-                                }
+            if (super.equals(o)) {
+                if (s.nNeg == nNeg) {
+                    if (s.nZero == nZero) {
+                        if (s.q1.compareTo(q1) == 0) {
+                            if (s.q3.compareTo(q3) == 0) {
+                                return true;
                             }
                         }
                     }

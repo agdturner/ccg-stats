@@ -15,6 +15,11 @@
  */
 package uk.ac.leeds.ccg.stats.summary;
 
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
+import java.util.stream.Collectors;
+
 /**
  * A POJO for storing summary statistics for a collection of double values.
  *
@@ -48,6 +53,59 @@ public class Stats_Double1 extends Stats_Double {
      */
     public long nNeg;
 
+    public Stats_Double1(){}
+    
+    /**
+     * @param data A collection of values that summary statistics are calculated
+     * for.
+     */
+    public Stats_Double1(Collection<Double> data) {
+        super(data);
+        nNeg = 0;
+        nZero = 0;
+        switch (n) {
+            case 0:
+                break;
+            case 1:
+                Double v = data.stream().findAny().get();
+                median = v;
+                int c = v.compareTo(0.0d);
+                if (c == -1) {
+                    nNeg = 1;
+                } else if (c == 0) {
+                    nZero = 1;
+                }
+                q1 = v;
+                q3 = v;
+                break;
+            default:
+                Iterator<Double> ite = data.iterator();
+                while (ite.hasNext()) {
+                    Double i = ite.next();
+                    int co = i.compareTo(0.0d);
+                    if (co == -1) {
+                        nNeg++;
+                    } else if (co == 0) {
+                        nZero++;
+                    }
+                }
+                List<Double> sd = data.stream().sorted().collect(Collectors.toList());
+                if (n % 2 == 0) {
+                    median = sd.stream().skip(n / 2 - 1).limit(2)
+                            .reduce(0.0d, Double::sum) / (2.0d);
+                } else {
+                    int mid = n / 2;
+                    median = sd.stream().skip(mid).findFirst().get();
+                }
+                int q1p = n / 4;
+                int q3p = n - q1p - 1;
+                q1 = sd.stream().skip(q1p).findFirst().get();
+                q3 = sd.stream().skip(q3p).findFirst().get();
+                mean = sum / (double) n;
+                break;
+        }
+    }
+    
     @Override
     public String toString() {
         return getClass().getName() + "[" + toString1() + "]";
