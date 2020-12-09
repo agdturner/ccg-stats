@@ -15,10 +15,8 @@
  */
 package uk.ac.leeds.ccg.stats.summary;
 
-import ch.obermuhlner.math.big.BigRational;
 import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.util.Objects;
+import java.util.Objects; 
 
 /**
  * A POJO for storing summary statistics.
@@ -68,10 +66,10 @@ public class Stats_BigDecimal extends Stats_n {
             Stats_BigDecimal s = (Stats_BigDecimal) o;
             if (s.hashCode() == this.hashCode()) {
                 if (n == n) {
-                    if (s.sum.equals(sum)) {
-                        if (s.min.equals(min)) {
-                            if (s.max.equals(max)) {
-                                if (s.mean.equals(mean)) {
+                    if (s.sum.compareTo(sum) == 0) {
+                        if (s.min.compareTo(min) == 0) {
+                            if (s.max.compareTo(max) ==0) {
+                                if (s.mean.compareTo(mean) == 0) {
                                     return true;
                                 }
                             }

@@ -26,7 +26,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.hamcrest.MatcherAssert.assertThat; 
+import static org.hamcrest.Matchers.*;
 import uk.ac.leeds.ccg.stats.summary.Stats_BigDecimal;
+import uk.ac.leeds.ccg.stats.summary.Stats_BigDecimal1;
 import uk.ac.leeds.ccg.stats.summary.Stats_BigRational;
 import uk.ac.leeds.ccg.stats.summary.Stats_Double;
 import uk.ac.leeds.ccg.stats.summary.Stats_Double1;
@@ -177,19 +180,129 @@ public class StatsTest {
         // Test 3
         data.add(0.0d);
         expResult = new Stats_Double1();
-        expResult.n = 6;
+        expResult.n = 7;
         expResult.max = 100.0d;
         expResult.min = -100.0d;
         expResult.sum = 0.0d;
         expResult.mean = 0.0d;
         expResult.median = 0.0d;
         expResult.nNeg = 2;
-        expResult.nZero = 2;
-        expResult.q1 = -25.0d;
-        expResult.q3 = 25.0d;
+        expResult.nZero = 3;
+        expResult.q1 = -50.0d;
+        expResult.q3 = 50.0d;
         result = Stats.getStats_Double1(data);
         assertEquals(expResult, result);
+        // Test 4
+        data.add(0.0d);
+        expResult = new Stats_Double1();
+        expResult.n = 8;
+        expResult.max = 100.0d;
+        expResult.min = -100.0d;
+        expResult.sum = 0.0d;
+        expResult.mean = 0.0d;
+        expResult.median = 0.0d;
+        expResult.nNeg = 2;
+        expResult.nZero = 4;
+        expResult.q1 = 0.0d;
+        expResult.q3 = 0.0d;
+        result = Stats.getStats_Double1(data);
+        assertEquals(expResult, result);
+        // Test 5
+        data.add(0.0d);
+        expResult = new Stats_Double1();
+        expResult.n = 9;
+        expResult.max = 100.0d;
+        expResult.min = -100.0d;
+        expResult.sum = 0.0d;
+        expResult.mean = 0.0d;
+        expResult.median = 0.0d;
+        expResult.nNeg = 2;
+        expResult.nZero = 5;
+        expResult.q1 = 0.0d;
+        expResult.q3 = 0.0d;
+        result = Stats.getStats_Double1(data);
+        assertEquals(expResult, result);
+    }
 
+    /**
+     * Test of getStats_BigDecimal1 method, of class Stats.
+     */
+    @Test
+    public void testGetStats_BigDecimal1() {
+        System.out.println("getStats_BigDecimal1");
+        var data = new ArrayList<BigDecimal>();
+        int dp = 1;
+        RoundingMode rm = null;
+        data.add(BigDecimal.valueOf(100.0d));
+        data.add(BigDecimal.valueOf(-100.0d));
+        data.add(BigDecimal.valueOf(50.0d));
+        data.add(BigDecimal.valueOf(-50.0d));
+        data.add(BigDecimal.valueOf(0.0d));
+        Stats_BigDecimal1 expResult = new Stats_BigDecimal1();
+        expResult.n = 5;
+        expResult.max = BigDecimal.valueOf(100.0d);
+        expResult.min = BigDecimal.valueOf(-100.0d);
+        expResult.sum = BigDecimal.valueOf(0.0d);
+        expResult.mean = BigDecimal.valueOf(0.0d);
+        expResult.median = BigDecimal.valueOf(0.0d);
+        expResult.nNeg = 2;
+        expResult.nZero = 1;
+        expResult.q1 = BigDecimal.valueOf(-50.0d);
+        expResult.q3 = BigDecimal.valueOf(50.0d);
+        Stats_BigDecimal1 result = Stats.getStats_BigDecimal1(data, dp, rm);
+        assertEquals(expResult, result);
+        // Test 2
+        data.add(BigDecimal.valueOf(0.0d));
+        expResult.max = BigDecimal.valueOf(100.0d);
+        expResult.min = BigDecimal.valueOf(-100.0d);
+        expResult.sum = BigDecimal.valueOf(0.0d);
+        expResult.mean = BigDecimal.valueOf(0.0d);
+        expResult.median = BigDecimal.valueOf(0.0d);
+        expResult.nNeg = 2;
+        expResult.nZero = 2;
+        expResult.q1 = BigDecimal.valueOf(-50.0d);
+        expResult.q3 = BigDecimal.valueOf(50.0d);
+        result = Stats.getStats_BigDecimal1(data, dp, rm);
+        assertEquals(expResult, result);
+        // Test 3
+        data.add(BigDecimal.valueOf(0.0d));
+        expResult.max = BigDecimal.valueOf(100.0d);
+        expResult.min = BigDecimal.valueOf(-100.0d);
+        expResult.sum = BigDecimal.valueOf(0.0d);
+        expResult.mean = BigDecimal.valueOf(0.0d);
+        expResult.median = BigDecimal.valueOf(0.0d);
+        expResult.nNeg = 2;
+        expResult.nZero = 3;
+        expResult.q1 = BigDecimal.valueOf(-50.0d);
+        expResult.q3 = BigDecimal.valueOf(50.0d);
+        result = Stats.getStats_BigDecimal1(data, dp, rm);
+        assertEquals(expResult, result);
+        // Test 4
+        data.add(BigDecimal.valueOf(0.0d));
+        expResult.max = BigDecimal.valueOf(100.0d);
+        expResult.min = BigDecimal.valueOf(-100.0d);
+        expResult.sum = BigDecimal.valueOf(0.0d);
+        expResult.mean = BigDecimal.valueOf(0.0d);
+        expResult.median = BigDecimal.valueOf(0.0d);
+        expResult.nNeg = 2;
+        expResult.nZero = 4;
+        expResult.q1 = BigDecimal.valueOf(0.0d);
+        expResult.q3 = BigDecimal.valueOf(0.0d);
+        result = Stats.getStats_BigDecimal1(data, dp, rm);
+        assertEquals(expResult, result);
+        // Test 5
+        data.add(BigDecimal.valueOf(0.0d));
+        expResult.max = BigDecimal.valueOf(100.0d);
+        expResult.min = BigDecimal.valueOf(-100.0d);
+        expResult.sum = BigDecimal.valueOf(0.0d);
+        expResult.mean = BigDecimal.valueOf(0.0d);
+        expResult.median = BigDecimal.valueOf(0.0d);
+        expResult.nNeg = 2;
+        expResult.nZero = 5;
+        expResult.q1 = BigDecimal.valueOf(0.0d);
+        expResult.q3 = BigDecimal.valueOf(0.0d);
+        result = Stats.getStats_BigDecimal1(data, dp, rm);
+        assertEquals(expResult, result);
     }
     
 }

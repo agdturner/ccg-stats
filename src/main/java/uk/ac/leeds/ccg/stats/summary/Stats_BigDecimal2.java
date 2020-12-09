@@ -67,10 +67,10 @@ public class Stats_BigDecimal2 extends Stats_BigDecimal {
             Stats_BigDecimal2 s = (Stats_BigDecimal2) o;
             if (s.hashCode() == this.hashCode()) {
                 if (super.equals(o)) {
-                    if (s.m1.equals(m1)) {
-                        if (s.m2.equals(m2)) {
-                            if (s.m3.equals(m3)) {
-                                if (s.m4.equals(m4)) {
+                    if (s.m1.compareTo(m1) == 0) {
+                        if (s.m2.compareTo(m2) == 0) {
+                            if (s.m3.compareTo(m3) == 0) {
+                                if (s.m4.compareTo(m4) == 0) {
                                     return true;
                                 }
                             }

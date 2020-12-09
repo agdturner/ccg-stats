@@ -74,8 +74,8 @@ public class Stats_BigDecimal1 extends Stats_BigDecimal {
                 if (super.equals(o)) {
                     if (s.nNeg == nNeg) {
                         if (s.nZero == nZero) {
-                            if (s.q1.equals(q1)) {
-                                if (s.q3.equals(q3)) {
+                            if (s.q1.compareTo(q1) == 0) {
+                                if (s.q3.compareTo(q3) == 0) {
                                     return true;
                                 }
                             }

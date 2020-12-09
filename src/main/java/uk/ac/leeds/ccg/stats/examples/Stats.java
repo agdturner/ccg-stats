@@ -22,6 +22,8 @@ import java.math.RoundingMode;
 import java.util.Collection;
 import java.util.DoubleSummaryStatistics;
 import java.util.Iterator;
+import java.util.List;
+import java.util.stream.Collectors;
 import uk.ac.leeds.ccg.math.Math_BigDecimal;
 import uk.ac.leeds.ccg.stats.summary.Stats_BigDecimal;
 import uk.ac.leeds.ccg.stats.summary.Stats_BigDecimal1;
@@ -118,42 +120,24 @@ public class Stats {
                     r.max = r.max.max(i);
                     int co = i.compareTo(BigDecimal.ZERO);
                     if (co == -1) {
-                        r.nNeg = 1;
+                        r.nNeg++;
                     } else if (co == 0) {
-                        r.nZero = 1;
+                        r.nZero++;
                     }
                 }
+                List<BigDecimal> sd = data.stream().sorted().collect(Collectors.toList());
                 if (r.n % 2 == 0) {
-                    r.median = data.stream().sorted().skip(r.n / 2 - 1).limit(2)
+                    r.median = sd.stream().skip(r.n / 2 - 1).limit(2)
                             .reduce(BigDecimal.ZERO, BigDecimal::add)
                             .divide(BigDecimal.valueOf(2));
-                    if (r.n % 4 == 0) {
-                        r.q1 = data.stream().sorted().skip(r.n / 4 - 1).limit(2)
-                                .reduce(BigDecimal.ZERO, BigDecimal::add)
-                                .divide(BigDecimal.valueOf(2));
-                        r.q3 = data.stream().sorted().skip(r.n * 3 / 4 - 1).limit(2)
-                                .reduce(BigDecimal.ZERO, BigDecimal::add)
-                                .divide(BigDecimal.valueOf(2));
-                    } else {
-                        r.q1 = data.stream().sorted().skip(r.n / 4).findFirst().get();
-                        r.q3 = data.stream().sorted().skip(r.n * 3 / 4).findFirst().get();
-                    }
                 } else {
                     int mid = r.n / 2;
-                    r.median = data.stream().sorted().skip(mid).findFirst().get();
-                    if (mid % 2 == 0) {
-                        r.q1 = data.stream().sorted().skip(mid / 2 - 1).limit(2)
-                                .reduce(BigDecimal.ZERO, BigDecimal::add)
-                                .divide(BigDecimal.valueOf(2));
-                        r.q3 = data.stream().sorted().skip(mid / 2 + mid - 1).limit(2)
-                                .reduce(BigDecimal.ZERO, BigDecimal::add)
-                                .divide(BigDecimal.valueOf(2));
-                    } else {
-                        int mid2 = mid / 2;
-                        r.q1 = data.stream().sorted().skip(mid2).findFirst().get();
-                        r.q3 = data.stream().sorted().skip(mid2 + mid).findFirst().get();
-                    }
+                    r.median = sd.stream().skip(mid).findFirst().get();
                 }
+                int q1p = r.n / 4;
+                int q3p = r.n - q1p - 1;
+                r.q1 = sd.stream().skip(q1p).findFirst().get();
+                r.q3 = sd.stream().skip(q3p).findFirst().get();
                 r.mean = Math_BigDecimal.divideRoundIfNecessary(r.sum,
                         BigDecimal.valueOf(r.n), dp, rm);
                 return r;
@@ -268,38 +252,23 @@ public class Stats {
                     r.max = Double.max(r.max, i);
                     int co = i.compareTo(0.0d);
                     if (co == -1) {
-                        r.nNeg += 1;
+                        r.nNeg++;
                     } else if (co == 0) {
-                        r.nZero += 1;
+                        r.nZero++;
                     }
                 }
+                List<Double> sd = data.stream().sorted().collect(Collectors.toList());
                 if (r.n % 2 == 0) {
-                    r.median = data.stream().sorted().skip(r.n / 2 - 1).limit(2)
+                    r.median = sd.stream().skip(r.n / 2 - 1).limit(2)
                             .reduce(0.0d, Double::sum) / (2.0d);
-                    if (r.n % 4 == 0) {
-                        r.q1 = data.stream().sorted().skip(r.n / 4 - 1).limit(2)
-                                .reduce(0.0d, Double::sum) / (2.0d);
-                        r.q3 = data.stream().sorted().skip(r.n * 3 / 4 - 1).limit(2)
-                                .reduce(0.0d, Double::sum) / (2.0d);
-                    } else {
-                        r.q1 = data.stream().sorted().skip(r.n / 4).findFirst().get();
-                        r.q3 = data.stream().sorted().skip(r.n - 1 - r.n / 4).findFirst().get();
-                    }
                 } else {
                     int mid = r.n / 2;
-                    r.median = data.stream().sorted().skip(mid).findFirst().get();
-                    mid ++;
-                    if (mid % 2 == 0) {
-                        r.q1 = data.stream().sorted().skip(mid / 2 - 1).limit(2)
-                                .reduce(0.0d, Double::sum) / (2.0d);
-                        r.q3 = data.stream().sorted().skip(mid / 2 + mid).limit(2)
-                                .reduce(0.0d, Double::sum) / (2.0d);
-                    } else {
-                        int mid2 = mid / 2;
-                        r.q1 = data.stream().sorted().skip(mid2).findFirst().get();
-                        r.q3 = data.stream().sorted().skip(r.n - mid2 -1).findFirst().get();
-                    }
+                    r.median = sd.stream().skip(mid).findFirst().get();
                 }
+                int q1p = r.n / 4;
+                int q3p = r.n - q1p - 1;
+                r.q1 = sd.stream().skip(q1p).findFirst().get();
+                r.q3 = sd.stream().skip(q3p).findFirst().get();
                 r.mean = r.sum / (double) r.n;
                 return r;
         }
