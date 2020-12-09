@@ -5,7 +5,7 @@
 
     <groupId>io.github.agdturner</groupId>
     <artifactId>agdt-java-stats</artifactId>
-    <version>0.1</version>
+    <version>0.1-SNAPHOT</version>
     <packaging>jar</packaging>
 
     <name>agdt-java-stats</name>
