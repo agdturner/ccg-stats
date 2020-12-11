@@ -24,6 +24,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.hamcrest.MatcherAssert.*;
+import org.hamcrest.Matchers;
 
 /**
  *
@@ -74,7 +76,7 @@ public class Stats_BigDecimal2Test {
         System.out.println("equals");
         var data = new ArrayList<BigDecimal>();
         int dp = 1;
-        RoundingMode rm = null;
+        RoundingMode rm = RoundingMode.HALF_UP;
         data.add(BigDecimal.valueOf(100.0d));
         data.add(BigDecimal.valueOf(-100.0d));
         data.add(BigDecimal.valueOf(50.0d));
@@ -107,4 +109,38 @@ public class Stats_BigDecimal2Test {
         // No test!
     }
     
+    @Test
+    public void testGetStandardDeviation(){
+         System.out.println("getStandardDeviation");
+         var data = new ArrayList<BigDecimal>();
+        int dp = 1;
+        RoundingMode rm = RoundingMode.HALF_UP;
+        data.add(BigDecimal.valueOf(525.8d));
+        data.add(BigDecimal.valueOf(605.7d));
+        data.add(BigDecimal.valueOf(843.3d));
+        data.add(BigDecimal.valueOf(1195.5d));
+        data.add(BigDecimal.valueOf(1945.6d));
+        data.add(BigDecimal.valueOf(2135.6d));
+        data.add(BigDecimal.valueOf(2308.7d));
+        data.add(BigDecimal.valueOf(2950.0d));
+        Stats_BigDecimal2 expResult = new Stats_BigDecimal2();
+        expResult.n = 8;
+        expResult.max = BigDecimal.valueOf(2950.0d);
+        expResult.min = BigDecimal.valueOf(525.8d);
+        expResult.sum = BigDecimal.valueOf(12510.2d);
+        expResult.mean = BigDecimal.valueOf(1563.8d);
+        expResult.median = BigDecimal.valueOf(1570.55d);
+        expResult.nNeg = 0;
+        expResult.nZero = 0;
+        expResult.q1 = BigDecimal.valueOf(843.3d);
+        expResult.q3 = BigDecimal.valueOf(2135.6d);
+        expResult.m1 = BigDecimal.valueOf(6169.6d);
+        expResult.m2 = BigDecimal.valueOf(5599317.68d);
+        expResult.m3 = BigDecimal.valueOf(5741453120.494d);
+        expResult.m4 = new BigDecimal("6419805908521.9556");
+        Stats_BigDecimal2 result = new Stats_BigDecimal2(data, dp, rm);
+        assertEquals(expResult, result);
+        BigDecimal sd = BigDecimal.valueOf(894.4d);
+        assertThat(sd, Matchers.comparesEqualTo(result.getStandardDeviation(dp, rm)));
+    } 
 }

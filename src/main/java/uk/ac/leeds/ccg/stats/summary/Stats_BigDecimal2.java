@@ -130,4 +130,15 @@ public class Stats_BigDecimal2 extends Stats_BigDecimal1 {
         hash = 41 * hash + Objects.hashCode(this.m4);
         return hash;
     }
+    
+    /**
+     * Calculates and returns the standard deviation.
+     * @param dp The decimal places.
+     * @param rm The RoundingMode.
+     * @return A BigDecimal representation of the standard deviation.
+     */
+    public BigDecimal getStandardDeviation(int dp, RoundingMode rm) {
+        return Math_BigDecimal.sqrt(Math_BigDecimal.divideRoundIfNecessary(m2, 
+                BigDecimal.valueOf(n - 1), dp + 4, rm), dp, rm);
+    }
 }
