@@ -66,6 +66,9 @@ public class Stats_BigRational extends Stats_n {
                 + "]";
     }
 
+    /**
+     * Create.
+     */
     public Stats_BigRational() {
     }
 

@@ -63,6 +63,9 @@ public class Stats_BigDecimal1 extends Stats_BigDecimal {
      */
     public BigInteger nNeg;
 
+    /**
+     * Create.
+     */
     public Stats_BigDecimal1() {
     }
 

@@ -56,13 +56,14 @@ public class Stats_BigDecimal extends Stats_n {
      */
     public BigDecimal max;
 
+    /**
+     * Create.
+     */
     public Stats_BigDecimal() {
     }
 
     /**
      * @param data The data collection.
-     * @param dp The decimal places.
-     * @param rm The RoundingMode.
      */
     public Stats_BigDecimal(Collection<BigDecimal> data) {
         super(data.size());

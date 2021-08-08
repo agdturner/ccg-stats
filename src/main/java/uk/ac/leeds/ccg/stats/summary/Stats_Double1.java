@@ -62,12 +62,14 @@ public class Stats_Double1 extends Stats_Double {
      */
     public BigInteger nNeg;
 
+    /**
+     * Create.
+     */
     public Stats_Double1() {
     }
 
     /**
-     * @param data A collection of values that summary statistics are calculated
-     * for.
+     * @param data The data collection.
      */
     public Stats_Double1(Collection<Double> data) {
         super(data);

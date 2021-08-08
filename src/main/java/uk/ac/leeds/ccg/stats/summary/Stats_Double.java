@@ -56,12 +56,14 @@ public class Stats_Double extends Stats_n {
      */
     public double max;
 
+    /**
+     * Create.
+     */
     public Stats_Double() {
     }
 
     /**
-     * @param data A collection of values that summary statistics are calculated
-     * for.
+     * @param data The data collection.
      */
     public Stats_Double(Collection<Double> data) {
         super(data.size());

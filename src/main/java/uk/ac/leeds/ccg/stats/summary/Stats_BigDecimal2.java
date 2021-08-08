@@ -58,6 +58,9 @@ public class Stats_BigDecimal2 extends Stats_BigDecimal1 {
      */
     public BigRational m4;
 
+    /**
+     * Create.
+     */
     public Stats_BigDecimal2() {
     }
 
