@@ -16,15 +16,17 @@
 package uk.ac.leeds.ccg.stats.summary;
 
 import ch.obermuhlner.math.big.BigRational;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Objects;
 import uk.ac.leeds.ccg.math.Math_BigRationalRoot;
 
 /**
- * POJO for summary statistics of BigDecimal values.
+ * POJO for moments.
  *
  * Proposed future developments:
  * <ul>
@@ -34,43 +36,55 @@ import uk.ac.leeds.ccg.math.Math_BigRationalRoot;
  * @author Andy Turner
  * @version 1.0
  */
-public class Stats_BigDecimal2 extends Stats_BigDecimal1 {
+public class Stats_Moments implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     /**
      * For storing the sum of all the (differences from the mean).
      */
-    public BigRational m1;
+    protected BigRational m1;
 
     /**
      * For storing the sum of all the (differences from the mean squared).
      */
-    public BigRational m2;
+    protected BigRational m2;
 
     /**
      * For storing the sum of all the (differences from the mean cubed).
      */
-    public BigRational m3;
+    protected BigRational m3;
 
     /**
      * For storing the sum of all the (differences from the mean squared
      * squared).
      */
-    public BigRational m4;
+    protected BigRational m4;
+
+    protected final Stats_Abstract stats;
 
     /**
      * Create.
      */
-    public Stats_BigDecimal2() {
+    public Stats_Moments(Stats_Abstract stats) {
+        this.stats = stats;
     }
 
     /**
-     * @param data The data collection.
+     * @param d The initial collection of values.
      */
-    public Stats_BigDecimal2(Collection<BigDecimal> data) {
-        super(data);
-        int dataSize = data.size();
+    protected void init() {
+        BigInteger n = stats.getN();
+        BigRational mean = stats.getMean();
+        Collection<? extends Number> data;
+        if (stats instanceof Stats_Float1) {
+            data = ((Stats_Float1) stats).data;
+        } else if (stats instanceof Stats_Double1) {
+            data = ((Stats_Double1) stats).data;
+        } else {
+            data = ((Stats_BigDecimal1) stats).data;
+        }
+        int dataSize = n.intValueExact();
         switch (dataSize) {
             case 0:
                 break;
@@ -85,9 +99,9 @@ public class Stats_BigDecimal2 extends Stats_BigDecimal1 {
                 m2 = BigRational.ZERO;
                 m3 = BigRational.ZERO;
                 m4 = BigRational.ZERO;
-                Iterator<BigDecimal> ite = data.iterator();
+                Iterator<? extends Number> ite = data.iterator();
                 while (ite.hasNext()) {
-                    BigRational i = BigRational.valueOf(ite.next());
+                    BigRational i = BigRational.valueOf(ite.next().toString());
                     m1 = m1.add(i.subtract(mean).abs());
                     m2 = m2.add(i.subtract(mean).pow(2));
                     m3 = m3.add(i.subtract(mean).pow(3).abs());
@@ -114,16 +128,14 @@ public class Stats_BigDecimal2 extends Stats_BigDecimal1 {
      */
     @Override
     public boolean equals(Object o) {
-        if (o instanceof Stats_BigDecimal2) {
-            Stats_BigDecimal2 s = (Stats_BigDecimal2) o;
+        if (o instanceof Stats_Moments) {
+            Stats_Moments s = (Stats_Moments) o;
             //if (this.hashCode() == o.hashCode()) {
-            if (super.equals(o)) {
-                if (this.m1.compareTo(s.m1) == 0) {
-                    if (this.m2.compareTo(s.m2) == 0) {
-                        if (this.m3.compareTo(s.m3) == 0) {
-                            if (this.m4.compareTo(s.m4) == 0) {
-                                return true;
-                            }
+            if (this.m1.compareTo(s.m1) == 0) {
+                if (this.m2.compareTo(s.m2) == 0) {
+                    if (this.m3.compareTo(s.m3) == 0) {
+                        if (this.m4.compareTo(s.m4) == 0) {
+                            return true;
                         }
                     }
                 }
@@ -149,9 +161,9 @@ public class Stats_BigDecimal2 extends Stats_BigDecimal1 {
      * @return A BigRational representing the standard deviation.
      */
     public BigRational getStandardDeviationSquared() {
-        return m2.divide(n.add(BigInteger.ONE.negate()));
+        return m2.divide(stats.getN().add(BigInteger.ONE.negate()));
     }
-    
+
     /**
      * Calculates and returns the standard deviation.
      *

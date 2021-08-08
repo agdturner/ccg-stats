@@ -24,7 +24,8 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
- * POJO for summary statistics of BigDecimal values.
+ * POJO for summary statistics of BigDecimal values. The values are stored in a
+ * List.
  *
  * Proposed future developments:
  * <ul>
@@ -32,36 +33,51 @@ import java.util.stream.Collectors;
  * </ul>
  *
  * @author Andy Turner
- * @version 1.0
+ * @version 1.1
  */
 public class Stats_BigDecimal1 extends Stats_BigDecimal {
 
     private static final long serialVersionUID = 1L;
 
     /**
+     * An ordered store of the values.
+     */
+    List<BigDecimal> data;
+
+    /**
+     * Records if {@link data} has changed since last {@link #init()}.
+     */
+    protected boolean isUpToDate;
+
+    /**
      * For storing the median.
      */
-    public BigRational median;
+    protected BigRational median;
 
     /**
      * For storing the lower inter quartile range value.
      */
-    public BigDecimal q1;
+    protected BigDecimal q1;
 
     /**
      * For storing the upper inter quartile range value.
      */
-    public BigDecimal q3;
+    protected BigDecimal q3;
 
     /**
      * For storing the number of values equal to zero.
      */
-    public BigInteger nZero;
+    protected BigInteger nZero;
 
     /**
      * For storing the number of negative values.
      */
-    public BigInteger nNeg;
+    protected BigInteger nNeg;
+
+    /**
+     * Moments
+     */
+    protected Stats_Moments moments;
 
     /**
      * Create.
@@ -70,21 +86,29 @@ public class Stats_BigDecimal1 extends Stats_BigDecimal {
     }
 
     /**
-     * @param data The data collection.
+     * @param d The initial collection of values.
      */
-    public Stats_BigDecimal1(Collection<BigDecimal> data) {
-        super(data);
+    public Stats_BigDecimal1(Collection<BigDecimal> d) {
+        super(d);
+        this.data = d.stream().sorted().collect(Collectors.toList());
+        init();
+    }
+
+    /**
+     * Initialises statistics.
+     */
+    protected final void init() {
+        super.init(data);
         nNeg = BigInteger.ZERO;
         nZero = BigInteger.ZERO;
         int dataSize = data.size();
-        int c;
         switch (dataSize) {
             case 0:
                 break;
             case 1:
                 BigDecimal v = data.stream().findAny().get();
                 median = BigRational.valueOf(v);
-                c = v.compareTo(BigDecimal.ZERO);
+                int c = v.compareTo(BigDecimal.ZERO);
                 if (c == -1) {
                     nNeg = BigInteger.ONE;
                 } else if (c == 0) {
@@ -102,21 +126,16 @@ public class Stats_BigDecimal1 extends Stats_BigDecimal {
                         nZero = nZero.add(BigInteger.ONE);
                     }
                 }
-                List<BigDecimal> sd = data.stream().sorted().collect(Collectors.toList());
+                int h = dataSize / 2;
                 if (dataSize % 2 == 0) {
-                    median = BigRational.valueOf(sd.stream()
-                            .skip(dataSize / 2 - 1).limit(2)
-                            .reduce(BigDecimal.ZERO, BigDecimal::add))
-                            .divide(2);
+                    median = BigRational.valueOf(data.get(h - 1).add(
+                            data.get(h))).divide(2);
                 } else {
-                    int mid = dataSize / 2;
-                    median = BigRational.valueOf(sd.stream()
-                            .skip(mid).findFirst().get());
+                    median = BigRational.valueOf(data.get(h));
                 }
                 int q1p = dataSize / 4;
-                int q3p = dataSize - q1p - 1;
-                q1 = sd.stream().skip(q1p).findFirst().get();
-                q3 = sd.stream().skip(q3p).findFirst().get();
+                q1 = data.get(q1p);
+                q3 = data.get(dataSize - q1p - 1);
                 break;
         }
     }
@@ -169,5 +188,143 @@ public class Stats_BigDecimal1 extends Stats_BigDecimal {
         hash = 79 * hash + Objects.hashCode(this.nZero);
         hash = 79 * hash + Objects.hashCode(this.nNeg);
         return hash;
+    }
+
+    /**
+     * @return {@link #median} for the collection computing it if necessary.
+     */
+    protected BigRational getMedian() {
+        if (!isUpToDate) {
+            init();
+        }
+        return median;
+    }
+
+    /**
+     * @return {@link #q1} for the collection computing it if necessary.
+     */
+    protected BigDecimal getQ1() {
+        if (!isUpToDate) {
+            init();
+        }
+        return q1;
+    }
+
+    /**
+     * @return {@link #q3} for the collection computing it if necessary.
+     */
+    protected BigDecimal getQ3() {
+        if (!isUpToDate) {
+            init();
+        }
+        return q3;
+    }
+
+    /**
+     * @return {@link #nNeg} for the collection computing it if necessary.
+     */
+    protected BigInteger getNNeg() {
+        if (!isUpToDate) {
+            init();
+        }
+        return nNeg;
+    }
+
+    /**
+     * @return {@link #nZero} for the collection computing it if necessary.
+     */
+    protected BigInteger getNZero() {
+        if (!isUpToDate) {
+            init();
+        }
+        return nZero;
+    }
+
+    /**
+     * @return {@link #max}
+     */
+    @Override
+    public BigDecimal getMax() {
+        if (!isUpToDate) {
+            init();
+        }
+        return max;
+    }
+
+    /**
+     * @return {@link #min}
+     */
+    @Override
+    public BigDecimal getMin() {
+        if (!isUpToDate) {
+            init();
+        }
+        return min;
+    }
+
+    /**
+     * @return {@link #sum}
+     */
+    @Override
+    public BigDecimal getSum() {
+        if (!isUpToDate) {
+            init();
+        }
+        return sum;
+    }
+
+    /**
+     * @return {@link #n}
+     */
+    @Override
+    public BigInteger getN() {
+        if (!isUpToDate) {
+            init();
+        }
+        return n;
+    }
+
+    /**
+     * @return {@link #mean}
+     */
+    @Override
+    public BigRational getMean() {
+        if (!isUpToDate) {
+            init();
+        }
+        return mean;
+    }
+
+    /**
+     * Adds a single value to {@link #data}.
+     *
+     * @param x The value to add.
+     */
+    public void add(BigDecimal x) {
+        data.add(x);
+        isUpToDate = false;
+    }
+
+    /**
+     * Adds a collection of values to {@link #data}.
+     *
+     * @param c The collection of values to add.
+     */
+    public void add(Collection<BigDecimal> c) {
+        data.addAll(c);
+        isUpToDate = false;
+    }
+
+    /**
+     * @return {@link #moments} initialising and updating as necessary.
+     */
+    public Stats_Moments getMoments() {
+        if (moments == null) {
+            moments = new Stats_Moments(this);
+        }
+        if (!isUpToDate) {
+            moments.init();
+        }
+        return moments;
     }
 }

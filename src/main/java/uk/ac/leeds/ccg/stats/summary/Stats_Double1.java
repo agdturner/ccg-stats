@@ -39,6 +39,16 @@ public class Stats_Double1 extends Stats_Double {
     private static final long serialVersionUID = 1L;
 
     /**
+     * An ordered store of the values.
+     */
+    List<Double> data;
+
+    /**
+     * Records if {@link data} has changed since last {@link #init()}.
+     */
+    protected boolean isUpToDate;
+    
+    /**
      * For storing the median value.
      */
     public BigRational median;
@@ -46,12 +56,12 @@ public class Stats_Double1 extends Stats_Double {
     /**
      * For storing the lower inter quartile range value.
      */
-    public double q1;
+    protected double q1;
 
     /**
      * For storing the upper inter quartile range value.
      */
-    public double q3;
+    protected double q3;
 
     /**
      * For storing the number of values equal to zero.
@@ -64,16 +74,30 @@ public class Stats_Double1 extends Stats_Double {
     public BigInteger nNeg;
 
     /**
+     * Moments
+     */
+    protected Stats_Moments moments;
+
+    /**
      * Create.
      */
     public Stats_Double1() {
     }
 
     /**
-     * @param data The data collection.
+     * @param d The initial collection of values.
      */
-    public Stats_Double1(Collection<Double> data) {
-        super(data);
+    public Stats_Double1(Collection<Double> d) {
+        super(d);
+        data = d.stream().sorted().collect(Collectors.toList());
+        init();
+    }
+
+    /**
+     * Initialises statistics.
+     */
+    protected final void init() {
+        super.init(data);
         nNeg = BigInteger.ZERO;
         nZero = BigInteger.ZERO;
         int dataSize = data.size();
@@ -102,20 +126,18 @@ public class Stats_Double1 extends Stats_Double {
                         nZero = nZero.add(BigInteger.ONE);
                     }
                 }
-                List<Double> sd = data.stream().sorted().collect(Collectors.toList());
                 int h = dataSize / 2;
                 if (dataSize % 2 == 0) {
                     median = BigRational.valueOf(
-                            BigDecimal.valueOf(sd.get(h - 1))
-                                    .add(BigDecimal.valueOf(sd.get(h))))
+                            BigDecimal.valueOf(data.get(h - 1))
+                                    .add(BigDecimal.valueOf(data.get(h))))
                             .divide(2);
                 } else {
-                    median = BigRational.valueOf(sd.get(h));
+                    median = BigRational.valueOf(data.get(h));
                 }
                 int q1p = dataSize / 4;
-                int q3p = dataSize - q1p - 1;
-                q1 = sd.stream().skip(q1p).findFirst().get();
-                q3 = sd.stream().skip(q3p).findFirst().get();
+                q1 = data.get(q1p);
+                q3 = data.get(dataSize - q1p - 1);
                 mean = BigRational.valueOf(sum).divide(dataSize);
                 break;
         }
@@ -169,5 +191,145 @@ public class Stats_Double1 extends Stats_Double {
         hash = 37 * hash + Objects.hashCode(this.nZero);
         hash = 37 * hash + Objects.hashCode(this.nNeg);
         return hash;
+    }
+    
+        /**
+     * @return the median for the collection computing it if necessary.
+     */
+    protected BigRational getMedian() {
+        if (!isUpToDate) {
+            init();
+        }
+        return median;
+    }
+
+    /**
+     * @return the q1 for the collection computing it if necessary.
+     */
+    protected double getQ1() {
+        if (!isUpToDate) {
+            init();
+        }
+        return q1;
+    }
+
+    /**
+     * @return the q3 for the collection computing it if necessary.
+     */
+    protected double getQ3() {
+        if (!isUpToDate) {
+            init();
+        }
+        return q3;
+    }
+
+    /**
+     * @return {@link #nNeg} for the collection computing it if necessary.
+     */
+    protected BigInteger getNNeg() {
+        if (!isUpToDate) {
+            init();
+        }
+        return nNeg;
+    }
+
+    /**
+     * @return {@link #nZero} for the collection computing it if necessary.
+     */
+    protected BigInteger getNZero() {
+        if (!isUpToDate) {
+            init();
+        }
+        return nZero;
+    }
+    
+    /**
+     * @return {@link #max} 
+     */
+    @Override
+    public double getMax() {
+        if (!isUpToDate) {
+            init();
+        }
+        return max;
+    }
+    
+/**
+     * @return {@link #n} 
+     */
+    @Override
+    public BigInteger getN() {
+        if (!isUpToDate) {
+            init();
+        }
+        return n;
+    }
+    
+    /**
+     * @return {@link #min} 
+     */
+    @Override
+    public double getMin() {
+        if (!isUpToDate) {
+            init();
+        }
+        return min;
+    }
+
+    /**
+     * @return {@link #sum} 
+     */
+    @Override
+    public BigDecimal getSum() {
+        if (!isUpToDate) {
+            init();
+        }
+        return sum;
+    }
+    
+    /**
+     * @return {@link #mean} 
+     */
+    @Override
+    public BigRational getMean() {
+        if (!isUpToDate) {
+            init();
+        }
+        return mean;
+    }
+
+    /**
+     * Adds a single value to {@link #data}.
+     * 
+     * @param x The value to add. Should not be
+     * {@code null, NaN, NEGATIVE_INFINITY, POSITIVE_INFINITY}.
+     */
+    public void add(Double x) {
+        data.add(x);
+        isUpToDate = false;
+    }
+
+    /**
+     * Adds a collection of values to {@link #data}.
+     *
+     * @param c The collection of values to add. Values should not be
+     * {@code null, NaN, NEGATIVE_INFINITY, POSITIVE_INFINITY}.
+     */
+    public void add(Collection<Double> c) {
+        data.addAll(c);
+        isUpToDate = false;
+    }
+
+    /**
+     * @return {@link #moments} initialising and updating as necessary.
+     */
+    public Stats_Moments getMoments() {
+        if (moments == null) {
+            moments = new Stats_Moments(this);
+        }
+        if (!isUpToDate) {
+            moments.init();
+        }
+        return moments;
     }
 }

@@ -16,6 +16,7 @@
 package uk.ac.leeds.ccg.stats.summary;
 
 import ch.obermuhlner.math.big.BigRational;
+import java.util.List;
 import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.DoubleSummaryStatistics;
@@ -32,29 +33,24 @@ import java.util.Objects;
  * @author Andy Turner
  * @version 1.0
  */
-public class Stats_Float extends Stats_n {
+public class Stats_Float extends Stats_Abstract {
 
     private static final long serialVersionUID = 1L;
 
     /**
      * For storing the sum of all values.
      */
-    public BigDecimal sum;
-
-    /**
-     * For storing the mean average.
-     */
-    public BigRational mean;
+    protected BigDecimal sum;
 
     /**
      * For storing the minimum value.
      */
-    public float min;
+    protected float min;
 
     /**
      * For storing the maximum value.
      */
-    public float max;
+    protected float max;
 
     /**
      * Create.
@@ -63,19 +59,21 @@ public class Stats_Float extends Stats_n {
     }
 
     /**
-     * @param data The data collection.
+     * @param d The collection of values.
      */
-    public Stats_Float(Collection<Float> data) {
-        super(data.size());
-        DoubleSummaryStatistics stats = data.parallelStream().collect(
-                DoubleSummaryStatistics::new,
-                DoubleSummaryStatistics::accept,
-                DoubleSummaryStatistics::combine);
-        max = (float) stats.getMax();
-        min = (float) stats.getMin();
+    public Stats_Float(Collection<Float> d) {
+        super(d.size());
+        init(d);
+    }
+    
+    protected final void init(Collection<Float> d) {
+        max = -Float.MAX_VALUE;
+        min = Float.MAX_VALUE;
         sum = BigDecimal.ZERO;
-        data.forEach(d -> {
-            sum = sum.add(BigDecimal.valueOf(d));
+        d.forEach(x -> {
+            max = Math.max(max, x);
+            min = Math.min(min, x);
+            sum = sum.add(BigDecimal.valueOf(x));
         });
         mean = BigRational.valueOf(sum).divide(n);
     }
@@ -125,4 +123,26 @@ public class Stats_Float extends Stats_n {
         hash = 17 * hash + (int) (Double.doubleToLongBits(this.max) ^ (Double.doubleToLongBits(this.max) >>> 32));
         return hash;
     }
+    
+    /**
+     * @return {@link #max} 
+     */
+    public float getMax() {
+        return max;
+    }
+    
+    /**
+     * @return {@link #min} 
+     */
+    public float getMin() {
+        return min;
+    }
+    
+    /**
+     * @return {@link #sum} 
+     */
+    public BigDecimal getSum() {
+        return sum;
+    }
+    
 }

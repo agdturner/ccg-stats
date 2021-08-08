@@ -15,6 +15,7 @@
  */
 package uk.ac.leeds.ccg.stats.summary;
 
+import ch.obermuhlner.math.big.BigRational;
 import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.Objects;
@@ -25,30 +26,35 @@ import java.util.Objects;
  * @author Andy Turner
  * @version 1.0
  */
-public abstract class Stats_n implements Serializable {
+public abstract class Stats_Abstract implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     /**
      * For storing the number of values.
      */
-    public BigInteger n;
+    protected BigInteger n;
 
-    public Stats_n() {
+    /**
+     * For storing the mean average.
+     */
+    protected BigRational mean;
+    
+    public Stats_Abstract() {
         n = BigInteger.ZERO;
     }
 
     /**
      * @param n What {@link #n} is set to.
      */
-    public Stats_n(BigInteger n) {
+    public Stats_Abstract(BigInteger n) {
         this.n = n;
     }
 
     /**
      * @param n What {@link #n} is set to.
      */
-    public Stats_n(long n) {
+    public Stats_Abstract(long n) {
         this.n = BigInteger.valueOf(n);
     }
 
@@ -63,8 +69,8 @@ public abstract class Stats_n implements Serializable {
      */
     @Override
     public boolean equals(Object o) {
-        if (o instanceof Stats_n) {
-            Stats_n s = (Stats_n) o;
+        if (o instanceof Stats_Abstract) {
+            Stats_Abstract s = (Stats_Abstract) o;
             //if (this.hashCode() == o.hashCode()) {
             return this.n.compareTo(s.n) == 0;
             //}
@@ -77,5 +83,19 @@ public abstract class Stats_n implements Serializable {
         int hash = 5;
         hash = 73 * hash + Objects.hashCode(this.n);
         return hash;
+    }
+    
+    /**
+     * @return {@link #m} updating it first if necesary. 
+     */
+    public BigInteger getN() {
+        return n;
+    }
+    
+    /**
+     * @return {@link #mean} 
+     */
+    public BigRational getMean() {
+        return mean;
     }
 }

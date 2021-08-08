@@ -31,7 +31,7 @@ import java.util.Objects;
  * @author Andy Turner
  * @version 1.0
  */
-public class Stats_BigRational extends Stats_n {
+public class Stats_BigRational extends Stats_Abstract {
 
     private static final long serialVersionUID = 1L;
 
@@ -39,11 +39,6 @@ public class Stats_BigRational extends Stats_n {
      * For storing the sum of all values.
      */
     public BigRational sum;
-
-    /**
-     * For storing the mean average.
-     */
-    public BigRational mean;
 
     /**
      * For storing the minimum value.
@@ -73,7 +68,7 @@ public class Stats_BigRational extends Stats_n {
     }
 
     /**
-     * @param data The data collection.
+     * @param d The collection of values.
      */
     public Stats_BigRational(Collection<BigRational> data) {
         super(data.size());

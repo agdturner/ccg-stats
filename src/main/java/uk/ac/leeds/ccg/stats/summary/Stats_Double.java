@@ -19,6 +19,7 @@ import ch.obermuhlner.math.big.BigRational;
 import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.DoubleSummaryStatistics;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -32,29 +33,24 @@ import java.util.Objects;
  * @author Andy Turner
  * @version 1.0
  */
-public class Stats_Double extends Stats_n {
+public class Stats_Double extends Stats_Abstract {
 
     private static final long serialVersionUID = 1L;
 
     /**
      * For storing the sum of all values.
      */
-    public BigDecimal sum;
-
-    /**
-     * For storing the mean average.
-     */
-    public BigRational mean;
+    protected BigDecimal sum;
 
     /**
      * For storing the minimum value.
      */
-    public double min;
+    protected double min;
 
     /**
      * For storing the maximum value.
      */
-    public double max;
+    protected double max;
 
     /**
      * Create.
@@ -63,19 +59,23 @@ public class Stats_Double extends Stats_n {
     }
 
     /**
-     * @param data The data collection.
+     * @param d The collection of values.
      */
-    public Stats_Double(Collection<Double> data) {
-        super(data.size());
-        DoubleSummaryStatistics stats = data.parallelStream().collect(
+    public Stats_Double(Collection<Double> d) {
+        super(d.size());
+        init(d);
+    }
+    
+    protected final void init(Collection<Double> d) {
+        DoubleSummaryStatistics stats = d.parallelStream().collect(
                 DoubleSummaryStatistics::new,
                 DoubleSummaryStatistics::accept,
                 DoubleSummaryStatistics::combine);
         max = stats.getMax();
         min = stats.getMin();
         sum = BigDecimal.ZERO;
-        data.forEach(d -> {
-            sum = sum.add(BigDecimal.valueOf(d));
+        d.forEach(x -> {
+            sum = sum.add(BigDecimal.valueOf(x));
         });
         mean = BigRational.valueOf(sum).divide(n);
     }
@@ -124,5 +124,26 @@ public class Stats_Double extends Stats_n {
         hash = 17 * hash + (int) (Double.doubleToLongBits(this.min) ^ (Double.doubleToLongBits(this.min) >>> 32));
         hash = 17 * hash + (int) (Double.doubleToLongBits(this.max) ^ (Double.doubleToLongBits(this.max) >>> 32));
         return hash;
+    }
+    
+    /**
+     * @return {@link #max} 
+     */
+    public double getMax() {
+        return max;
+    }
+    
+    /**
+     * @return {@link #min} 
+     */
+    public double getMin() {
+        return min;
+    }
+    
+    /**
+     * @return {@link #sum} 
+     */
+    public BigDecimal getSum() {
+        return sum;
     }
 }

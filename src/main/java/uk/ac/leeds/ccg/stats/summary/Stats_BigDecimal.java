@@ -18,43 +18,32 @@ package uk.ac.leeds.ccg.stats.summary;
 import ch.obermuhlner.math.big.BigRational;
 import java.math.BigDecimal;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.Objects;
 
 /**
  * POJO for summary statistics of BigDecimal values.
  *
- * Proposed future developments:
- * <ul>
- * <li>Support adding further collections of values.</li>
- * </ul>
- *
  * @author Andy Turner
  * @version 1.0
  */
-public class Stats_BigDecimal extends Stats_n {
+public class Stats_BigDecimal extends Stats_Abstract {
 
     private static final long serialVersionUID = 1L;
 
     /**
      * For storing the sum of all values.
      */
-    public BigDecimal sum;
-
-    /**
-     * For storing the mean average.
-     */
-    public BigRational mean;
+    protected BigDecimal sum;
 
     /**
      * For storing the minimum value.
      */
-    public BigDecimal min;
+    protected BigDecimal min;
 
     /**
      * For storing the maximum value.
      */
-    public BigDecimal max;
+    protected BigDecimal max;
 
     /**
      * Create.
@@ -63,16 +52,23 @@ public class Stats_BigDecimal extends Stats_n {
     }
 
     /**
-     * @param data The data collection.
+     * @param d The collection of values.
      */
-    public Stats_BigDecimal(Collection<BigDecimal> data) {
-        super(data.size());
-        int dataSize = data.size();
+    public Stats_BigDecimal(Collection<BigDecimal> d) {
+        super(d.size());
+        init(d);
+    }
+
+    /**
+     * Initialises statistics.
+     */
+    protected final void init(Collection<BigDecimal> d) {
+        int dataSize = d.size();
         switch (dataSize) {
             case 0:
                 break;
             case 1:
-                BigDecimal v = data.stream().findAny().get();
+                BigDecimal v = d.stream().findAny().get();
                 sum = v;
                 min = v;
                 max = v;
@@ -80,15 +76,13 @@ public class Stats_BigDecimal extends Stats_n {
                 break;
             default:
                 sum = BigDecimal.ZERO;
-                BigDecimal v2 = data.iterator().next();
-                min = v2;
-                max = v2;
-                Iterator<BigDecimal> ite = data.iterator();
-                while (ite.hasNext()) {
-                    BigDecimal i = ite.next();
-                    sum = sum.add(i);
-                    min = min.min(i);
-                    max = max.max(i);
+                v = d.iterator().next();
+                min = v;
+                max = v;
+                for (BigDecimal x : d) {
+                    sum = sum.add(x);
+                    min = min.min(x);
+                    max = max.max(x);
                 }
                 mean = BigRational.valueOf(sum).divide(n);
                 break;
@@ -140,4 +134,26 @@ public class Stats_BigDecimal extends Stats_n {
         hash = 47 * hash + Objects.hashCode(this.max);
         return hash;
     }
+    
+    /**
+     * @return {@link #max} 
+     */
+    public BigDecimal getMax() {
+        return max;
+    }
+    
+    /**
+     * @return {@link #min} 
+     */
+    public BigDecimal getMin() {
+        return min;
+    }
+    
+    /**
+     * @return {@link #sum} 
+     */
+    public BigDecimal getSum() {
+        return sum;
+    }
+    
 }
