@@ -28,7 +28,8 @@ import java.util.stream.Collectors;
  *
  * Proposed future developments:
  * <ul>
- * <li>Support adding further collections of values.</li>
+ * <li>This will break when more values are added than can be stored in a single
+ * {@link Collection}.</li>
  * </ul>
  *
  * @author Andy Turner

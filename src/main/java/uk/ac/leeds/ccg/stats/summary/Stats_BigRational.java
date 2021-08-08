@@ -23,9 +23,10 @@ import java.util.Objects;
 /**
  * POJO for summary statistics of BigRational values.
  *
- * Proposed future developments:
+ * Potential future developments:
  * <ul>
- * <li>Support adding further collections of values.</li>
+ * <li>Extend to provide more statistics and support adding further collections
+ * of values.</li>
  * </ul>
  *
  * @author Andy Turner
