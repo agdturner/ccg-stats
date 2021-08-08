@@ -4,7 +4,7 @@
 
     <groupId>io.github.agdturner</groupId>
     <artifactId>agdt-java-stats</artifactId>
-    <version>0.2</version>
+    <version>0.3-SNAPSHOT</version>
     <!--
     <version>1.1-SNAPSHOT</version>
     -->
@@ -17,7 +17,7 @@
         <url>git@github.com:agdturner/agdt-java-stats.git</url>
         <connection>scm:git:git@github.com:agdturner/agdt-java-stats.git</connection>
         <developerConnection>scm:git:git@github.com:agdturner/agdt-java-stats</developerConnection>
-      <tag>agdt-java-stats-0.2</tag>
+      <tag>agdt-java-stats-1.0</tag>
   </scm>
     <licenses>
         <license>
