@@ -21,6 +21,7 @@ import java.math.BigInteger;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Objects;
+import uk.ac.leeds.ccg.math.Math_BigRationalRoot;
 
 /**
  * POJO for summary statistics of BigDecimal values.
@@ -149,5 +150,14 @@ public class Stats_BigDecimal2 extends Stats_BigDecimal1 {
      */
     public BigRational getStandardDeviationSquared() {
         return m2.divide(n.add(BigInteger.ONE.negate()));
+    }
+    
+    /**
+     * Calculates and returns the standard deviation.
+     *
+     * @return A BigRational representing the standard deviation.
+     */
+    public Math_BigRationalRoot getStandardDeviation() {
+        return new Math_BigRationalRoot(getStandardDeviationSquared(), 2);
     }
 }

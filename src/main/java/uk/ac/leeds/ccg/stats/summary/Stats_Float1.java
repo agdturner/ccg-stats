@@ -24,7 +24,7 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
- * POJO for summary statistics of double values.
+ * POJO for summary statistics of float values.
  *
  * Proposed future developments:
  * <ul>
@@ -34,7 +34,7 @@ import java.util.stream.Collectors;
  * @author Andy Turner
  * @version 1.0
  */
-public class Stats_Double1 extends Stats_Double {
+public class Stats_Float1 extends Stats_Float {
 
     private static final long serialVersionUID = 1L;
 
@@ -66,13 +66,13 @@ public class Stats_Double1 extends Stats_Double {
     /**
      * Create.
      */
-    public Stats_Double1() {
+    public Stats_Float1() {
     }
 
     /**
      * @param data The data collection.
      */
-    public Stats_Double1(Collection<Double> data) {
+    public Stats_Float1(Collection<Float> data) {
         super(data);
         nNeg = BigInteger.ZERO;
         nZero = BigInteger.ZERO;
@@ -82,9 +82,9 @@ public class Stats_Double1 extends Stats_Double {
             case 0:
                 break;
             case 1:
-                Double v = data.stream().findAny().get();
+                Float v = data.stream().findAny().get();
                 median = BigRational.valueOf(v);
-                c = v.compareTo(0.0d);
+                c = v.compareTo(0.0f);
                 if (c == -1) {
                     nNeg = nNeg.add(BigInteger.ONE);
                 } else if (c == 0) {
@@ -94,15 +94,15 @@ public class Stats_Double1 extends Stats_Double {
                 q3 = v;
                 break;
             default:
-                for (Double x : data) {
-                    c = x.compareTo(0.0d);
+                for (Float x : data) {
+                    c = x.compareTo(0.0f);
                     if (c == -1) {
                         nNeg = nNeg.add(BigInteger.ONE);
                     } else if (c == 0) {
                         nZero = nZero.add(BigInteger.ONE);
                     }
                 }
-                List<Double> sd = data.stream().sorted().collect(Collectors.toList());
+                List<Float> sd = data.stream().sorted().collect(Collectors.toList());
                 int h = dataSize / 2;
                 if (dataSize % 2 == 0) {
                     median = BigRational.valueOf(
@@ -139,8 +139,8 @@ public class Stats_Double1 extends Stats_Double {
      */
     @Override
     public boolean equals(Object o) {
-        if (o instanceof Stats_Double1) {
-            Stats_Double1 s = (Stats_Double1) o;
+        if (o instanceof Stats_Float1) {
+            Stats_Float1 s = (Stats_Float1) o;
             //if (this.hashCode() == o.hashCode()) {
             if (q1 == s.q1) {
                 if (q3 == s.q3) {
