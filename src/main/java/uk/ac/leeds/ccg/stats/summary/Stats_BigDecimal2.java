@@ -23,10 +23,12 @@ import java.util.Iterator;
 import java.util.Objects;
 
 /**
- * A POJO for storing summary statistics for a collection of values stored as
- * BigDecimal.
+ * POJO for summary statistics of BigDecimal values.
  *
- * @TODO Support adding further collections of values.
+ * Proposed future developments:
+ * <ul>
+ * <li>Support adding further collections of values.</li>
+ * </ul>
  *
  * @author Andy Turner
  * @version 1.0
@@ -61,8 +63,6 @@ public class Stats_BigDecimal2 extends Stats_BigDecimal1 {
 
     /**
      * @param data The data collection.
-     * @param dp The decimal places.
-     * @param rm The RoundingMode.
      */
     public Stats_BigDecimal2(Collection<BigDecimal> data) {
         super(data);
@@ -95,7 +95,7 @@ public class Stats_BigDecimal2 extends Stats_BigDecimal1 {
 
     @Override
     public String toString() {
-        return getClass().getName() 
+        return getClass().getName()
                 + "[" + super.toString()
                 + ", m1=" + m1.toString()
                 + ", m2=" + m2.toString()
@@ -105,26 +105,25 @@ public class Stats_BigDecimal2 extends Stats_BigDecimal1 {
     }
 
     /**
-     *
-     * @param o
-     * @return
+     * @param o The object to test for equality.
+     * @return {@code true} iff {@code this} and o are equal.
      */
     @Override
     public boolean equals(Object o) {
         if (o instanceof Stats_BigDecimal2) {
             Stats_BigDecimal2 s = (Stats_BigDecimal2) o;
             //if (this.hashCode() == o.hashCode()) {
-                if (super.equals(o)) {
-                    if (this.m1.compareTo(s.m1) == 0) {
-                        if (this.m2.compareTo(s.m2) == 0) {
-                            if (this.m3.compareTo(s.m3) == 0) {
-                                if (this.m4.compareTo(s.m4) == 0) {
-                                        return true;
-                                }
+            if (super.equals(o)) {
+                if (this.m1.compareTo(s.m1) == 0) {
+                    if (this.m2.compareTo(s.m2) == 0) {
+                        if (this.m3.compareTo(s.m3) == 0) {
+                            if (this.m4.compareTo(s.m4) == 0) {
+                                return true;
                             }
                         }
                     }
                 }
+            }
             //} 
         }
         return false;
@@ -139,9 +138,10 @@ public class Stats_BigDecimal2 extends Stats_BigDecimal1 {
         hash = 41 * hash + Objects.hashCode(this.m4);
         return hash;
     }
-    
+
     /**
      * Calculates and returns the standard deviation.
+     *
      * @return A BigRational representing the standard deviation.
      */
     public BigRational getStandardDeviationSquared() {

@@ -24,10 +24,12 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
- * A POJO for storing summary statistics for a collection of values stored as
- * BigDecimal.
+ * POJO for summary statistics of BigDecimal values.
  *
- * @TODO Support adding further collections of values.
+ * Proposed future developments:
+ * <ul>
+ * <li>Support adding further collections of values.</li>
+ * </ul>
  *
  * @author Andy Turner
  * @version 1.0
@@ -66,8 +68,6 @@ public class Stats_BigDecimal1 extends Stats_BigDecimal {
 
     /**
      * @param data The data collection.
-     * @param dp The decimal places.
-     * @param rm The RoundingMode.
      */
     public Stats_BigDecimal1(Collection<BigDecimal> data) {
         super(data);
@@ -131,28 +131,27 @@ public class Stats_BigDecimal1 extends Stats_BigDecimal {
     }
 
     /**
-     *
-     * @param o
-     * @return
+     * @param o The object to test for equality.
+     * @return {@code true} iff {@code this} and o are equal.
      */
     @Override
     public boolean equals(Object o) {
         if (o instanceof Stats_BigDecimal1) {
             Stats_BigDecimal1 s = (Stats_BigDecimal1) o;
             //if (this.hashCode() == o.hashCode()) {
-                if (super.equals(o)) {
-                    if (this.median.compareTo(s.median) == 0) {
-                        if (this.q1.compareTo(s.q1) == 0) {
-                            if (this.q3.compareTo(s.q3) == 0) {
-                                if (this.nZero.compareTo(s.nZero) == 0) {
-                                    if (this.nNeg.compareTo(s.nNeg) == 0) {
-                                        return true;
-                                    }
+            if (super.equals(o)) {
+                if (this.median.compareTo(s.median) == 0) {
+                    if (this.q1.compareTo(s.q1) == 0) {
+                        if (this.q3.compareTo(s.q3) == 0) {
+                            if (this.nZero.compareTo(s.nZero) == 0) {
+                                if (this.nNeg.compareTo(s.nNeg) == 0) {
+                                    return true;
                                 }
                             }
                         }
                     }
                 }
+            }
             //}
         }
         return false;

@@ -33,30 +33,40 @@ public abstract class Stats_n implements Serializable {
      * For storing the number of values.
      */
     public BigInteger n;
-    
+
     public Stats_n() {
         n = BigInteger.ZERO;
     }
-    
+
+    /**
+     * @param n What {@link #n} is set to.
+     */
     public Stats_n(BigInteger n) {
         this.n = n;
     }
-    
+
+    /**
+     * @param n What {@link #n} is set to.
+     */
     public Stats_n(long n) {
         this.n = BigInteger.valueOf(n);
     }
-    
+
     @Override
     public String toString() {
         return "n=" + n;
     }
-    
+
+    /**
+     * @param o The object to test for equality.
+     * @return {@code true} iff {@code this} and o are equal.
+     */
     @Override
     public boolean equals(Object o) {
         if (o instanceof Stats_n) {
             Stats_n s = (Stats_n) o;
             //if (this.hashCode() == o.hashCode()) {
-                return this.n.compareTo(s.n) == 0;
+            return this.n.compareTo(s.n) == 0;
             //}
         }
         return false;

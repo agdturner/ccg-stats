@@ -16,18 +16,24 @@
 package uk.ac.leeds.ccg.stats.summary;
 
 import ch.obermuhlner.math.big.BigRational;
-import java.math.BigInteger;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Objects;
 
 /**
- * A POJO for storing summary statistics.
+ * POJO for summary statistics of BigRational values.
+ *
+ * Proposed future developments:
+ * <ul>
+ * <li>Support adding further collections of values.</li>
+ * </ul>
  *
  * @author Andy Turner
  * @version 1.0
  */
 public class Stats_BigRational extends Stats_n {
+
+    private static final long serialVersionUID = 1L;
 
     /**
      * For storing the sum of all values.
@@ -95,22 +101,26 @@ public class Stats_BigRational extends Stats_n {
         }
     }
 
+    /**
+     * @param o The object to test for equality.
+     * @return {@code true} iff {@code this} and o are equal.
+     */
     @Override
     public boolean equals(Object o) {
         if (o instanceof Stats_BigRational) {
             Stats_BigRational s = (Stats_BigRational) o;
             //if (s.hashCode() == this.hashCode()) {
-                if (super.equals(o)) {
-                    if (s.sum.compareTo(sum) == 0) {
-                        if (s.min.compareTo(min) == 0) {
-                            if (s.max.compareTo(max) == 0) {
-                                if (s.mean.compareTo(mean) == 0) {
-                                    return true;
-                                }
+            if (super.equals(o)) {
+                if (s.sum.compareTo(sum) == 0) {
+                    if (s.min.compareTo(min) == 0) {
+                        if (s.max.compareTo(max) == 0) {
+                            if (s.mean.compareTo(mean) == 0) {
+                                return true;
                             }
                         }
                     }
                 }
+            }
             //}
         }
         return false;

@@ -22,10 +22,12 @@ import java.util.Iterator;
 import java.util.Objects;
 
 /**
- * A POJO for storing summary statistics for a set of values stored as
- * BigDecimals.
+ * POJO for summary statistics of BigDecimal values.
  *
- * @TODO Support adding further collections of values.
+ * Proposed future developments:
+ * <ul>
+ * <li>Support adding further collections of values.</li>
+ * </ul>
  *
  * @author Andy Turner
  * @version 1.0
@@ -104,26 +106,25 @@ public class Stats_BigDecimal extends Stats_n {
     }
 
     /**
-     *
-     * @param o
-     * @return
+     * @param o The object to test for equality.
+     * @return {@code true} iff {@code this} and o are equal.
      */
     @Override
     public boolean equals(Object o) {
         if (o instanceof Stats_BigDecimal) {
             Stats_BigDecimal s = (Stats_BigDecimal) o;
             //if (this.hashCode() == o.hashCode()) {
-                if (super.equals(o)) {
-                    if (this.sum.compareTo(s.sum) == 0) {
-                        if (this.min.compareTo(s.min) == 0) {
-                            if (this.max.compareTo(s.max) == 0) {
-                                if (this.mean.compareTo(s.mean) == 0) {
-                                    return true;
-                                }
+            if (super.equals(o)) {
+                if (this.sum.compareTo(s.sum) == 0) {
+                    if (this.min.compareTo(s.min) == 0) {
+                        if (this.max.compareTo(s.max) == 0) {
+                            if (this.mean.compareTo(s.mean) == 0) {
+                                return true;
                             }
                         }
                     }
                 }
+            }
             //}
         }
         return false;

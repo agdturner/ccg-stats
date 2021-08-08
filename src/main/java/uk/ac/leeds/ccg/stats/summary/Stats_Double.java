@@ -22,7 +22,12 @@ import java.util.DoubleSummaryStatistics;
 import java.util.Objects;
 
 /**
- * A POJO for storing summary statistics for a collection of double values.
+ * POJO for summary statistics of double values.
+ *
+ * Proposed future developments:
+ * <ul>
+ * <li>Support adding further collections of values.</li>
+ * </ul>
  *
  * @author Andy Turner
  * @version 1.0
@@ -84,22 +89,26 @@ public class Stats_Double extends Stats_n {
                 + "]";
     }
 
+    /**
+     * @param o The object to test for equality.
+     * @return {@code true} iff {@code this} and o are equal.
+     */
     @Override
     public boolean equals(Object o) {
         if (o instanceof Stats_Double) {
             Stats_Double s = (Stats_Double) o;
             //if (s.hashCode() == this.hashCode()) {
-                if (s.min == min) {
-                    if (s.max == max) {
-                        if (s.sum.compareTo(sum) == 0) {
-                            if (s.mean.compareTo(mean) == 0) {
-                                if (super.equals(o)) {
-                                    return true;
-                                }
+            if (s.min == min) {
+                if (s.max == max) {
+                    if (s.sum.compareTo(sum) == 0) {
+                        if (s.mean.compareTo(mean) == 0) {
+                            if (super.equals(o)) {
+                                return true;
                             }
                         }
                     }
                 }
+            }
             //}
         }
         return false;

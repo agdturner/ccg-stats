@@ -23,7 +23,12 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
- * A POJO for storing summary statistics for a collection of double values.
+ * POJO for summary statistics of double values.
+ *
+ * Proposed future developments:
+ * <ul>
+ * <li>Support adding further collections of values.</li>
+ * </ul>
  *
  * @author Andy Turner
  * @version 1.0
@@ -124,28 +129,27 @@ public class Stats_Double1 extends Stats_Double {
     }
 
     /**
-     *
-     * @param o
-     * @return
+     * @param o The object to test for equality.
+     * @return {@code true} iff {@code this} and o are equal.
      */
     @Override
     public boolean equals(Object o) {
         if (o instanceof Stats_Double1) {
             Stats_Double1 s = (Stats_Double1) o;
             //if (this.hashCode() == o.hashCode()) {
-                if (q1 == s.q1) {
-                    if (q3 == s.q3) {
-                        if (this.median.compareTo(s.median) == 0) {
-                            if (this.nZero.compareTo(s.nZero) == 0) {
-                                if (this.nNeg.compareTo(s.nNeg) == 0) {
-                                    if (super.equals(o)) {
-                                        return true;
-                                    }
+            if (q1 == s.q1) {
+                if (q3 == s.q3) {
+                    if (this.median.compareTo(s.median) == 0) {
+                        if (this.nZero.compareTo(s.nZero) == 0) {
+                            if (this.nNeg.compareTo(s.nNeg) == 0) {
+                                if (super.equals(o)) {
+                                    return true;
                                 }
                             }
                         }
                     }
                 }
+            }
             //}
         }
         return false;
