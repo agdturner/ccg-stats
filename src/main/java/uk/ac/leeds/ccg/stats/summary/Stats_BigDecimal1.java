@@ -15,27 +15,31 @@
  */
 package uk.ac.leeds.ccg.stats.summary;
 
+import ch.obermuhlner.math.big.BigRational;
 import java.math.BigDecimal;
-import java.math.RoundingMode;
+import java.math.BigInteger;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
-import uk.ac.leeds.ccg.math.Math_BigDecimal;
 
 /**
- * A POJO for storing summary statistics for a collection of double values.
+ * A POJO for storing summary statistics for a collection of values stored as
+ * BigDecimal.
+ *
+ * @TODO Support adding further collections of values.
  *
  * @author Andy Turner
  * @version 1.0
  */
 public class Stats_BigDecimal1 extends Stats_BigDecimal {
 
+    private static final long serialVersionUID = 1L;
+
     /**
      * For storing the median.
      */
-    public BigDecimal median;
+    public BigRational median;
 
     /**
      * For storing the lower inter quartile range value.
@@ -50,12 +54,12 @@ public class Stats_BigDecimal1 extends Stats_BigDecimal {
     /**
      * For storing the number of values equal to zero.
      */
-    public int nZero;
+    public BigInteger nZero;
 
     /**
      * For storing the number of negative values.
      */
-    public int nNeg;
+    public BigInteger nNeg;
 
     public Stats_BigDecimal1() {
     }
@@ -65,46 +69,49 @@ public class Stats_BigDecimal1 extends Stats_BigDecimal {
      * @param dp The decimal places.
      * @param rm The RoundingMode.
      */
-    public Stats_BigDecimal1(Collection<BigDecimal> data, int dp,
-            RoundingMode rm) {
-        super(data, dp, rm);
-        switch (n) {
+    public Stats_BigDecimal1(Collection<BigDecimal> data) {
+        super(data);
+        nNeg = BigInteger.ZERO;
+        nZero = BigInteger.ZERO;
+        int dataSize = data.size();
+        int c;
+        switch (dataSize) {
             case 0:
                 break;
             case 1:
                 BigDecimal v = data.stream().findAny().get();
-                median = v;
-                int c = v.compareTo(BigDecimal.ZERO);
+                median = BigRational.valueOf(v);
+                c = v.compareTo(BigDecimal.ZERO);
                 if (c == -1) {
-                    nNeg = 1;
+                    nNeg = BigInteger.ONE;
                 } else if (c == 0) {
-                    nZero = 1;
+                    nZero = BigInteger.ONE;
                 }
                 q1 = v;
                 q3 = v;
                 break;
             default:
-                Iterator<BigDecimal> ite = data.iterator();
-                while (ite.hasNext()) {
-                    BigDecimal i = ite.next();
-                    int co = i.compareTo(BigDecimal.ZERO);
-                    if (co == -1) {
-                        nNeg++;
-                    } else if (co == 0) {
-                        nZero++;
+                for (BigDecimal x : data) {
+                    c = x.compareTo(BigDecimal.ZERO);
+                    if (c == -1) {
+                        nNeg = nNeg.add(BigInteger.ONE);
+                    } else if (c == 0) {
+                        nZero = nZero.add(BigInteger.ONE);
                     }
                 }
                 List<BigDecimal> sd = data.stream().sorted().collect(Collectors.toList());
-                if (n % 2 == 0) {
-                    median = sd.stream().skip(n / 2 - 1).limit(2)
-                            .reduce(BigDecimal.ZERO, BigDecimal::add)
-                            .divide(BigDecimal.valueOf(2));
+                if (dataSize % 2 == 0) {
+                    median = BigRational.valueOf(sd.stream()
+                            .skip(dataSize / 2 - 1).limit(2)
+                            .reduce(BigDecimal.ZERO, BigDecimal::add))
+                            .divide(2);
                 } else {
-                    int mid = n / 2;
-                    median = sd.stream().skip(mid).findFirst().get();
+                    int mid = dataSize / 2;
+                    median = BigRational.valueOf(sd.stream()
+                            .skip(mid).findFirst().get());
                 }
-                int q1p = n / 4;
-                int q3p = n - q1p - 1;
+                int q1p = dataSize / 4;
+                int q3p = dataSize - q1p - 1;
                 q1 = sd.stream().skip(q1p).findFirst().get();
                 q3 = sd.stream().skip(q3p).findFirst().get();
                 break;
@@ -113,47 +120,52 @@ public class Stats_BigDecimal1 extends Stats_BigDecimal {
 
     @Override
     public String toString() {
-        return getClass().getName() + "[" + toString1() + "]";
-    }
-
-    @Override
-    public String toString1() {
-        return super.toString1()
+        return getClass().getName() + "["
+                + super.toString()
                 + ", median= " + median
                 + ", q1= " + q1.toString()
                 + ", q3=" + q3.toString()
                 + ", nZero=" + nZero
-                + ", nNeg=" + nNeg;
+                + ", nNeg=" + nNeg
+                + "]";
     }
 
+    /**
+     *
+     * @param o
+     * @return
+     */
     @Override
     public boolean equals(Object o) {
         if (o instanceof Stats_BigDecimal1) {
             Stats_BigDecimal1 s = (Stats_BigDecimal1) o;
-            if (super.equals(o)) {
-                if (s.nNeg == nNeg) {
-                    if (s.nZero == nZero) {
-                        if (s.q1.compareTo(q1) == 0) {
-                            if (s.q3.compareTo(q3) == 0) {
-                                return true;
+            //if (this.hashCode() == o.hashCode()) {
+                if (super.equals(o)) {
+                    if (this.median.compareTo(s.median) == 0) {
+                        if (this.q1.compareTo(s.q1) == 0) {
+                            if (this.q3.compareTo(s.q3) == 0) {
+                                if (this.nZero.compareTo(s.nZero) == 0) {
+                                    if (this.nNeg.compareTo(s.nNeg) == 0) {
+                                        return true;
+                                    }
+                                }
                             }
                         }
                     }
                 }
-            }
+            //}
         }
         return false;
     }
 
     @Override
     public int hashCode() {
-        int hash = 5;
-        hash = 19 * hash + Objects.hashCode(this.median);
-        hash = 19 * hash + Objects.hashCode(this.q1);
-        hash = 19 * hash + Objects.hashCode(this.q3);
-        hash = 19 * hash + this.nZero;
-        hash = 19 * hash + this.nNeg;
+        int hash = 7;
+        hash = 79 * hash + Objects.hashCode(this.median);
+        hash = 79 * hash + Objects.hashCode(this.q1);
+        hash = 79 * hash + Objects.hashCode(this.q3);
+        hash = 79 * hash + Objects.hashCode(this.nZero);
+        hash = 79 * hash + Objects.hashCode(this.nNeg);
         return hash;
     }
-
 }

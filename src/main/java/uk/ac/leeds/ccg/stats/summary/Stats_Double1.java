@@ -15,9 +15,11 @@
  */
 package uk.ac.leeds.ccg.stats.summary;
 
+import ch.obermuhlner.math.big.BigRational;
+import java.math.BigInteger;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -28,10 +30,12 @@ import java.util.stream.Collectors;
  */
 public class Stats_Double1 extends Stats_Double {
 
+    private static final long serialVersionUID = 1L;
+
     /**
      * For storing the median value.
      */
-    public double median;
+    public BigRational median;
 
     /**
      * For storing the lower inter quartile range value.
@@ -46,92 +50,95 @@ public class Stats_Double1 extends Stats_Double {
     /**
      * For storing the number of values equal to zero.
      */
-    public long nZero;
+    public BigInteger nZero;
 
     /**
      * For storing the number of negative values.
      */
-    public long nNeg;
+    public BigInteger nNeg;
 
-    public Stats_Double1(){}
-    
+    public Stats_Double1() {
+    }
+
     /**
      * @param data A collection of values that summary statistics are calculated
      * for.
      */
     public Stats_Double1(Collection<Double> data) {
         super(data);
-        nNeg = 0;
-        nZero = 0;
-        switch (n) {
+        nNeg = BigInteger.ZERO;
+        nZero = BigInteger.ZERO;
+        int dataSize = data.size();
+        int c;
+        switch (dataSize) {
             case 0:
                 break;
             case 1:
                 Double v = data.stream().findAny().get();
-                median = v;
-                int c = v.compareTo(0.0d);
+                median = BigRational.valueOf(v);
+                c = v.compareTo(0.0d);
                 if (c == -1) {
-                    nNeg = 1;
+                    nNeg = nNeg.add(BigInteger.ONE);
                 } else if (c == 0) {
-                    nZero = 1;
+                    nZero = nZero.add(BigInteger.ONE);
                 }
                 q1 = v;
                 q3 = v;
                 break;
             default:
-                Iterator<Double> ite = data.iterator();
-                while (ite.hasNext()) {
-                    Double i = ite.next();
-                    int co = i.compareTo(0.0d);
-                    if (co == -1) {
-                        nNeg++;
-                    } else if (co == 0) {
-                        nZero++;
+                for (Double x : data) {
+                    c = x.compareTo(0.0d);
+                    if (c == -1) {
+                        nNeg = nNeg.add(BigInteger.ONE);
+                    } else if (c == 0) {
+                        nZero = nZero.add(BigInteger.ONE);
                     }
                 }
                 List<Double> sd = data.stream().sorted().collect(Collectors.toList());
-                if (n % 2 == 0) {
-                    median = sd.stream().skip(n / 2 - 1).limit(2)
-                            .reduce(0.0d, Double::sum) / (2.0d);
+                if (dataSize % 2 == 0) {
+                    median = BigRational.valueOf(sd.stream().skip(dataSize / 2 - 1).limit(2)
+                            .reduce(0.0d, Double::sum)).divide(2);
                 } else {
-                    int mid = n / 2;
-                    median = sd.stream().skip(mid).findFirst().get();
+                    int mid = dataSize / 2;
+                    median = BigRational.valueOf(sd.stream().skip(mid).findFirst().get());
                 }
-                int q1p = n / 4;
-                int q3p = n - q1p - 1;
+                int q1p = dataSize / 4;
+                int q3p = dataSize - q1p - 1;
                 q1 = sd.stream().skip(q1p).findFirst().get();
                 q3 = sd.stream().skip(q3p).findFirst().get();
-                mean = sum / (double) n;
+                mean = BigRational.valueOf(sum).divide(dataSize);
                 break;
         }
     }
-    
+
     @Override
     public String toString() {
-        return getClass().getName() + "[" + toString1() + "]";
+        return getClass().getName()
+                + "[" + super.toString()
+                + ", median=" + median
+                + ", q1= " + q1
+                + ", q3=" + q3
+                + ", nZero=" + nZero
+                + ", nNeg=" + nNeg
+                + "]";
     }
 
-    @Override
-    public String toString1() {
-        return super.toString1()
-                + ", median=" + Double.toString(median)
-                + ", q1= " + Double.toString(q1)
-                + ", q3=" + Double.toString(q3)
-                + ", nZero=" + Long.toString(nZero)
-                + ", nNeg=" + Long.toString(nNeg);
-    }
-
+    /**
+     *
+     * @param o
+     * @return
+     */
     @Override
     public boolean equals(Object o) {
         if (o instanceof Stats_Double1) {
             Stats_Double1 s = (Stats_Double1) o;
-            if (s.hashCode() == this.hashCode()) {
-                if (super.equals(o)) {
-                    if (s.median == median) {
-                        if (s.nNeg == nNeg) {
-                            if (s.nZero == nZero) {
-                                if (s.q1 == q1) {
-                                    if (s.q3 == q3) {
+            //if (this.hashCode() == o.hashCode()) {
+                if (q1 == s.q1) {
+                    if (q3 == s.q3) {
+                        if (this.median.compareTo(s.median) == 0) {
+                            if (this.nZero.compareTo(s.nZero) == 0) {
+                                if (this.nNeg.compareTo(s.nNeg) == 0) {
+                                    if (super.equals(o)) {
                                         return true;
                                     }
                                 }
@@ -139,20 +146,19 @@ public class Stats_Double1 extends Stats_Double {
                         }
                     }
                 }
-            }
+            //}
         }
         return false;
     }
 
     @Override
     public int hashCode() {
-        int hash = 5;
-        hash = 89 * hash + (int) (Double.doubleToLongBits(this.median) ^ (Double.doubleToLongBits(this.median) >>> 32));
-        hash = 89 * hash + (int) (Double.doubleToLongBits(this.q1) ^ (Double.doubleToLongBits(this.q1) >>> 32));
-        hash = 89 * hash + (int) (Double.doubleToLongBits(this.q3) ^ (Double.doubleToLongBits(this.q3) >>> 32));
-        hash = 89 * hash + (int) (this.nZero ^ (this.nZero >>> 32));
-        hash = 89 * hash + (int) (this.nNeg ^ (this.nNeg >>> 32));
+        int hash = 7;
+        hash = 37 * hash + Objects.hashCode(this.median);
+        hash = 37 * hash + (int) (Double.doubleToLongBits(this.q1) ^ (Double.doubleToLongBits(this.q1) >>> 32));
+        hash = 37 * hash + (int) (Double.doubleToLongBits(this.q3) ^ (Double.doubleToLongBits(this.q3) >>> 32));
+        hash = 37 * hash + Objects.hashCode(this.nZero);
+        hash = 37 * hash + Objects.hashCode(this.nNeg);
         return hash;
     }
-
 }

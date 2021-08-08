@@ -51,16 +51,13 @@ public class Stats_BigRational extends Stats_n {
 
     @Override
     public String toString() {
-        return getClass().getName() + "[" + toString1() + "]";
-    }
-
-    @Override
-    public String toString1() {
-        return super.toString1()
+        return getClass().getName() + "["
+                + super.toString()
                 + ", sum=" + sum.toString()
                 + ", min=" + min.toString()
                 + ", max=" + max.toString()
-                + ", mean=" + mean.toString();
+                + ", mean=" + mean.toString()
+                + "]";
     }
 
     public Stats_BigRational() {
@@ -70,8 +67,9 @@ public class Stats_BigRational extends Stats_n {
      * @param data The data collection.
      */
     public Stats_BigRational(Collection<BigRational> data) {
-        n = data.size();
-        switch (n) {
+        super(data.size());
+        int dataSize = data.size();
+        switch (dataSize) {
             case 0:
                 break;
             case 1:
@@ -93,7 +91,7 @@ public class Stats_BigRational extends Stats_n {
                     min = BigRational.min(i, min);
                     max = BigRational.max(i, max);
                 }
-                mean = sum.divide(BigInteger.valueOf(n));
+                mean = sum.divide(dataSize);
         }
     }
 
@@ -101,19 +99,19 @@ public class Stats_BigRational extends Stats_n {
     public boolean equals(Object o) {
         if (o instanceof Stats_BigRational) {
             Stats_BigRational s = (Stats_BigRational) o;
-            if (s.hashCode() == this.hashCode()) {
-                if (n == n) {
-                    if (s.sum.equals(sum)) {
-                        if (s.min.equals(min)) {
-                            if (s.max.equals(max)) {
-                                if (s.mean.equals(mean)) {
+            //if (s.hashCode() == this.hashCode()) {
+                if (super.equals(o)) {
+                    if (s.sum.compareTo(sum) == 0) {
+                        if (s.min.compareTo(min) == 0) {
+                            if (s.max.compareTo(max) == 0) {
+                                if (s.mean.compareTo(mean) == 0) {
                                     return true;
                                 }
                             }
                         }
                     }
                 }
-            }
+            //}
         }
         return false;
     }

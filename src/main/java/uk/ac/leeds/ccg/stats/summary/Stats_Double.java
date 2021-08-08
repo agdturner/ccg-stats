@@ -15,8 +15,11 @@
  */
 package uk.ac.leeds.ccg.stats.summary;
 
+import ch.obermuhlner.math.big.BigRational;
+import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.DoubleSummaryStatistics;
+import java.util.Objects;
 
 /**
  * A POJO for storing summary statistics for a collection of double values.
@@ -26,15 +29,17 @@ import java.util.DoubleSummaryStatistics;
  */
 public class Stats_Double extends Stats_n {
 
+    private static final long serialVersionUID = 1L;
+
     /**
      * For storing the sum of all values.
      */
-    public double sum;
+    public BigDecimal sum;
 
     /**
      * For storing the mean average.
      */
-    public double mean;
+    public BigRational mean;
 
     /**
      * For storing the minimum value.
@@ -45,56 +50,57 @@ public class Stats_Double extends Stats_n {
      * For storing the maximum value.
      */
     public double max;
-    
-    public Stats_Double(){}
-    
+
+    public Stats_Double() {
+    }
+
     /**
      * @param data A collection of values that summary statistics are calculated
      * for.
      */
     public Stats_Double(Collection<Double> data) {
+        super(data.size());
         DoubleSummaryStatistics stats = data.parallelStream().collect(
                 DoubleSummaryStatistics::new,
                 DoubleSummaryStatistics::accept,
                 DoubleSummaryStatistics::combine);
         max = stats.getMax();
         min = stats.getMin();
-        sum = stats.getSum();
-        mean = stats.getAverage();
-        n = data.size();
+        sum = BigDecimal.ZERO;
+        data.forEach(d -> {
+            sum = sum.add(BigDecimal.valueOf(d));
+        });
+        mean = BigRational.valueOf(sum).divide(n);
     }
-    
+
     @Override
     public String toString() {
-        return getClass().getName() + "[" + toString1() + "]";
+        return getClass().getName()
+                + "[" + super.toString()
+                + ", sum=" + sum
+                + ", min=" + min
+                + ", max=" + max
+                + ", mean=" + mean
+                + "]";
     }
-    
-    @Override
-    public String toString1() {
-        return super.toString1()
-                + ", sum=" + Double.toString(sum)
-                + ", min=" + Double.toString(min)
-                + ", max=" + Double.toString(max)
-                + ", mean=" + Double.toString(mean);
-    }
-    
+
     @Override
     public boolean equals(Object o) {
         if (o instanceof Stats_Double) {
             Stats_Double s = (Stats_Double) o;
-            if (s.hashCode() == this.hashCode()) {
-                if (s.n == n) {
-                    if (s.sum == sum) {
-                        if (s.min == min) {
-                            if (s.max == max) {
-                                if (s.mean == mean) {
+            //if (s.hashCode() == this.hashCode()) {
+                if (s.min == min) {
+                    if (s.max == max) {
+                        if (s.sum.compareTo(sum) == 0) {
+                            if (s.mean.compareTo(mean) == 0) {
+                                if (super.equals(o)) {
                                     return true;
                                 }
                             }
                         }
                     }
                 }
-            }
+            //}
         }
         return false;
     }
@@ -102,10 +108,10 @@ public class Stats_Double extends Stats_n {
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 83 * hash + (int) (Double.doubleToLongBits(this.sum) ^ (Double.doubleToLongBits(this.sum) >>> 32));
-        hash = 83 * hash + (int) (Double.doubleToLongBits(this.mean) ^ (Double.doubleToLongBits(this.mean) >>> 32));
-        hash = 83 * hash + (int) (Double.doubleToLongBits(this.min) ^ (Double.doubleToLongBits(this.min) >>> 32));
-        hash = 83 * hash + (int) (Double.doubleToLongBits(this.max) ^ (Double.doubleToLongBits(this.max) >>> 32));
+        hash = 17 * hash + Objects.hashCode(this.sum);
+        hash = 17 * hash + Objects.hashCode(this.mean);
+        hash = 17 * hash + (int) (Double.doubleToLongBits(this.min) ^ (Double.doubleToLongBits(this.min) >>> 32));
+        hash = 17 * hash + (int) (Double.doubleToLongBits(this.max) ^ (Double.doubleToLongBits(this.max) >>> 32));
         return hash;
     }
 }
