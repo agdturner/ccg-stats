@@ -15,8 +15,9 @@
  */
 package uk.ac.leeds.ccg.stats.summary;
 
+import ch.obermuhlner.math.big.BigRational;
 import java.math.BigDecimal;
-import java.math.RoundingMode;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Collection;
 import org.junit.jupiter.api.AfterEach;
@@ -27,8 +28,9 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- *
- * @author agdtu
+ * Test.
+ * 
+ * @author Andy Turner
  */
 public class Stats_BigDecimalTest {
     
@@ -52,22 +54,6 @@ public class Stats_BigDecimalTest {
     }
 
     /**
-     * Test of toString method, of class Stats_BigDecimal.
-     */
-    @Test
-    public void testToString() {
-        // No test!
-    }
-
-    /**
-     * Test of toString1 method, of class Stats_BigDecimal.
-     */
-    @Test
-    public void testToString1() {
-        // No test!
-    }
-
-    /**
      * Test of equals method, of class Stats_BigDecimal.
      */
     @Test
@@ -84,24 +70,14 @@ public class Stats_BigDecimalTest {
         data.add(p50);
         data.add(n50);
         data.add(p0);
-        int dp = 0;
-        RoundingMode rm = RoundingMode.HALF_UP;
         Stats_BigDecimal expResult = new Stats_BigDecimal();
-        expResult.n = 5;
+        expResult.n = BigInteger.valueOf(5);
         expResult.max = p100;
         expResult.min = n100;
         expResult.sum = p0;
-        expResult.mean = p0;
-        Stats_BigDecimal result = new Stats_BigDecimal(data, dp, rm);
+        expResult.mean = BigRational.ZERO;
+        Stats_BigDecimal result = new Stats_BigDecimal(data);
         assertEquals(expResult, result);
-    }
-
-    /**
-     * Test of hashCode method, of class Stats_BigDecimal.
-     */
-    @Test
-    public void testHashCode() {
-        // No test!
     }
     
 }

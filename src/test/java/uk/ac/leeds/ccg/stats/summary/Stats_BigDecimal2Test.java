@@ -15,7 +15,9 @@
  */
 package uk.ac.leeds.ccg.stats.summary;
 
+import ch.obermuhlner.math.big.BigRational;
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 import org.junit.jupiter.api.AfterEach;
@@ -28,8 +30,9 @@ import static org.hamcrest.MatcherAssert.*;
 import org.hamcrest.Matchers;
 
 /**
- *
- * @author agdtu
+ * Test.
+ * 
+ * @author Andy Turner
  */
 public class Stats_BigDecimal2Test {
     
@@ -53,68 +56,39 @@ public class Stats_BigDecimal2Test {
     }
 
     /**
-     * Test of toString method, of class Stats_BigDecimal2.
-     */
-    @Test
-    public void testToString() {
-        // No test!
-    }
-
-    /**
-     * Test of toString1 method, of class Stats_BigDecimal2.
-     */
-    @Test
-    public void testToString1() {
-        // No test!
-    }
-
-    /**
      * Test of equals method, of class Stats_BigDecimal2.
      */
     @Test
     public void testEquals() {
         System.out.println("equals");
         var data = new ArrayList<BigDecimal>();
-        int dp = 1;
-        RoundingMode rm = RoundingMode.HALF_UP;
+        Stats_BigDecimal2 result;
+        Stats_BigDecimal2 expResult;
+        // Test 1
         data.add(BigDecimal.valueOf(100.0d));
         data.add(BigDecimal.valueOf(-100.0d));
         data.add(BigDecimal.valueOf(50.0d));
         data.add(BigDecimal.valueOf(-50.0d));
         data.add(BigDecimal.valueOf(0.0d));
-        Stats_BigDecimal2 expResult = new Stats_BigDecimal2();
-        expResult.n = 5;
+        expResult = new Stats_BigDecimal2();
+        expResult.n = BigInteger.valueOf(5);
         expResult.max = BigDecimal.valueOf(100.0d);
         expResult.min = BigDecimal.valueOf(-100.0d);
         expResult.sum = BigDecimal.valueOf(0.0d);
-        expResult.mean = BigDecimal.valueOf(0.0d);
-        expResult.median = BigDecimal.valueOf(0.0d);
-        expResult.nNeg = 2;
-        expResult.nZero = 1;
-        expResult.q1 = BigDecimal.valueOf(-50.0d);
-        expResult.q3 = BigDecimal.valueOf(50.0d);
-        expResult.m1 = BigDecimal.valueOf(300.0d);
-        expResult.m2 = BigDecimal.valueOf(25000.00d);
-        expResult.m3 = BigDecimal.valueOf(2250000.000d);
-        expResult.m4 = BigDecimal.valueOf(212500000.0000d);
-        Stats_BigDecimal2 result = new Stats_BigDecimal2(data, dp, rm);
+        expResult.mean = BigRational.ZERO;
+        expResult.median = BigRational.ZERO;
+        expResult.nNeg = BigInteger.valueOf(2);
+        expResult.nZero = BigInteger.valueOf(1);
+        expResult.q1 = BigDecimal.valueOf(-50);
+        expResult.q3 = BigDecimal.valueOf(50);
+        expResult.m1 = BigRational.valueOf(300);
+        expResult.m2 = BigRational.valueOf(25000);
+        expResult.m3 = BigRational.valueOf(2250000);
+        expResult.m4 = BigRational.valueOf(212500000);
+        result = new Stats_BigDecimal2(data);
         assertEquals(expResult, result);
-    }
-
-    /**
-     * Test of hashCode method, of class Stats_BigDecimal2.
-     */
-    @Test
-    public void testHashCode() {
-        // No test!
-    }
-    
-    @Test
-    public void testGetStandardDeviation(){
-         System.out.println("getStandardDeviation");
-         var data = new ArrayList<BigDecimal>();
-        int dp = 1;
-        RoundingMode rm = RoundingMode.HALF_UP;
+        // Test 1
+        data = new ArrayList<>();
         data.add(BigDecimal.valueOf(525.8d));
         data.add(BigDecimal.valueOf(605.7d));
         data.add(BigDecimal.valueOf(843.3d));
@@ -123,24 +97,46 @@ public class Stats_BigDecimal2Test {
         data.add(BigDecimal.valueOf(2135.6d));
         data.add(BigDecimal.valueOf(2308.7d));
         data.add(BigDecimal.valueOf(2950.0d));
-        Stats_BigDecimal2 expResult = new Stats_BigDecimal2();
-        expResult.n = 8;
-        expResult.max = BigDecimal.valueOf(2950.0d);
-        expResult.min = BigDecimal.valueOf(525.8d);
-        expResult.sum = BigDecimal.valueOf(12510.2d);
-        expResult.mean = BigDecimal.valueOf(1563.8d);
-        expResult.median = BigDecimal.valueOf(1570.55d);
-        expResult.nNeg = 0;
-        expResult.nZero = 0;
+        expResult = new Stats_BigDecimal2();
+        expResult.n = BigInteger.valueOf(8);
+        expResult.max = BigDecimal.valueOf(2950);
+        expResult.min = new BigDecimal("525.8");
+        expResult.sum = new BigDecimal("12510.2");
+        //expResult.mean = BigRational.valueOf(1563.8d);
+        expResult.mean = BigRational.valueOf("1563.775");
+        expResult.median = BigRational.valueOf(1570.55d);
+        expResult.nNeg = BigInteger.ZERO;
+        expResult.nZero = BigInteger.ZERO;
         expResult.q1 = BigDecimal.valueOf(843.3d);
         expResult.q3 = BigDecimal.valueOf(2135.6d);
-        expResult.m1 = BigDecimal.valueOf(6169.6d);
-        expResult.m2 = BigDecimal.valueOf(5599317.68d);
-        expResult.m3 = BigDecimal.valueOf(5741453120.494d);
-        expResult.m4 = new BigDecimal("6419805908521.9556");
-        Stats_BigDecimal2 result = new Stats_BigDecimal2(data, dp, rm);
+        //expResult.m1 = BigRational.valueOf(6169.6d);
+        expResult.m1 = BigRational.valueOf("6169.6");
+        //expResult.m2 = BigRational.valueOf(5599317.68d);
+        expResult.m2 = BigRational.valueOf("5599317.675");
+        //expResult.m3 = BigRational.valueOf(5741453120.494d);
+        expResult.m3 = BigRational.valueOf("5741475556.1755");
+        //expResult.m4 = BigRational.valueOf("6419805908521.9556");
+        expResult.m4 = BigRational.valueOf("6419895701972.435690625");
+        result = new Stats_BigDecimal2(data);
+        //System.out.println(result);
         assertEquals(expResult, result);
-        BigDecimal sd = BigDecimal.valueOf(894.4d);
-        assertThat(sd, Matchers.comparesEqualTo(result.getStandardDeviation(dp, rm)));
+    }
+    
+    @Test
+    public void testGetStandardDeviationSquared(){
+         System.out.println("getStandardDeviationSquared");
+         var data = new ArrayList<BigDecimal>();
+        data.add(BigDecimal.valueOf(525.8d));
+        data.add(BigDecimal.valueOf(605.7d));
+        data.add(BigDecimal.valueOf(843.3d));
+        data.add(BigDecimal.valueOf(1195.5d));
+        data.add(BigDecimal.valueOf(1945.6d));
+        data.add(BigDecimal.valueOf(2135.6d));
+        data.add(BigDecimal.valueOf(2308.7d));
+        data.add(BigDecimal.valueOf(2950.0d));
+        BigRational result = new Stats_BigDecimal2(data).getStandardDeviationSquared();
+        //BigRational expResult = BigRational.valueOf(799951.36d);
+        BigRational expResult = BigRational.valueOf(799902.525d);
+        assertTrue(result.compareTo(expResult) == 0);
     } 
 }

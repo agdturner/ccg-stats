@@ -16,6 +16,7 @@
 package uk.ac.leeds.ccg.stats.summary;
 
 import ch.obermuhlner.math.big.BigRational;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Collection;
 import org.junit.jupiter.api.AfterEach;
@@ -26,44 +27,29 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
+ * Test.
  *
- * @author agdtu
+ * @author Andy Turner
  */
 public class Stats_BigRationalTest {
-    
+
     public Stats_BigRationalTest() {
     }
-    
+
     @BeforeAll
     public static void setUpClass() {
     }
-    
+
     @AfterAll
     public static void tearDownClass() {
     }
-    
+
     @BeforeEach
     public void setUp() {
     }
-    
+
     @AfterEach
     public void tearDown() {
-    }
-
-    /**
-     * Test of toString method, of class Stats_BigRational.
-     */
-    @Test
-    public void testToString() {
-        // No test!
-    }
-
-    /**
-     * Test of toString1 method, of class Stats_BigRational.
-     */
-    @Test
-    public void testToString1() {
-        // No test!
     }
 
     /**
@@ -84,7 +70,7 @@ public class Stats_BigRationalTest {
         data.add(n50);
         data.add(p0);
         Stats_BigRational expResult = new Stats_BigRational();
-        expResult.n = 5;
+        expResult.n = BigInteger.valueOf(5);
         expResult.max = p100;
         expResult.min = n100;
         expResult.sum = p0;
@@ -93,12 +79,4 @@ public class Stats_BigRationalTest {
         assertEquals(expResult, result);
     }
 
-    /**
-     * Test of hashCode method, of class Stats_BigRational.
-     */
-    @Test
-    public void testHashCode() {
-        // No test!
-    }
-    
 }

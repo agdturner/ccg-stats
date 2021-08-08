@@ -15,6 +15,9 @@
  */
 package uk.ac.leeds.ccg.stats.summary;
 
+import ch.obermuhlner.math.big.BigRational;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.AfterAll;
@@ -24,8 +27,9 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- *
- * @author agdtu
+ * Test.
+ * 
+ * @author Andy Turner
  */
 public class Stats_DoubleTest {
     
@@ -49,22 +53,6 @@ public class Stats_DoubleTest {
     }
 
     /**
-     * Test of toString method, of class Stats_Double.
-     */
-    @Test
-    public void testToString() {
-        // No test!
-    }
-
-    /**
-     * Test of toString1 method, of class Stats_Double.
-     */
-    @Test
-    public void testToString1() {
-        // No test!
-    }
-
-    /**
      * Test of equals method, of class Stats_Double.
      */
     @Test
@@ -77,21 +65,13 @@ public class Stats_DoubleTest {
         data.add(-50.0d);
         data.add(0.0d);
         Stats_Double expResult = new Stats_Double();
-        expResult.n = 5;
+        expResult.n = BigInteger.valueOf(5);
         expResult.max = 100.0d;
         expResult.min = -100.0d;
-        expResult.sum = 0.0d;
-        expResult.mean = 0.0d;
+        expResult.sum = BigDecimal.ZERO;
+        expResult.mean = BigRational.ZERO;
         Stats_Double result = new Stats_Double(data);
         assertEquals(expResult, result);
-    }
-
-    /**
-     * Test of hashCode method, of class Stats_Double.
-     */
-    @Test
-    public void testHashCode() {
-        // No test!
     }
     
 }

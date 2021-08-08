@@ -15,6 +15,9 @@
  */
 package uk.ac.leeds.ccg.stats.summary;
 
+import ch.obermuhlner.math.big.BigRational;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.AfterAll;
@@ -24,8 +27,9 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- *
- * @author agdtu
+ * Test.
+ * 
+ * @author Andy Turner
  */
 public class Stats_Double1Test {
     
@@ -49,22 +53,6 @@ public class Stats_Double1Test {
     }
 
     /**
-     * Test of toString method, of class Stats_Double1.
-     */
-    @Test
-    public void testToString() {
-        // No test!
-    }
-
-    /**
-     * Test of toString1 method, of class Stats_Double1.
-     */
-    @Test
-    public void testToString1() {
-        // No test!
-    }
-
-    /**
      * Test of equals method, of class Stats_Double1.
      */
     @Test
@@ -77,14 +65,14 @@ public class Stats_Double1Test {
         data.add(-50.0d);
         data.add(0.0d);
         Stats_Double1 expResult = new Stats_Double1();
-        expResult.n = 5;
+        expResult.n = BigInteger.valueOf(5);
         expResult.max = 100.0d;
         expResult.min = -100.0d;
-        expResult.sum = 0.0d;
-        expResult.mean = 0.0d;
-        expResult.median = 0.0d;
-        expResult.nNeg = 2;
-        expResult.nZero = 1;
+        expResult.sum = BigDecimal.ZERO;
+        expResult.mean = BigRational.ZERO;
+        expResult.median = BigRational.ZERO;
+        expResult.nNeg = BigInteger.valueOf(2);
+        expResult.nZero = BigInteger.valueOf(1);
         expResult.q1 = -50.0d;
         expResult.q3 = 50.0d;
         Stats_Double1 result = new Stats_Double1(data);
@@ -92,14 +80,14 @@ public class Stats_Double1Test {
         // Test 2
         data.add(0.0d);
         expResult = new Stats_Double1();
-        expResult.n = 6;
+        expResult.n = BigInteger.valueOf(6);
         expResult.max = 100.0d;
         expResult.min = -100.0d;
-        expResult.sum = 0.0d;
-        expResult.mean = 0.0d;
-        expResult.median = 0.0d;
-        expResult.nNeg = 2;
-        expResult.nZero = 2;
+        expResult.sum = BigDecimal.ZERO;
+        expResult.mean = BigRational.ZERO;
+        expResult.median = BigRational.ZERO;
+        expResult.nNeg = BigInteger.valueOf(2);
+        expResult.nZero = BigInteger.valueOf(2);
         expResult.q1 = -50.0d;
         expResult.q3 = 50.0d;
         result = new Stats_Double1(data);
@@ -107,14 +95,14 @@ public class Stats_Double1Test {
         // Test 3
         data.add(0.0d);
         expResult = new Stats_Double1();
-        expResult.n = 7;
+        expResult.n = BigInteger.valueOf(7);
         expResult.max = 100.0d;
         expResult.min = -100.0d;
-        expResult.sum = 0.0d;
-        expResult.mean = 0.0d;
-        expResult.median = 0.0d;
-        expResult.nNeg = 2;
-        expResult.nZero = 3;
+        expResult.sum = BigDecimal.ZERO;
+        expResult.mean = BigRational.ZERO;
+        expResult.median = BigRational.ZERO;
+        expResult.nNeg = BigInteger.valueOf(2);
+        expResult.nZero = BigInteger.valueOf(3);
         expResult.q1 = -50.0d;
         expResult.q3 = 50.0d;
         result = new Stats_Double1(data);
@@ -122,14 +110,14 @@ public class Stats_Double1Test {
         // Test 4
         data.add(0.0d);
         expResult = new Stats_Double1();
-        expResult.n = 8;
+        expResult.n = BigInteger.valueOf(8);
         expResult.max = 100.0d;
         expResult.min = -100.0d;
-        expResult.sum = 0.0d;
-        expResult.mean = 0.0d;
-        expResult.median = 0.0d;
-        expResult.nNeg = 2;
-        expResult.nZero = 4;
+        expResult.sum = BigDecimal.ZERO;
+        expResult.mean = BigRational.ZERO;
+        expResult.median = BigRational.ZERO;
+        expResult.nNeg = BigInteger.valueOf(2);
+        expResult.nZero = BigInteger.valueOf(4);
         expResult.q1 = 0.0d;
         expResult.q3 = 0.0d;
         result = new Stats_Double1(data);
@@ -137,26 +125,18 @@ public class Stats_Double1Test {
         // Test 5
         data.add(0.0d);
         expResult = new Stats_Double1();
-        expResult.n = 9;
+        expResult.n = BigInteger.valueOf(9);
         expResult.max = 100.0d;
         expResult.min = -100.0d;
-        expResult.sum = 0.0d;
-        expResult.mean = 0.0d;
-        expResult.median = 0.0d;
-        expResult.nNeg = 2;
-        expResult.nZero = 5;
+        expResult.sum = BigDecimal.ZERO;
+        expResult.mean = BigRational.ZERO;
+        expResult.median = BigRational.ZERO;
+        expResult.nNeg = BigInteger.valueOf(2);
+        expResult.nZero = BigInteger.valueOf(5);
         expResult.q1 = 0.0d;
         expResult.q3 = 0.0d;
         result = new Stats_Double1(data);
         assertEquals(expResult, result);
-    }
-
-    /**
-     * Test of hashCode method, of class Stats_Double1.
-     */
-    @Test
-    public void testHashCode() {
-        // No test!
     }
     
 }
