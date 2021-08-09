@@ -194,7 +194,7 @@ public class Stats_BigDecimal1 extends Stats_BigDecimal {
     /**
      * @return {@link #median} for the collection computing it if necessary.
      */
-    protected BigRational getMedian() {
+    public BigRational getMedian() {
         if (!isUpToDate) {
             init();
         }
@@ -204,7 +204,7 @@ public class Stats_BigDecimal1 extends Stats_BigDecimal {
     /**
      * @return {@link #q1} for the collection computing it if necessary.
      */
-    protected BigDecimal getQ1() {
+    public BigDecimal getQ1() {
         if (!isUpToDate) {
             init();
         }
@@ -214,7 +214,7 @@ public class Stats_BigDecimal1 extends Stats_BigDecimal {
     /**
      * @return {@link #q3} for the collection computing it if necessary.
      */
-    protected BigDecimal getQ3() {
+    public BigDecimal getQ3() {
         if (!isUpToDate) {
             init();
         }
@@ -224,7 +224,7 @@ public class Stats_BigDecimal1 extends Stats_BigDecimal {
     /**
      * @return {@link #nNeg} for the collection computing it if necessary.
      */
-    protected BigInteger getNNeg() {
+    public BigInteger getNNeg() {
         if (!isUpToDate) {
             init();
         }
@@ -234,7 +234,7 @@ public class Stats_BigDecimal1 extends Stats_BigDecimal {
     /**
      * @return {@link #nZero} for the collection computing it if necessary.
      */
-    protected BigInteger getNZero() {
+    public BigInteger getNZero() {
         if (!isUpToDate) {
             init();
         }

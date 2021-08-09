@@ -197,7 +197,7 @@ public class Stats_Double1 extends Stats_Double {
         /**
      * @return the median for the collection computing it if necessary.
      */
-    protected BigRational getMedian() {
+    public BigRational getMedian() {
         if (!isUpToDate) {
             init();
         }
@@ -207,7 +207,7 @@ public class Stats_Double1 extends Stats_Double {
     /**
      * @return the q1 for the collection computing it if necessary.
      */
-    protected double getQ1() {
+    public double getQ1() {
         if (!isUpToDate) {
             init();
         }
@@ -217,7 +217,7 @@ public class Stats_Double1 extends Stats_Double {
     /**
      * @return the q3 for the collection computing it if necessary.
      */
-    protected double getQ3() {
+    public double getQ3() {
         if (!isUpToDate) {
             init();
         }
@@ -227,7 +227,7 @@ public class Stats_Double1 extends Stats_Double {
     /**
      * @return {@link #nNeg} for the collection computing it if necessary.
      */
-    protected BigInteger getNNeg() {
+    public BigInteger getNNeg() {
         if (!isUpToDate) {
             init();
         }
@@ -237,7 +237,7 @@ public class Stats_Double1 extends Stats_Double {
     /**
      * @return {@link #nZero} for the collection computing it if necessary.
      */
-    protected BigInteger getNZero() {
+    public BigInteger getNZero() {
         if (!isUpToDate) {
             init();
         }
