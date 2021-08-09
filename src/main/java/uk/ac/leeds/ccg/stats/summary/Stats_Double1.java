@@ -48,7 +48,7 @@ public class Stats_Double1 extends Stats_Double {
      * Records if {@link data} has changed since last {@link #init()}.
      */
     protected boolean isUpToDate;
-    
+
     /**
      * For storing the median value.
      */
@@ -148,11 +148,11 @@ public class Stats_Double1 extends Stats_Double {
     public String toString() {
         return getClass().getName()
                 + "[" + super.toString()
-                + ", median=" + median
-                + ", q1= " + q1
-                + ", q3=" + q3
-                + ", nZero=" + nZero
-                + ", nNeg=" + nNeg
+                + ", median=" + getMedian()
+                + ", q1= " + getQ1()
+                + ", q3=" + getQ3()
+                + ", nZero=" + getNZero()
+                + ", nNeg=" + getNNeg()
                 + "]";
     }
 
@@ -193,8 +193,8 @@ public class Stats_Double1 extends Stats_Double {
         hash = 37 * hash + Objects.hashCode(this.nNeg);
         return hash;
     }
-    
-        /**
+
+    /**
      * @return the median for the collection computing it if necessary.
      */
     public BigRational getMedian() {
@@ -243,9 +243,9 @@ public class Stats_Double1 extends Stats_Double {
         }
         return nZero;
     }
-    
+
     /**
-     * @return {@link #max} 
+     * @return {@link #max}
      */
     @Override
     public double getMax() {
@@ -254,9 +254,9 @@ public class Stats_Double1 extends Stats_Double {
         }
         return max;
     }
-    
-/**
-     * @return {@link #n} 
+
+    /**
+     * @return {@link #n}
      */
     @Override
     public BigInteger getN() {
@@ -265,9 +265,9 @@ public class Stats_Double1 extends Stats_Double {
         }
         return n;
     }
-    
+
     /**
-     * @return {@link #min} 
+     * @return {@link #min}
      */
     @Override
     public double getMin() {
@@ -278,7 +278,7 @@ public class Stats_Double1 extends Stats_Double {
     }
 
     /**
-     * @return {@link #sum} 
+     * @return {@link #sum}
      */
     @Override
     public BigDecimal getSum() {
@@ -287,9 +287,9 @@ public class Stats_Double1 extends Stats_Double {
         }
         return sum;
     }
-    
+
     /**
-     * @return {@link #mean} 
+     * @return {@link #mean}
      */
     @Override
     public BigRational getMean() {
@@ -301,7 +301,7 @@ public class Stats_Double1 extends Stats_Double {
 
     /**
      * Adds a single value to {@link #data}.
-     * 
+     *
      * @param x The value to add. Should not be
      * {@code null, NaN, NEGATIVE_INFINITY, POSITIVE_INFINITY}.
      */

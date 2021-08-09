@@ -57,12 +57,12 @@ public class Stats_Float1 extends Stats_Float {
     /**
      * For storing the lower inter quartile range value.
      */
-    protected double q1;
+    protected float q1;
 
     /**
      * For storing the upper inter quartile range value.
      */
-    protected double q3;
+    protected float q3;
 
     /**
      * For storing the number of values equal to zero.
@@ -152,11 +152,11 @@ public class Stats_Float1 extends Stats_Float {
     public String toString() {
         return getClass().getName()
                 + "[" + super.toString()
-                + ", median=" + median
-                + ", q1= " + q1
-                + ", q3=" + q3
-                + ", nZero=" + nZero
-                + ", nNeg=" + nNeg
+                + ", median=" + getMedian()
+                + ", q1= " + getQ1()
+                + ", q3=" + getQ3()
+                + ", nZero=" + getNZero()
+                + ", nNeg=" + getNNeg()
                 + "]";
     }
 
@@ -211,7 +211,7 @@ public class Stats_Float1 extends Stats_Float {
     /**
      * @return {@link #q1} for the collection computing it if necessary.
      */
-    public double getQ1() {
+    public float getQ1() {
         if (!isUpToDate) {
             init();
         }
@@ -221,7 +221,7 @@ public class Stats_Float1 extends Stats_Float {
     /**
      * @return {@link #q3} for the collection computing it if necessary.
      */
-    public double getQ3() {
+    public float getQ3() {
         if (!isUpToDate) {
             init();
         }

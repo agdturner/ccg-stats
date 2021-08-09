@@ -84,10 +84,10 @@ public class Stats_Double extends Stats_Abstract {
     public String toString() {
         return getClass().getName()
                 + "[" + super.toString()
-                + ", sum=" + sum
-                + ", min=" + min
-                + ", max=" + max
-                + ", mean=" + mean
+                + ", sum=" + getSum()
+                + ", min=" + getMin()
+                + ", max=" + getMax()
+                + ", mean=" + getMean()
                 + "]";
     }
 

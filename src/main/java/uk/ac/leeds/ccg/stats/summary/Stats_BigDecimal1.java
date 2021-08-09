@@ -144,13 +144,13 @@ public class Stats_BigDecimal1 extends Stats_BigDecimal {
 
     @Override
     public String toString() {
-        return getClass().getName() + "["
-                + super.toString()
-                + ", median= " + median
-                + ", q1= " + q1.toString()
-                + ", q3=" + q3.toString()
-                + ", nZero=" + nZero
-                + ", nNeg=" + nNeg
+        return getClass().getName()
+                + "[" + super.toString()
+                + ", median=" + getMedian()
+                + ", q1= " + getQ1()
+                + ", q3=" + getQ3()
+                + ", nZero=" + getNZero()
+                + ", nNeg=" + getNNeg()
                 + "]";
     }
 

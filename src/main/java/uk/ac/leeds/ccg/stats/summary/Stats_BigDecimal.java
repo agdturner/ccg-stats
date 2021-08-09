@@ -93,10 +93,10 @@ public class Stats_BigDecimal extends Stats_Abstract {
     public String toString() {
         return getClass().getName() + "["
                 + super.toString()
-                + ", sum=" + sum.toString()
-                + ", min=" + min.toString()
-                + ", max=" + max.toString()
-                + ", mean=" + mean.toString()
+                + ", sum=" + getSum()
+                + ", min=" + getMin()
+                + ", max=" + getMax()
+                + ", mean=" + getMean()
                 + "]";
     }
 
