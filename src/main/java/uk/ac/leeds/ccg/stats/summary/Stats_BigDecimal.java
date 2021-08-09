@@ -60,7 +60,7 @@ public class Stats_BigDecimal extends Stats_Abstract {
     }
 
     /**
-     * Initialises statistics.
+     * @param d The collection of values.
      */
     protected final void init(Collection<BigDecimal> d) {
         int dataSize = d.size();

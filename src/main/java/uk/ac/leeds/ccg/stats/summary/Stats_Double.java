@@ -66,6 +66,9 @@ public class Stats_Double extends Stats_Abstract {
         init(d);
     }
     
+    /**
+     * @param d The collection of values.
+     */
     protected final void init(Collection<Double> d) {
         DoubleSummaryStatistics stats = d.parallelStream().collect(
                 DoubleSummaryStatistics::new,

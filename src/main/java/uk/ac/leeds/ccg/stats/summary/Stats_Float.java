@@ -66,6 +66,9 @@ public class Stats_Float extends Stats_Abstract {
         init(d);
     }
     
+    /**
+     * @param d The collection of values.
+     */
     protected final void init(Collection<Float> d) {
         max = -Float.MAX_VALUE;
         min = Float.MAX_VALUE;
