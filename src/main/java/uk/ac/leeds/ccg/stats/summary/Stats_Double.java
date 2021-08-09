@@ -83,6 +83,11 @@ public class Stats_Double extends Stats_Abstract {
         mean = BigRational.valueOf(sum).divide(n);
     }
 
+    /**
+     * Description.
+     *
+     * @return A string representation.
+     */
     @Override
     public String toString() {
         return getClass().getName()

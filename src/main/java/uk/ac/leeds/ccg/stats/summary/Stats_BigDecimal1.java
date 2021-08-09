@@ -142,6 +142,11 @@ public class Stats_BigDecimal1 extends Stats_BigDecimal {
         }
     }
 
+    /**
+     * Description.
+     *
+     * @return A string representation.
+     */
     @Override
     public String toString() {
         return getClass().getName()

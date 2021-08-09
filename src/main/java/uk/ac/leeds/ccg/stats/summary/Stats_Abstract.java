@@ -39,7 +39,7 @@ public abstract class Stats_Abstract implements Serializable {
      * For storing the mean average.
      */
     protected BigRational mean;
-    
+
     /**
      * Create.
      */
@@ -48,6 +48,8 @@ public abstract class Stats_Abstract implements Serializable {
     }
 
     /**
+     * Create.
+     *
      * @param n What {@link #n} is set to.
      */
     public Stats_Abstract(BigInteger n) {
@@ -55,12 +57,19 @@ public abstract class Stats_Abstract implements Serializable {
     }
 
     /**
+     * Create.
+     *
      * @param n What {@link #n} is set to.
      */
     public Stats_Abstract(long n) {
         this.n = BigInteger.valueOf(n);
     }
 
+    /**
+     * Description.
+     *
+     * @return A string representation.
+     */
     @Override
     public String toString() {
         return "n=" + n;
@@ -87,16 +96,16 @@ public abstract class Stats_Abstract implements Serializable {
         hash = 73 * hash + Objects.hashCode(this.n);
         return hash;
     }
-    
+
     /**
-     * @return {@link #m} updating it first if necesary. 
+     * @return {@link #n} updating it first if necessary.
      */
     public BigInteger getN() {
         return n;
     }
-    
+
     /**
-     * @return {@link #mean} 
+     * @return {@link #mean}
      */
     public BigRational getMean() {
         return mean;

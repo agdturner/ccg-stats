@@ -118,6 +118,11 @@ public class Stats_Moments implements Serializable {
         }
     }
 
+    /**
+     * Description.
+     *
+     * @return A string representation.
+     */
     @Override
     public String toString() {
         return getClass().getName()

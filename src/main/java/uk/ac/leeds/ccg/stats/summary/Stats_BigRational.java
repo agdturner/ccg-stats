@@ -51,6 +51,11 @@ public class Stats_BigRational extends Stats_Abstract {
      */
     public BigRational max;
 
+    /**
+     * Description.
+     *
+     * @return A string representation.
+     */
     @Override
     public String toString() {
         return getClass().getName() + "["
@@ -71,14 +76,14 @@ public class Stats_BigRational extends Stats_Abstract {
     /**
      * @param d The collection of values.
      */
-    public Stats_BigRational(Collection<BigRational> data) {
-        super(data.size());
-        int dataSize = data.size();
+    public Stats_BigRational(Collection<BigRational> d) {
+        super(d.size());
+        int dataSize = d.size();
         switch (dataSize) {
             case 0:
                 break;
             case 1:
-                BigRational v = data.stream().findAny().get();
+                BigRational v = d.stream().findAny().get();
                 sum = v;
                 min = v;
                 max = v;
@@ -86,10 +91,10 @@ public class Stats_BigRational extends Stats_Abstract {
                 break;
             default:
                 sum = BigRational.ZERO;
-                BigRational v2 = data.iterator().next();
+                BigRational v2 = d.iterator().next();
                 min = v2;
                 max = v2;
-                Iterator<BigRational> ite = data.iterator();
+                Iterator<BigRational> ite = d.iterator();
                 while (ite.hasNext()) {
                     BigRational i = ite.next();
                     sum = sum.add(i);

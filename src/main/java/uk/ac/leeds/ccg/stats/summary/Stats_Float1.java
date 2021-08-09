@@ -148,6 +148,11 @@ public class Stats_Float1 extends Stats_Float {
         isUpToDate = true;
     }
 
+    /**
+     * Description.
+     *
+     * @return A string representation.
+     */
     @Override
     public String toString() {
         return getClass().getName()
