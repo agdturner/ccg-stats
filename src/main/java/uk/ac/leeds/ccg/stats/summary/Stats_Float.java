@@ -18,6 +18,7 @@ package uk.ac.leeds.ccg.stats.summary;
 import ch.obermuhlner.math.big.BigRational;
 import java.util.List;
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.Collection;
 import java.util.DoubleSummaryStatistics;
 import java.util.Objects;
@@ -70,6 +71,7 @@ public class Stats_Float extends Stats_Abstract {
      * @param d The collection of values.
      */
     protected final void init(Collection<Float> d) {
+        n = BigInteger.valueOf(d.size());
         max = -Float.MAX_VALUE;
         min = Float.MAX_VALUE;
         sum = BigDecimal.ZERO;

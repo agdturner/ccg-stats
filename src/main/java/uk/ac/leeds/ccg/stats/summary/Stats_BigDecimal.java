@@ -17,6 +17,7 @@ package uk.ac.leeds.ccg.stats.summary;
 
 import ch.obermuhlner.math.big.BigRational;
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.Collection;
 import java.util.Objects;
 
@@ -64,6 +65,7 @@ public class Stats_BigDecimal extends Stats_Abstract {
      */
     protected final void init(Collection<BigDecimal> d) {
         int dataSize = d.size();
+        n = BigInteger.valueOf(dataSize);
         switch (dataSize) {
             case 0:
                 break;

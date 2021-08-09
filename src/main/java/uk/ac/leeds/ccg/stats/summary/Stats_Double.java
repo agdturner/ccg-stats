@@ -17,6 +17,7 @@ package uk.ac.leeds.ccg.stats.summary;
 
 import ch.obermuhlner.math.big.BigRational;
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.Collection;
 import java.util.DoubleSummaryStatistics;
 import java.util.List;
@@ -70,6 +71,7 @@ public class Stats_Double extends Stats_Abstract {
      * @param d The collection of values.
      */
     protected final void init(Collection<Double> d) {
+        n = BigInteger.valueOf(d.size());
         DoubleSummaryStatistics stats = d.parallelStream().collect(
                 DoubleSummaryStatistics::new,
                 DoubleSummaryStatistics::accept,
