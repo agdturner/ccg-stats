@@ -102,14 +102,14 @@ public class Stats_Double1 extends Stats_Double {
         nNeg = BigInteger.ZERO;
         nZero = BigInteger.ZERO;
         int dataSize = data.size();
-        int c;
+        n = BigInteger.valueOf(dataSize);
         switch (dataSize) {
             case 0:
                 break;
             case 1:
                 Double v = data.stream().findAny().get();
                 median = BigRational.valueOf(v);
-                c = v.compareTo(0.0d);
+                int c = v.compareTo(0.0d);
                 if (c == -1) {
                     nNeg = nNeg.add(BigInteger.ONE);
                 } else if (c == 0) {

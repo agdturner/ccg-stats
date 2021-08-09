@@ -40,6 +40,9 @@ public abstract class Stats_Abstract implements Serializable {
      */
     protected BigRational mean;
     
+    /**
+     * Create.
+     */
     public Stats_Abstract() {
         n = BigInteger.ZERO;
     }

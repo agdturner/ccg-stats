@@ -103,6 +103,7 @@ public class Stats_BigDecimal1 extends Stats_BigDecimal {
         nNeg = BigInteger.ZERO;
         nZero = BigInteger.ZERO;
         int dataSize = data.size();
+        n = BigInteger.valueOf(dataSize);
         switch (dataSize) {
             case 0:
                 break;
