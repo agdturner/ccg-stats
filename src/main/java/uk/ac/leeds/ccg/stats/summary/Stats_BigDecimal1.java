@@ -18,6 +18,7 @@ package uk.ac.leeds.ccg.stats.summary;
 import ch.obermuhlner.math.big.BigRational;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
@@ -84,6 +85,7 @@ public class Stats_BigDecimal1 extends Stats_BigDecimal {
      * Create.
      */
     public Stats_BigDecimal1() {
+        data = new ArrayList<>();
     }
 
     /**

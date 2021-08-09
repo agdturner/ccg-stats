@@ -41,14 +41,14 @@ public abstract class Stats_Abstract implements Serializable {
     protected BigRational mean;
 
     /**
-     * Create.
+     * Create a new instance.
      */
     public Stats_Abstract() {
         n = BigInteger.ZERO;
     }
 
     /**
-     * Create.
+     * Create a new instance.
      *
      * @param n What {@link #n} is set to.
      */
@@ -57,7 +57,7 @@ public abstract class Stats_Abstract implements Serializable {
     }
 
     /**
-     * Create.
+     * Create a new instance.
      *
      * @param n What {@link #n} is set to.
      */
