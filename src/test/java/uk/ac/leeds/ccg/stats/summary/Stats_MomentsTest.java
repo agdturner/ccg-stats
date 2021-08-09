@@ -107,6 +107,8 @@ public class Stats_MomentsTest {
         expResult.moments.m3 = BigRational.valueOf(2250000);
         expResult.moments.m4 = BigRational.valueOf(212500000);
         result = new Stats_BigDecimal1(data);
+        // Have to get something to force an update.
+        result.getMoments().getM1();
         assertEquals(expResult.moments, result.getMoments());
         // Test 1
         data = new ArrayList<>();
@@ -140,6 +142,8 @@ public class Stats_MomentsTest {
         //expResult.moments.m4 = BigRational.valueOf("6419805908521.9556");
         expResult.moments.m4 = BigRational.valueOf("6419895701972.435690625");
         result = new Stats_BigDecimal1(data);
+        // Have to get something to force an update.
+        result.getMoments().getM1();
         //System.out.println(result);
         assertEquals(expResult.moments, result.getMoments());
     }
