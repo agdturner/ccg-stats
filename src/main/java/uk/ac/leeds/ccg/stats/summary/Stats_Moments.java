@@ -17,11 +17,9 @@ package uk.ac.leeds.ccg.stats.summary;
 
 import ch.obermuhlner.math.big.BigRational;
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Objects;
 import uk.ac.leeds.ccg.math.Math_BigRationalRoot;
 
@@ -61,17 +59,26 @@ public class Stats_Moments implements Serializable {
      */
     protected BigRational m4;
 
+    /**
+     * A reference to the stats this is attached to.
+     */
     protected final Stats_Abstract stats;
 
+    /**
+     * Records if {@link data} has changed since last {@link #init()}.
+     */
+    protected boolean isUpToDate;
+    
     /**
      * Create.
      */
     public Stats_Moments(Stats_Abstract stats) {
         this.stats = stats;
+        isUpToDate = false;
     }
 
     /**
-     * @param d The initial collection of values.
+     * Initialise.
      */
     protected void init() {
         BigInteger n = stats.getN();
@@ -115,7 +122,7 @@ public class Stats_Moments implements Serializable {
     public String toString() {
         return getClass().getName()
                 + "[" + super.toString()
-                + ", m1=" + m1.toString()
+                + ", m1=" + getM1()
                 + ", m2=" + m2.toString()
                 + ", m3=" + m3.toString()
                 + ", m4=" + m4.toString()
@@ -154,6 +161,46 @@ public class Stats_Moments implements Serializable {
         hash = 41 * hash + Objects.hashCode(this.m4);
         return hash;
     }
+    
+    /**
+     * @return {@link #m1} for the collection computing it if necessary.
+     */
+    public BigRational getM1() {
+        if (!isUpToDate) {
+            init();
+        }
+        return m1;
+    }
+
+    /**
+     * @return {@link #m2} for the collection computing it if necessary.
+     */
+    public BigRational getM2() {
+        if (!isUpToDate) {
+            init();
+        }
+        return m2;
+    }
+
+    /**
+     * @return {@link #m3} for the collection computing it if necessary.
+     */
+    public BigRational getM3() {
+        if (!isUpToDate) {
+            init();
+        }
+        return m3;
+    }
+
+    /**
+     * @return {@link #m4} for the collection computing it if necessary.
+     */
+    public BigRational getM4() {
+        if (!isUpToDate) {
+            init();
+        }
+        return m4;
+    }
 
     /**
      * Calculates and returns the standard deviation.
@@ -161,6 +208,9 @@ public class Stats_Moments implements Serializable {
      * @return A BigRational representing the standard deviation.
      */
     public BigRational getStandardDeviationSquared() {
+        if (!isUpToDate) {
+            init();
+        }
         return m2.divide(stats.getN().add(BigInteger.ONE.negate()));
     }
 

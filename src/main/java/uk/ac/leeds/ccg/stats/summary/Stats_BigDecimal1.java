@@ -305,6 +305,7 @@ public class Stats_BigDecimal1 extends Stats_BigDecimal {
     public void add(BigDecimal x) {
         data.add(x);
         isUpToDate = false;
+        getMoments().isUpToDate = false;
     }
 
     /**
@@ -315,6 +316,7 @@ public class Stats_BigDecimal1 extends Stats_BigDecimal {
     public void add(Collection<BigDecimal> c) {
         data.addAll(c);
         isUpToDate = false;
+        getMoments().isUpToDate = false;
     }
 
     /**
@@ -323,9 +325,6 @@ public class Stats_BigDecimal1 extends Stats_BigDecimal {
     public Stats_Moments getMoments() {
         if (moments == null) {
             moments = new Stats_Moments(this);
-        }
-        if (!isUpToDate) {
-            moments.init();
         }
         return moments;
     }

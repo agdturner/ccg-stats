@@ -308,6 +308,7 @@ public class Stats_Double1 extends Stats_Double {
     public void add(Double x) {
         data.add(x);
         isUpToDate = false;
+        getMoments().isUpToDate = false;
     }
 
     /**
@@ -319,6 +320,7 @@ public class Stats_Double1 extends Stats_Double {
     public void add(Collection<Double> c) {
         data.addAll(c);
         isUpToDate = false;
+        getMoments().isUpToDate = false;
     }
 
     /**
@@ -327,9 +329,6 @@ public class Stats_Double1 extends Stats_Double {
     public Stats_Moments getMoments() {
         if (moments == null) {
             moments = new Stats_Moments(this);
-        }
-        if (!isUpToDate) {
-            moments.init();
         }
         return moments;
     }

@@ -312,6 +312,7 @@ public class Stats_Float1 extends Stats_Float {
     public void add(Float x) {
         data.add(x);
         isUpToDate = false;
+        getMoments().isUpToDate = false;
     }
 
     /**
@@ -323,6 +324,7 @@ public class Stats_Float1 extends Stats_Float {
     public void add(Collection<Float> c) {
         data.addAll(c);
         isUpToDate = false;
+        getMoments().isUpToDate = false;
     }
 
     /**
@@ -331,9 +333,6 @@ public class Stats_Float1 extends Stats_Float {
     public Stats_Moments getMoments() {
         if (moments == null) {
             moments = new Stats_Moments(this);
-        }
-        if (!isUpToDate) {
-            moments.init();
         }
         return moments;
     }
