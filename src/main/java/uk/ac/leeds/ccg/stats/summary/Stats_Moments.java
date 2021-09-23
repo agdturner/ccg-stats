@@ -65,7 +65,7 @@ public class Stats_Moments implements Serializable {
     protected final Stats_Abstract stats;
 
     /**
-     * Records if {@link data} has changed since last {@link #init()}.
+     * Records if {@link #stats} has changed since last {@link #init()}.
      */
     protected boolean isUpToDate;
     
