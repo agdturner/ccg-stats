@@ -21,7 +21,7 @@ import java.math.BigInteger;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Objects;
-import uk.ac.leeds.ccg.math.Math_BigRationalRoot;
+import uk.ac.leeds.ccg.math.Math_BigRationalSqrt;
 
 /**
  * POJO for moments.
@@ -222,9 +222,10 @@ public class Stats_Moments implements Serializable {
     /**
      * Calculates and returns the standard deviation.
      *
+     * @param oom The Order of Magnitude for the initialisation of the root.
      * @return A BigRational representing the standard deviation.
      */
-    public Math_BigRationalRoot getStandardDeviation() {
-        return new Math_BigRationalRoot(getStandardDeviationSquared(), 2);
+    public Math_BigRationalSqrt getStandardDeviation(int oom) {
+        return new Math_BigRationalSqrt(getStandardDeviationSquared(), oom);
     }
 }
