@@ -25,6 +25,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import uk.ac.leeds.ccg.math.Math_BigRationalRoot;
+import uk.ac.leeds.ccg.math.Math_BigRationalSqrt;
 
 /**
  *
@@ -186,9 +187,12 @@ public class Stats_MomentsTest {
         data.add(BigDecimal.valueOf(2308.7d));
         data.add(BigDecimal.valueOf(2950.0d));
         Stats_BigDecimal1 stats = new Stats_BigDecimal1(data);
-        Math_BigRationalRoot result = stats.getMoments().getStandardDeviation();
+        int oom = -3;
+        Math_BigRationalSqrt result = stats.getMoments().getStandardDeviation(
+                oom);
         //BigRational expResult = BigRational.valueOf(799951.36d);
-        Math_BigRationalRoot expResult = new Math_BigRationalRoot(BigRational.valueOf("799902.525"), 2);
+        Math_BigRationalSqrt expResult = new Math_BigRationalSqrt(
+                BigRational.valueOf("799902.525"), oom);
         assertTrue(result.compareTo(expResult) == 0);
     }
     
