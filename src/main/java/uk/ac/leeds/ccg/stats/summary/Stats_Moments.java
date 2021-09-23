@@ -70,7 +70,9 @@ public class Stats_Moments implements Serializable {
     protected boolean isUpToDate;
     
     /**
-     * Create.
+     * Create a new instance.
+     *
+     * @param stats What {@link #stats} is set to.
      */
     public Stats_Moments(Stats_Abstract stats) {
         this.stats = stats;
