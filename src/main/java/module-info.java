@@ -13,6 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+/**
+ * Provides some summary statistics functionality.
+ */
 module uk.ac.leeds.ccg.stats {
     requires transitive java.logging;
     requires java.desktop;
