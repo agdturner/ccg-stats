@@ -26,6 +26,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
+import uk.ac.leeds.ccg.math.Math_BigRational;
 
 /**
  * Test.
@@ -75,7 +76,7 @@ public class Stats_BigDecimalTest {
         expResult.max = p100;
         expResult.min = n100;
         expResult.sum = p0;
-        expResult.mean = BigRational.ZERO;
+        expResult.mean = Math_BigRational.ZERO;
         Stats_BigDecimal result = new Stats_BigDecimal(data);
         assertEquals(expResult, result);
     }

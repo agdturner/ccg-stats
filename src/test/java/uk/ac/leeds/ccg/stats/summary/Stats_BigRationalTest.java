@@ -25,6 +25,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
+import uk.ac.leeds.ccg.math.Math_BigRational;
 
 /**
  * Test.
@@ -71,10 +72,10 @@ public class Stats_BigRationalTest {
         data.add(p0);
         Stats_BigRational expResult = new Stats_BigRational();
         expResult.n = BigInteger.valueOf(5);
-        expResult.max = p100;
-        expResult.min = n100;
-        expResult.sum = p0;
-        expResult.mean = p0;
+        expResult.max = new Math_BigRational(p100);
+        expResult.min = new Math_BigRational(n100);
+        expResult.sum = Math_BigRational.ZERO;
+        expResult.mean = new Math_BigRational(p0);
         Stats_BigRational result = new Stats_BigRational(data);
         assertEquals(expResult, result);
     }

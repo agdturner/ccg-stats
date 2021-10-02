@@ -24,6 +24,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
+import uk.ac.leeds.ccg.math.Math_BigRational;
 import uk.ac.leeds.ccg.math.Math_BigRationalRoot;
 import uk.ac.leeds.ccg.math.Math_BigRationalSqrt;
 
@@ -103,10 +104,10 @@ public class Stats_MomentsTest {
 //        expResult.q1 = BigDecimal.valueOf(-50);
 //        expResult.q3 = BigDecimal.valueOf(50);
         expResult.moments = new Stats_Moments(expResult);
-        expResult.moments.m1 = BigRational.valueOf(300);
-        expResult.moments.m2 = BigRational.valueOf(25000);
-        expResult.moments.m3 = BigRational.valueOf(2250000);
-        expResult.moments.m4 = BigRational.valueOf(212500000);
+        expResult.moments.m1 = new Math_BigRational(BigRational.valueOf(300));
+        expResult.moments.m2 = new Math_BigRational(BigRational.valueOf(25000));
+        expResult.moments.m3 = new Math_BigRational(BigRational.valueOf(2250000));
+        expResult.moments.m4 = new Math_BigRational(BigRational.valueOf(212500000));
         result = new Stats_BigDecimal1(data);
         // Have to get something to force an update.
         result.getMoments().getM1();
@@ -135,13 +136,13 @@ public class Stats_MomentsTest {
 //        expResult.q3 = BigDecimal.valueOf(2135.6d);
         expResult.moments = new Stats_Moments(expResult);
         //expResult.moments.m1 = BigRational.valueOf(6169.6d);
-        expResult.moments.m1 = BigRational.valueOf("6169.6");
+        expResult.moments.m1 = new Math_BigRational(BigRational.valueOf("6169.6"));
         //expResult.moments.m2 = BigRational.valueOf(5599317.68d);
-        expResult.moments.m2 = BigRational.valueOf("5599317.675");
+        expResult.moments.m2 = new Math_BigRational(BigRational.valueOf("5599317.675"));
         //expResult.moments.m3 = BigRational.valueOf(5741453120.494d);
-        expResult.moments.m3 = BigRational.valueOf("5741475556.1755");
+        expResult.moments.m3 = new Math_BigRational(BigRational.valueOf("5741475556.1755"));
         //expResult.moments.m4 = BigRational.valueOf("6419805908521.9556");
-        expResult.moments.m4 = BigRational.valueOf("6419895701972.435690625");
+        expResult.moments.m4 = new Math_BigRational(BigRational.valueOf("6419895701972.435690625"));
         result = new Stats_BigDecimal1(data);
         // Have to get something to force an update.
         result.getMoments().getM1();
