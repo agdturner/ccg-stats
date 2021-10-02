@@ -22,6 +22,8 @@ import java.math.BigInteger;
 import java.util.Collection;
 import java.util.DoubleSummaryStatistics;
 import java.util.Objects;
+import uk.ac.leeds.ccg.generic.math.Generic_Math;
+import uk.ac.leeds.ccg.math.Math_BigRational;
 
 /**
  * POJO for summary statistics of float values.
@@ -66,7 +68,7 @@ public class Stats_Float extends Stats_Abstract {
         super(d.size());
         init(d);
     }
-    
+
     /**
      * @param d The collection of values.
      */
@@ -75,12 +77,16 @@ public class Stats_Float extends Stats_Abstract {
         max = -Float.MAX_VALUE;
         min = Float.MAX_VALUE;
         sum = BigDecimal.ZERO;
-        d.forEach(x -> {
-            max = Math.max(max, x);
-            min = Math.min(min, x);
-            sum = sum.add(BigDecimal.valueOf(x));
-        });
-        mean = BigRational.valueOf(sum).divide(n);
+        for (Float x : d) {
+            if (x.isNaN() || x.isInfinite()) {
+                int debug = 1;
+            } else {
+                max = Math.max(max, x);
+                min = Math.min(min, x);
+                sum = sum.add(BigDecimal.valueOf(x));
+            }
+        }
+        mean = new Math_BigRational(BigRational.valueOf(sum).divide(n));
     }
 
     /**
@@ -133,26 +139,26 @@ public class Stats_Float extends Stats_Abstract {
         hash = 17 * hash + (int) (Double.doubleToLongBits(this.max) ^ (Double.doubleToLongBits(this.max) >>> 32));
         return hash;
     }
-    
+
     /**
-     * @return {@link #max} 
+     * @return {@link #max}
      */
     public float getMax() {
         return max;
     }
-    
+
     /**
-     * @return {@link #min} 
+     * @return {@link #min}
      */
     public float getMin() {
         return min;
     }
-    
+
     /**
-     * @return {@link #sum} 
+     * @return {@link #sum}
      */
     public BigDecimal getSum() {
         return sum;
     }
-    
+
 }

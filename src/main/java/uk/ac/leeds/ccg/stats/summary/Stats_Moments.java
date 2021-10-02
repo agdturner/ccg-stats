@@ -21,6 +21,7 @@ import java.math.BigInteger;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Objects;
+import uk.ac.leeds.ccg.math.Math_BigRational;
 import uk.ac.leeds.ccg.math.Math_BigRationalSqrt;
 
 /**
@@ -41,23 +42,23 @@ public class Stats_Moments implements Serializable {
     /**
      * For storing the sum of all the (differences from the mean).
      */
-    protected BigRational m1;
+    protected Math_BigRational m1;
 
     /**
      * For storing the sum of all the (differences from the mean squared).
      */
-    protected BigRational m2;
+    protected Math_BigRational m2;
 
     /**
      * For storing the sum of all the (differences from the mean cubed).
      */
-    protected BigRational m3;
+    protected Math_BigRational m3;
 
     /**
      * For storing the sum of all the (differences from the mean squared
      * squared).
      */
-    protected BigRational m4;
+    protected Math_BigRational m4;
 
     /**
      * A reference to the stats this is attached to.
@@ -98,24 +99,28 @@ public class Stats_Moments implements Serializable {
             case 0:
                 break;
             case 1:
-                m1 = BigRational.ZERO;
-                m2 = BigRational.ZERO;
-                m3 = BigRational.ZERO;
-                m4 = BigRational.ZERO;
+                m1 = Math_BigRational.ZERO;
+                m2 = Math_BigRational.ZERO;
+                m3 = Math_BigRational.ZERO;
+                m4 = Math_BigRational.ZERO;
                 break;
             default:
-                m1 = BigRational.ZERO;
-                m2 = BigRational.ZERO;
-                m3 = BigRational.ZERO;
-                m4 = BigRational.ZERO;
+                BigRational v1 = BigRational.ZERO;
+               BigRational v2 = BigRational.ZERO;
+               BigRational v3 = BigRational.ZERO;
+               BigRational v4 = BigRational.ZERO;
                 Iterator<? extends Number> ite = data.iterator();
                 while (ite.hasNext()) {
                     BigRational i = BigRational.valueOf(ite.next().toString());
-                    m1 = m1.add(i.subtract(mean).abs());
-                    m2 = m2.add(i.subtract(mean).pow(2));
-                    m3 = m3.add(i.subtract(mean).pow(3).abs());
-                    m4 = m4.add(i.subtract(mean).pow(4));
+                    v1 = v1.add(i.subtract(mean).abs());
+                    v2 = v2.add(i.subtract(mean).pow(2));
+                    v3 = v3.add(i.subtract(mean).pow(3).abs());
+                    v4 = v4.add(i.subtract(mean).pow(4));
                 }
+                m1 = new Math_BigRational(v1);
+                m2 = new Math_BigRational(v2);
+                m3 = new Math_BigRational(v3);
+                m4 = new Math_BigRational(v4);
                 break;
         }
     }
@@ -176,7 +181,7 @@ public class Stats_Moments implements Serializable {
         if (!isUpToDate) {
             init();
         }
-        return m1;
+        return m1.getX();
     }
 
     /**
@@ -186,7 +191,7 @@ public class Stats_Moments implements Serializable {
         if (!isUpToDate) {
             init();
         }
-        return m2;
+        return m2.getX();
     }
 
     /**
@@ -196,7 +201,7 @@ public class Stats_Moments implements Serializable {
         if (!isUpToDate) {
             init();
         }
-        return m3;
+        return m3.getX();
     }
 
     /**
@@ -206,7 +211,7 @@ public class Stats_Moments implements Serializable {
         if (!isUpToDate) {
             init();
         }
-        return m4;
+        return m4.getX();
     }
 
     /**
@@ -218,7 +223,7 @@ public class Stats_Moments implements Serializable {
         if (!isUpToDate) {
             init();
         }
-        return m2.divide(stats.getN().add(BigInteger.ONE.negate()));
+        return m2.getX().divide(stats.getN().add(BigInteger.ONE.negate()));
     }
 
     /**

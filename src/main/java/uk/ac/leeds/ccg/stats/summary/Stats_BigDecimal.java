@@ -20,6 +20,7 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Collection;
 import java.util.Objects;
+import uk.ac.leeds.ccg.math.Math_BigRational;
 
 /**
  * POJO for summary statistics of BigDecimal values.
@@ -66,6 +67,7 @@ public class Stats_BigDecimal extends Stats_Abstract {
     protected final void init(Collection<BigDecimal> d) {
         int dataSize = d.size();
         n = BigInteger.valueOf(dataSize);
+        BigRational mean0 = null;
         switch (dataSize) {
             case 0:
                 break;
@@ -74,7 +76,7 @@ public class Stats_BigDecimal extends Stats_Abstract {
                 sum = v;
                 min = v;
                 max = v;
-                mean = BigRational.valueOf(v);
+                mean0 = BigRational.valueOf(v);
                 break;
             default:
                 sum = BigDecimal.ZERO;
@@ -86,9 +88,10 @@ public class Stats_BigDecimal extends Stats_Abstract {
                     min = min.min(x);
                     max = max.max(x);
                 }
-                mean = BigRational.valueOf(sum).divide(n);
+                mean0 = BigRational.valueOf(sum).divide(n);
                 break;
         }
+        mean = new Math_BigRational(mean0);
     }
 
     /**

@@ -19,6 +19,7 @@ import ch.obermuhlner.math.big.BigRational;
 import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.Objects;
+import uk.ac.leeds.ccg.math.Math_BigRational;
 
 /**
  * A POJO for storing summary statistics.
@@ -36,9 +37,9 @@ public abstract class Stats_Abstract implements Serializable {
     protected BigInteger n;
 
     /**
-     * For storing the mean average.
+     * For storing the arithmetic mean.
      */
-    protected BigRational mean;
+    protected Math_BigRational mean;
 
     /**
      * Create a new instance.
@@ -108,6 +109,6 @@ public abstract class Stats_Abstract implements Serializable {
      * @return {@link #mean}
      */
     public BigRational getMean() {
-        return mean;
+        return mean.getX();
     }
 }
