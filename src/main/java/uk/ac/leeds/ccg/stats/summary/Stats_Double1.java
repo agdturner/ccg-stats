@@ -23,7 +23,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
-import uk.ac.leeds.ccg.math.Math_BigRational;
+import uk.ac.leeds.ccg.math.number.Math_BigRational;
 
 /**
  * POJO for summary statistics of double values.
@@ -106,13 +106,12 @@ public class Stats_Double1 extends Stats_Double {
         nZero = BigInteger.ZERO;
         int dataSize = data.size();
         n = BigInteger.valueOf(dataSize);
-        BigRational median0 = null;
         switch (dataSize) {
             case 0:
                 break;
             case 1:
                 Double v = data.stream().findAny().get();
-                median0 = BigRational.valueOf(v);
+                median = Math_BigRational.valueOf(v);
                 int c = v.compareTo(0.0d);
                 if (c == -1) {
                     nNeg = nNeg.add(BigInteger.ONE);
@@ -133,20 +132,19 @@ public class Stats_Double1 extends Stats_Double {
                 }
                 int h = dataSize / 2;
                 if (dataSize % 2 == 0) {
-                    median0 = BigRational.valueOf(
+                    median = Math_BigRational.valueOf(
                             BigDecimal.valueOf(data.get(h - 1))
                                     .add(BigDecimal.valueOf(data.get(h))))
                             .divide(2);
                 } else {
-                    median0 = BigRational.valueOf(data.get(h));
+                    median = Math_BigRational.valueOf(data.get(h));
                 }
                 int q1p = dataSize / 4;
                 q1 = data.get(q1p);
                 q3 = data.get(dataSize - q1p - 1);
-                mean = new Math_BigRational(BigRational.valueOf(sum).divide(dataSize));
+                mean = Math_BigRational.valueOf(sum).divide(dataSize);
                 break;
         }
-        this.median = new Math_BigRational(median0);
     }
 
     /**
@@ -207,11 +205,11 @@ public class Stats_Double1 extends Stats_Double {
     /**
      * @return the median for the collection computing it if necessary.
      */
-    public BigRational getMedian() {
+    public Math_BigRational getMedian() {
         if (!isUpToDate) {
             init();
         }
-        return median.getX();
+        return median;
     }
 
     /**
@@ -302,11 +300,11 @@ public class Stats_Double1 extends Stats_Double {
      * @return {@link #mean}
      */
     @Override
-    public BigRational getMean() {
+    public Math_BigRational getMean() {
         if (!isUpToDate) {
             init();
         }
-        return mean.getX();
+        return mean;
     }
 
     /**

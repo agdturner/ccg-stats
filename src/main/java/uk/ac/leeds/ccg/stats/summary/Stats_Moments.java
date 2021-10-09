@@ -15,14 +15,13 @@
  */
 package uk.ac.leeds.ccg.stats.summary;
 
-import ch.obermuhlner.math.big.BigRational;
 import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Objects;
-import uk.ac.leeds.ccg.math.Math_BigRational;
-import uk.ac.leeds.ccg.math.Math_BigRationalSqrt;
+import uk.ac.leeds.ccg.math.number.Math_BigRational;
+import uk.ac.leeds.ccg.math.number.Math_BigRationalSqrt;
 
 /**
  * POJO for moments.
@@ -85,7 +84,7 @@ public class Stats_Moments implements Serializable {
      */
     protected void init() {
         BigInteger n = stats.getN();
-        BigRational mean = stats.getMean();
+        Math_BigRational mean = stats.getMean();
         Collection<? extends Number> data;
         if (stats instanceof Stats_Float1) {
             data = ((Stats_Float1) stats).data;
@@ -105,22 +104,18 @@ public class Stats_Moments implements Serializable {
                 m4 = Math_BigRational.ZERO;
                 break;
             default:
-                BigRational v1 = BigRational.ZERO;
-               BigRational v2 = BigRational.ZERO;
-               BigRational v3 = BigRational.ZERO;
-               BigRational v4 = BigRational.ZERO;
+                m1 = Math_BigRational.ZERO;
+               m2 = Math_BigRational.ZERO;
+               m3 = Math_BigRational.ZERO;
+               m4 = Math_BigRational.ZERO;
                 Iterator<? extends Number> ite = data.iterator();
                 while (ite.hasNext()) {
-                    BigRational i = BigRational.valueOf(ite.next().toString());
-                    v1 = v1.add(i.subtract(mean).abs());
-                    v2 = v2.add(i.subtract(mean).pow(2));
-                    v3 = v3.add(i.subtract(mean).pow(3).abs());
-                    v4 = v4.add(i.subtract(mean).pow(4));
+                    Math_BigRational i = Math_BigRational.valueOf(ite.next().toString());
+                    m1 = m1.add(i.subtract(mean).abs());
+                    m2 = m2.add(i.subtract(mean).pow(2));
+                    m3 = m3.add(i.subtract(mean).pow(3).abs());
+                    m4 = m4.add(i.subtract(mean).pow(4));
                 }
-                m1 = new Math_BigRational(v1);
-                m2 = new Math_BigRational(v2);
-                m3 = new Math_BigRational(v3);
-                m4 = new Math_BigRational(v4);
                 break;
         }
     }
@@ -177,60 +172,60 @@ public class Stats_Moments implements Serializable {
     /**
      * @return {@link #m1} for the collection computing it if necessary.
      */
-    public BigRational getM1() {
+    public Math_BigRational getM1() {
         if (!isUpToDate) {
             init();
         }
-        return m1.getX();
+        return m1;
     }
 
     /**
      * @return {@link #m2} for the collection computing it if necessary.
      */
-    public BigRational getM2() {
+    public Math_BigRational getM2() {
         if (!isUpToDate) {
             init();
         }
-        return m2.getX();
+        return m2;
     }
 
     /**
      * @return {@link #m3} for the collection computing it if necessary.
      */
-    public BigRational getM3() {
+    public Math_BigRational getM3() {
         if (!isUpToDate) {
             init();
         }
-        return m3.getX();
+        return m3;
     }
 
     /**
      * @return {@link #m4} for the collection computing it if necessary.
      */
-    public BigRational getM4() {
+    public Math_BigRational getM4() {
         if (!isUpToDate) {
             init();
         }
-        return m4.getX();
+        return m4;
     }
 
     /**
      * Calculates and returns the standard deviation.
      *
-     * @return A BigRational representing the standard deviation.
+     * @return A Math_BigRational representing the standard deviation.
      */
-    public BigRational getStandardDeviationSquared() {
+    public Math_BigRational getStandardDeviationSquared() {
         if (!isUpToDate) {
             init();
         }
-        return m2.getX().divide(stats.getN().add(BigInteger.ONE.negate()));
+        return m2.divide(stats.getN().add(BigInteger.ONE.negate()));
     }
 
     /**
      * Calculates and returns the standard deviation.
      *
      * @param oom The Order of Magnitude for the initialisation of the root.
-     * @return A BigRational representing the standard deviation.
+     * @return A Math_BigRational representing the standard deviation.
      */
     public Math_BigRationalSqrt getStandardDeviation(int oom) {
         return new Math_BigRationalSqrt(getStandardDeviationSquared(), oom);

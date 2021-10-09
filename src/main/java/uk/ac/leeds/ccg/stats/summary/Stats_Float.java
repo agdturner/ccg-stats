@@ -15,15 +15,11 @@
  */
 package uk.ac.leeds.ccg.stats.summary;
 
-import ch.obermuhlner.math.big.BigRational;
-import java.util.List;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Collection;
-import java.util.DoubleSummaryStatistics;
 import java.util.Objects;
-import uk.ac.leeds.ccg.generic.math.Generic_Math;
-import uk.ac.leeds.ccg.math.Math_BigRational;
+import uk.ac.leeds.ccg.math.number.Math_BigRational;
 
 /**
  * POJO for summary statistics of float values.
@@ -86,7 +82,7 @@ public class Stats_Float extends Stats_Abstract {
                 sum = sum.add(BigDecimal.valueOf(x));
             }
         }
-        mean = new Math_BigRational(BigRational.valueOf(sum).divide(n));
+        mean = Math_BigRational.valueOf(sum).divide(n);
     }
 
     /**
