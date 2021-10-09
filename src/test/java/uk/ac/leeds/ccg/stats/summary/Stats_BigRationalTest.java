@@ -15,7 +15,6 @@
  */
 package uk.ac.leeds.ccg.stats.summary;
 
-import ch.obermuhlner.math.big.BigRational;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -25,7 +24,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
-import uk.ac.leeds.ccg.math.Math_BigRational;
+import uk.ac.leeds.ccg.math.number.Math_BigRational;
 
 /**
  * Test.
@@ -59,12 +58,12 @@ public class Stats_BigRationalTest {
     @Test
     public void testEquals() {
         System.out.println("equals");
-        BigRational p100 = BigRational.valueOf(100);
-        BigRational n100 = BigRational.valueOf(-100);
-        BigRational p50 = BigRational.valueOf(50);
-        BigRational n50 = BigRational.valueOf(-50);
-        BigRational p0 = BigRational.ZERO;
-        Collection<BigRational> data = new ArrayList<>();
+        Math_BigRational p100 = Math_BigRational.valueOf(100);
+        Math_BigRational n100 = Math_BigRational.valueOf(-100);
+        Math_BigRational p50 = Math_BigRational.valueOf(50);
+        Math_BigRational n50 = Math_BigRational.valueOf(-50);
+        Math_BigRational p0 = Math_BigRational.ZERO;
+        Collection<Math_BigRational> data = new ArrayList<>();
         data.add(p100);
         data.add(n100);
         data.add(p50);
@@ -72,10 +71,10 @@ public class Stats_BigRationalTest {
         data.add(p0);
         Stats_BigRational expResult = new Stats_BigRational();
         expResult.n = BigInteger.valueOf(5);
-        expResult.max = new Math_BigRational(p100);
-        expResult.min = new Math_BigRational(n100);
+        expResult.max = p100;
+        expResult.min = n100;
         expResult.sum = Math_BigRational.ZERO;
-        expResult.mean = new Math_BigRational(p0);
+        expResult.mean = p0;
         Stats_BigRational result = new Stats_BigRational(data);
         assertEquals(expResult, result);
     }
