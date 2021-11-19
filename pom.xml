@@ -3,18 +3,18 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>io.github.agdturner</groupId>
-    <artifactId>agdt-java-stats</artifactId>
+    <artifactId>ccg-stats</artifactId>
     <version>0.6-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>agdt-java-stats</name>
-    <url>https://github.com/agdturner/agdt-java-stats</url>
+    <name>ccg-stats</name>
+    <url>https://github.com/agdturner/ccg-stats</url>
     <description>A Java Library for statistics.</description>
     <scm>
-        <url>git@github.com:agdturner/agdt-java-stats.git</url>
-        <connection>scm:git:git@github.com:agdturner/agdt-java-stats.git</connection>
-        <developerConnection>scm:git:git@github.com:agdturner/agdt-java-stats</developerConnection>
-      <tag>agdt-java-stats-0.6</tag>
+        <url>git@github.com:agdturner/ccg-stats.git</url>
+        <connection>scm:git:git@github.com:agdturner/ccg-stats.git</connection>
+        <developerConnection>scm:git:git@github.com:agdturner/ccg-stats</developerConnection>
+      <tag>ccg-stats-0.6</tag>
   </scm>
     <licenses>
         <license>
@@ -41,8 +41,8 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <agdt-java-generic.version>2.1-SNAPSHOT</agdt-java-generic.version>
-        <ccg-math.version>1.18-SNAPSHOT</ccg-math.version>
+        <ccg-generic.version>2.1</ccg-generic.version>
+        <ccg-math.version>2.0.10</ccg-math.version>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
         <maven.version>3.0.1</maven.version>
@@ -50,11 +50,11 @@
     </properties>
     
     <dependencies>
-        <!-- https://mvnrepository.com/artifact/io.github.agdturner/agdt-java-generic -->
+        <!-- https://mvnrepository.com/artifact/io.github.agdturner/ccg-generic -->
         <dependency>
             <groupId>io.github.agdturner</groupId>
-            <artifactId>agdt-java-generic</artifactId>
-            <version>${agdt-java-generic.version}</version>
+            <artifactId>ccg-generic</artifactId>
+            <version>${ccg-generic.version}</version>
         </dependency>
         <!-- https://mvnrepository.com/artifact/io.github.agdturner/ccg-math -->
         <dependency>
