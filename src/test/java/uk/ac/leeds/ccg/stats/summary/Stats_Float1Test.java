@@ -25,7 +25,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
-import uk.ac.leeds.ccg.math.number.Math_BigRational;
 
 /**
  * Test.
@@ -70,8 +69,8 @@ public class Stats_Float1Test {
         expResult.max = 100.0f;
         expResult.min = -100.0f;
         expResult.sum = BigDecimal.ZERO;
-        expResult.mean = Math_BigRational.ZERO;
-        expResult.median = Math_BigRational.ZERO;
+        expResult.mean = BigRational.ZERO;
+        expResult.median = BigRational.ZERO;
         expResult.nNeg = BigInteger.valueOf(2);
         expResult.nZero = BigInteger.valueOf(1);
         expResult.q1 = -50.0f;
@@ -85,8 +84,8 @@ public class Stats_Float1Test {
         expResult.max = 100.0f;
         expResult.min = -100.0f;
         expResult.sum = BigDecimal.ZERO;
-        expResult.mean = Math_BigRational.ZERO;
-        expResult.median = Math_BigRational.ZERO;
+        expResult.mean = BigRational.ZERO;
+        expResult.median = BigRational.ZERO;
         expResult.nNeg = BigInteger.valueOf(2);
         expResult.nZero = BigInteger.valueOf(2);
         expResult.q1 = -50.0f;
@@ -100,8 +99,8 @@ public class Stats_Float1Test {
         expResult.max = 100.0f;
         expResult.min = -100.0f;
         expResult.sum = BigDecimal.ZERO;
-        expResult.mean = Math_BigRational.ZERO;
-        expResult.median = Math_BigRational.ZERO;
+        expResult.mean = BigRational.ZERO;
+        expResult.median = BigRational.ZERO;
         expResult.nNeg = BigInteger.valueOf(2);
         expResult.nZero = BigInteger.valueOf(3);
         expResult.q1 = -50.0f;
@@ -115,8 +114,8 @@ public class Stats_Float1Test {
         expResult.max = 100.0f;
         expResult.min = -100.0f;
         expResult.sum = BigDecimal.ZERO;
-        expResult.mean = Math_BigRational.ZERO;
-        expResult.median = Math_BigRational.ZERO;
+        expResult.mean = BigRational.ZERO;
+        expResult.median = BigRational.ZERO;
         expResult.nNeg = BigInteger.valueOf(2);
         expResult.nZero = BigInteger.valueOf(4);
         expResult.q1 = 0.0f;
@@ -130,8 +129,8 @@ public class Stats_Float1Test {
         expResult.max = 100.0f;
         expResult.min = -100.0f;
         expResult.sum = BigDecimal.ZERO;
-        expResult.mean = Math_BigRational.ZERO;
-        expResult.median = Math_BigRational.ZERO;
+        expResult.mean = BigRational.ZERO;
+        expResult.median = BigRational.ZERO;
         expResult.nNeg = BigInteger.valueOf(2);
         expResult.nZero = BigInteger.valueOf(5);
         expResult.q1 = 0.0f;

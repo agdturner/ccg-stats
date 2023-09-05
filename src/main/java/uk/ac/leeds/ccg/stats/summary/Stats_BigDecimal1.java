@@ -15,6 +15,7 @@
  */
 package uk.ac.leeds.ccg.stats.summary;
 
+import ch.obermuhlner.math.big.BigRational;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -22,7 +23,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
-import uk.ac.leeds.ccg.math.number.Math_BigRational;
 
 /**
  * POJO for summary statistics of BigDecimal values. The values are stored in a
@@ -54,7 +54,7 @@ public class Stats_BigDecimal1 extends Stats_BigDecimal {
     /**
      * For storing the median.
      */
-    protected Math_BigRational median;
+    protected BigRational median;
 
     /**
      * For storing the lower inter quartile range value.
@@ -111,7 +111,7 @@ public class Stats_BigDecimal1 extends Stats_BigDecimal {
                 break;
             case 1:
                 BigDecimal v = data.stream().findAny().get();
-                median = Math_BigRational.valueOf(v);
+                median = BigRational.valueOf(v);
                 int c = v.compareTo(BigDecimal.ZERO);
                 if (c == -1) {
                     nNeg = BigInteger.ONE;
@@ -132,10 +132,10 @@ public class Stats_BigDecimal1 extends Stats_BigDecimal {
                 }
                 int h = dataSize / 2;
                 if (dataSize % 2 == 0) {
-                    median = Math_BigRational.valueOf(data.get(h - 1).add(
+                    median = BigRational.valueOf(data.get(h - 1).add(
                             data.get(h))).divide(2);
                 } else {
-                    median = Math_BigRational.valueOf(data.get(h));
+                    median = BigRational.valueOf(data.get(h));
                 }
                 int q1p = dataSize / 4;
                 q1 = data.get(q1p);
@@ -202,7 +202,7 @@ public class Stats_BigDecimal1 extends Stats_BigDecimal {
     /**
      * @return {@link #median} for the collection computing it if necessary.
      */
-    public Math_BigRational getMedian() {
+    public BigRational getMedian() {
         if (!isUpToDate) {
             init();
         }
@@ -297,7 +297,7 @@ public class Stats_BigDecimal1 extends Stats_BigDecimal {
      * @return {@link #mean}
      */
     @Override
-    public Math_BigRational getMean() {
+    public BigRational getMean() {
         if (!isUpToDate) {
             init();
         }

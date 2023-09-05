@@ -25,7 +25,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
-import uk.ac.leeds.ccg.math.number.Math_BigRational;
 
 /**
  * Test.
@@ -70,7 +69,7 @@ public class Stats_DoubleTest {
         expResult.max = 100.0d;
         expResult.min = -100.0d;
         expResult.sum = BigDecimal.ZERO;
-        expResult.mean = Math_BigRational.ZERO;
+        expResult.mean = BigRational.ZERO;
         Stats_Double result = new Stats_Double(data);
         assertEquals(expResult, result);
     }

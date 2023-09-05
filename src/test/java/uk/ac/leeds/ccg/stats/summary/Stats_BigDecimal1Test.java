@@ -26,7 +26,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
-import uk.ac.leeds.ccg.math.number.Math_BigRational;
 
 /**
  * Test.
@@ -73,8 +72,8 @@ public class Stats_BigDecimal1Test {
         expResult.max = BigDecimal.valueOf(100.0d);
         expResult.min = BigDecimal.valueOf(-100.0d);
         expResult.sum = BigDecimal.valueOf(0.0d);
-        expResult.mean = Math_BigRational.ZERO;
-        expResult.median = Math_BigRational.ZERO;
+        expResult.mean = BigRational.ZERO;
+        expResult.median = BigRational.ZERO;
         expResult.nNeg = BigInteger.valueOf(2);
         expResult.nZero = BigInteger.valueOf(1);
         expResult.q1 = BigDecimal.valueOf(-50.0d);
@@ -87,8 +86,8 @@ public class Stats_BigDecimal1Test {
         expResult.max = BigDecimal.valueOf(100.0d);
         expResult.min = BigDecimal.valueOf(-100.0d);
         expResult.sum = BigDecimal.valueOf(0.0d);
-        expResult.mean = Math_BigRational.ZERO;
-        expResult.median = Math_BigRational.ZERO;
+        expResult.mean = BigRational.ZERO;
+        expResult.median = BigRational.ZERO;
         expResult.nNeg = BigInteger.valueOf(2);
         expResult.nZero = BigInteger.valueOf(2);
         expResult.q1 = BigDecimal.valueOf(-50.0d);
@@ -101,8 +100,8 @@ public class Stats_BigDecimal1Test {
         expResult.max = BigDecimal.valueOf(100.0d);
         expResult.min = BigDecimal.valueOf(-100.0d);
         expResult.sum = BigDecimal.valueOf(0.0d);
-        expResult.mean = Math_BigRational.ZERO;
-        expResult.median = Math_BigRational.ZERO;
+        expResult.mean = BigRational.ZERO;
+        expResult.median = BigRational.ZERO;
         expResult.nNeg = BigInteger.valueOf(2);
         expResult.nZero = BigInteger.valueOf(3);
         expResult.q1 = BigDecimal.valueOf(-50.0d);
@@ -115,8 +114,8 @@ public class Stats_BigDecimal1Test {
         expResult.max = BigDecimal.valueOf(100.0d);
         expResult.min = BigDecimal.valueOf(-100.0d);
         expResult.sum = BigDecimal.valueOf(0.0d);
-        expResult.mean = Math_BigRational.ZERO;
-        expResult.median = Math_BigRational.ZERO;
+        expResult.mean = BigRational.ZERO;
+        expResult.median = BigRational.ZERO;
         expResult.nNeg = BigInteger.valueOf(2);
         expResult.nZero = BigInteger.valueOf(4);
         expResult.q1 = BigDecimal.valueOf(0.0d);
@@ -129,8 +128,8 @@ public class Stats_BigDecimal1Test {
         expResult.max = BigDecimal.valueOf(100.0d);
         expResult.min = BigDecimal.valueOf(-100.0d);
         expResult.sum = BigDecimal.valueOf(0.0d);
-        expResult.mean = Math_BigRational.ZERO;
-        expResult.median = Math_BigRational.ZERO;
+        expResult.mean = BigRational.ZERO;
+        expResult.median = BigRational.ZERO;
         expResult.nNeg = BigInteger.valueOf(2);
         expResult.nZero = BigInteger.valueOf(5);
         expResult.q1 = BigDecimal.valueOf(0.0d);

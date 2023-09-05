@@ -17,6 +17,7 @@ package uk.ac.leeds.ccg.stats.summary;
 
 import ch.obermuhlner.math.big.BigRational;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.AfterAll;
@@ -24,7 +25,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
-import uk.ac.leeds.ccg.math.number.Math_BigRational;
 import uk.ac.leeds.ccg.math.number.Math_BigRationalRoot;
 import uk.ac.leeds.ccg.math.number.Math_BigRationalSqrt;
 
@@ -104,10 +104,10 @@ public class Stats_MomentsTest {
 //        expResult.q1 = BigDecimal.valueOf(-50);
 //        expResult.q3 = BigDecimal.valueOf(50);
         expResult.moments = new Stats_Moments(expResult);
-        expResult.moments.m1 = Math_BigRational.valueOf(300);
-        expResult.moments.m2 = Math_BigRational.valueOf(25000);
-        expResult.moments.m3 = Math_BigRational.valueOf(2250000);
-        expResult.moments.m4 = Math_BigRational.valueOf(212500000);
+        expResult.moments.m1 = BigRational.valueOf(300);
+        expResult.moments.m2 = BigRational.valueOf(25000);
+        expResult.moments.m3 = BigRational.valueOf(2250000);
+        expResult.moments.m4 = BigRational.valueOf(212500000);
         result = new Stats_BigDecimal1(data);
         // Have to get something to force an update.
         result.getMoments().getM1();
@@ -136,13 +136,13 @@ public class Stats_MomentsTest {
 //        expResult.q3 = BigDecimal.valueOf(2135.6d);
         expResult.moments = new Stats_Moments(expResult);
         //expResult.moments.m1 = BigRational.valueOf(6169.6d);
-        expResult.moments.m1 =  Math_BigRational.valueOf("6169.6");
+        expResult.moments.m1 =  BigRational.valueOf("6169.6");
         //expResult.moments.m2 = BigRational.valueOf(5599317.68d);
-        expResult.moments.m2 =  Math_BigRational.valueOf("5599317.675");
+        expResult.moments.m2 =  BigRational.valueOf("5599317.675");
         //expResult.moments.m3 = BigRational.valueOf(5741453120.494d);
-        expResult.moments.m3 =  Math_BigRational.valueOf("5741475556.1755");
+        expResult.moments.m3 =  BigRational.valueOf("5741475556.1755");
         //expResult.moments.m4 = BigRational.valueOf("6419805908521.9556");
-        expResult.moments.m4 =  Math_BigRational.valueOf("6419895701972.435690625");
+        expResult.moments.m4 =  BigRational.valueOf("6419895701972.435690625");
         result = new Stats_BigDecimal1(data);
         // Have to get something to force an update.
         result.getMoments().getM1();
@@ -166,9 +166,9 @@ public class Stats_MomentsTest {
         data.add(BigDecimal.valueOf(2308.7d));
         data.add(BigDecimal.valueOf(2950.0d));
         Stats_BigDecimal1 stats = new Stats_BigDecimal1(data);
-        Math_BigRational result = stats.getMoments().getStandardDeviationSquared();
+        BigRational result = stats.getMoments().getStandardDeviationSquared();
         //BigRational expResult = BigRational.valueOf(799951.36d);
-        Math_BigRational expResult = Math_BigRational.valueOf(799902.525d);
+        BigRational expResult = BigRational.valueOf(799902.525d);
         assertTrue(result.compareTo(expResult) == 0);
     }
 
@@ -189,11 +189,12 @@ public class Stats_MomentsTest {
         data.add(BigDecimal.valueOf(2950.0d));
         Stats_BigDecimal1 stats = new Stats_BigDecimal1(data);
         int oom = -3;
+        RoundingMode rm = RoundingMode.HALF_UP;
         Math_BigRationalSqrt result = stats.getMoments().getStandardDeviation(
-                oom);
+                oom, rm);
         //BigRational expResult = BigRational.valueOf(799951.36d);
         Math_BigRationalSqrt expResult = new Math_BigRationalSqrt(
-                Math_BigRational.valueOf("799902.525"), oom);
+                BigRational.valueOf("799902.525"), oom, rm);
         assertTrue(result.compareTo(expResult) == 0);
     }
     

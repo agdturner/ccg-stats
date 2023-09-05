@@ -15,12 +15,13 @@
  */
 package uk.ac.leeds.ccg.stats.summary;
 
+import ch.obermuhlner.math.big.BigRational;
 import java.io.Serializable;
 import java.math.BigInteger;
+import java.math.RoundingMode;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Objects;
-import uk.ac.leeds.ccg.math.number.Math_BigRational;
 import uk.ac.leeds.ccg.math.number.Math_BigRationalSqrt;
 
 /**
@@ -41,23 +42,23 @@ public class Stats_Moments implements Serializable {
     /**
      * For storing the sum of all the (differences from the mean).
      */
-    protected Math_BigRational m1;
+    protected BigRational m1;
 
     /**
      * For storing the sum of all the (differences from the mean squared).
      */
-    protected Math_BigRational m2;
+    protected BigRational m2;
 
     /**
      * For storing the sum of all the (differences from the mean cubed).
      */
-    protected Math_BigRational m3;
+    protected BigRational m3;
 
     /**
      * For storing the sum of all the (differences from the mean squared
      * squared).
      */
-    protected Math_BigRational m4;
+    protected BigRational m4;
 
     /**
      * A reference to the stats this is attached to.
@@ -84,39 +85,39 @@ public class Stats_Moments implements Serializable {
      */
     protected void init() {
         BigInteger n = stats.getN();
-        Math_BigRational mean = stats.getMean();
+        BigRational mean = stats.getMean();
         Collection<? extends Number> data;
-        if (stats instanceof Stats_Float1) {
-            data = ((Stats_Float1) stats).data;
-        } else if (stats instanceof Stats_Double1) {
-            data = ((Stats_Double1) stats).data;
+        if (stats instanceof Stats_Float1 stats_Float1) {
+            data = stats_Float1.data;
+        } else if (stats instanceof Stats_Double1 stats_Double1) {
+            data = stats_Double1.data;
         } else {
             data = ((Stats_BigDecimal1) stats).data;
         }
         int dataSize = n.intValueExact();
         switch (dataSize) {
-            case 0:
-                break;
-            case 1:
-                m1 = Math_BigRational.ZERO;
-                m2 = Math_BigRational.ZERO;
-                m3 = Math_BigRational.ZERO;
-                m4 = Math_BigRational.ZERO;
-                break;
-            default:
-                m1 = Math_BigRational.ZERO;
-               m2 = Math_BigRational.ZERO;
-               m3 = Math_BigRational.ZERO;
-               m4 = Math_BigRational.ZERO;
+            case 0 -> {
+            }
+            case 1 -> {
+                m1 = BigRational.ZERO;
+                m2 = BigRational.ZERO;
+                m3 = BigRational.ZERO;
+                m4 = BigRational.ZERO;
+            }
+            default -> {
+                m1 = BigRational.ZERO;
+                m2 = BigRational.ZERO;
+                m3 = BigRational.ZERO;
+                m4 = BigRational.ZERO;
                 Iterator<? extends Number> ite = data.iterator();
                 while (ite.hasNext()) {
-                    Math_BigRational i = Math_BigRational.valueOf(ite.next().toString());
+                    BigRational i = BigRational.valueOf(ite.next().toString());
                     m1 = m1.add(i.subtract(mean).abs());
                     m2 = m2.add(i.subtract(mean).pow(2));
                     m3 = m3.add(i.subtract(mean).pow(3).abs());
                     m4 = m4.add(i.subtract(mean).pow(4));
                 }
-                break;
+            }
         }
     }
 
@@ -142,8 +143,7 @@ public class Stats_Moments implements Serializable {
      */
     @Override
     public boolean equals(Object o) {
-        if (o instanceof Stats_Moments) {
-            Stats_Moments s = (Stats_Moments) o;
+        if (o instanceof Stats_Moments s) {
             //if (this.hashCode() == o.hashCode()) {
             if (this.m1.compareTo(s.m1) == 0) {
                 if (this.m2.compareTo(s.m2) == 0) {
@@ -172,7 +172,7 @@ public class Stats_Moments implements Serializable {
     /**
      * @return {@link #m1} for the collection computing it if necessary.
      */
-    public Math_BigRational getM1() {
+    public BigRational getM1() {
         if (!isUpToDate) {
             init();
         }
@@ -182,7 +182,7 @@ public class Stats_Moments implements Serializable {
     /**
      * @return {@link #m2} for the collection computing it if necessary.
      */
-    public Math_BigRational getM2() {
+    public BigRational getM2() {
         if (!isUpToDate) {
             init();
         }
@@ -192,7 +192,7 @@ public class Stats_Moments implements Serializable {
     /**
      * @return {@link #m3} for the collection computing it if necessary.
      */
-    public Math_BigRational getM3() {
+    public BigRational getM3() {
         if (!isUpToDate) {
             init();
         }
@@ -202,7 +202,7 @@ public class Stats_Moments implements Serializable {
     /**
      * @return {@link #m4} for the collection computing it if necessary.
      */
-    public Math_BigRational getM4() {
+    public BigRational getM4() {
         if (!isUpToDate) {
             init();
         }
@@ -212,9 +212,9 @@ public class Stats_Moments implements Serializable {
     /**
      * Calculates and returns the standard deviation.
      *
-     * @return A Math_BigRational representing the standard deviation.
+     * @return A BigRational representing the standard deviation.
      */
-    public Math_BigRational getStandardDeviationSquared() {
+    public BigRational getStandardDeviationSquared() {
         if (!isUpToDate) {
             init();
         }
@@ -225,9 +225,10 @@ public class Stats_Moments implements Serializable {
      * Calculates and returns the standard deviation.
      *
      * @param oom The Order of Magnitude for the initialisation of the root.
-     * @return A Math_BigRational representing the standard deviation.
+     * @param rm The Rounding Mode
+     * @return A BigRational representing the standard deviation.
      */
-    public Math_BigRationalSqrt getStandardDeviation(int oom) {
-        return new Math_BigRationalSqrt(getStandardDeviationSquared(), oom);
+    public Math_BigRationalSqrt getStandardDeviation(int oom, RoundingMode rm) {
+        return new Math_BigRationalSqrt(getStandardDeviationSquared(), oom, rm);
     }
 }

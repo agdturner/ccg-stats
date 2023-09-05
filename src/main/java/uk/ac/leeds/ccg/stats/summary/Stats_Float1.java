@@ -15,6 +15,7 @@
  */
 package uk.ac.leeds.ccg.stats.summary;
 
+import ch.obermuhlner.math.big.BigRational;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -22,7 +23,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
-import uk.ac.leeds.ccg.math.number.Math_BigRational;
 
 /**
  * POJO for summary statistics of float values.
@@ -53,7 +53,7 @@ public class Stats_Float1 extends Stats_Float {
     /**
      * For storing the median value.
      */
-    protected Math_BigRational median;
+    protected BigRational median;
 
     /**
      * For storing the lower inter quartile range value.
@@ -111,7 +111,7 @@ public class Stats_Float1 extends Stats_Float {
                 break;
             case 1:
                 Float v = data.stream().findAny().get();
-                median = Math_BigRational.valueOf(v);
+                median = BigRational.valueOf(v);
                 int c = v.compareTo(0.0f);
                 if (c == -1) {
                     nNeg = nNeg.add(BigInteger.ONE);
@@ -132,17 +132,17 @@ public class Stats_Float1 extends Stats_Float {
                 }
                 int h = dataSize / 2;
                 if (dataSize % 2 == 0) {
-                    median = Math_BigRational.valueOf(
+                    median = BigRational.valueOf(
                             BigDecimal.valueOf(data.get(h - 1))
                                     .add(BigDecimal.valueOf(data.get(h))))
                             .divide(2);
                 } else {
-                    median = Math_BigRational.valueOf(data.get(h));
+                    median = BigRational.valueOf(data.get(h));
                 }
                 int q1p = dataSize / 4;
                 q1 = data.get(q1p);
                 q3 = data.get(dataSize - q1p - 1);
-                mean = Math_BigRational.valueOf(sum).divide(dataSize);
+                mean = BigRational.valueOf(sum).divide(dataSize);
                 break;
         }
         max = data.get(data.size() - 1);
@@ -208,7 +208,7 @@ public class Stats_Float1 extends Stats_Float {
     /**
      * @return {@link #median} for the collection computing it if necessary.
      */
-    public Math_BigRational getMedian() {
+    public BigRational getMedian() {
         if (!isUpToDate) {
             init();
         }
@@ -303,7 +303,7 @@ public class Stats_Float1 extends Stats_Float {
      * @return {@link #mean} 
      */
     @Override
-    public Math_BigRational getMean() {
+    public BigRational getMean() {
         if (!isUpToDate) {
             init();
         }

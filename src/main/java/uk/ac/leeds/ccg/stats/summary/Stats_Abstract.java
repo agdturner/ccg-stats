@@ -15,10 +15,10 @@
  */
 package uk.ac.leeds.ccg.stats.summary;
 
+import ch.obermuhlner.math.big.BigRational;
 import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.Objects;
-import uk.ac.leeds.ccg.math.number.Math_BigRational;
 
 /**
  * A POJO for storing summary statistics.
@@ -38,7 +38,7 @@ public abstract class Stats_Abstract implements Serializable {
     /**
      * For storing the arithmetic mean.
      */
-    protected Math_BigRational mean;
+    protected BigRational mean;
 
     /**
      * Create a new instance.
@@ -107,7 +107,7 @@ public abstract class Stats_Abstract implements Serializable {
     /**
      * @return {@link #mean}
      */
-    public Math_BigRational getMean() {
+    public BigRational getMean() {
         return mean;
     }
 }

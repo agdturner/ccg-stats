@@ -25,7 +25,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
-import uk.ac.leeds.ccg.math.number.Math_BigRational;
 
 /**
  * Test.
@@ -70,7 +69,7 @@ public class Stats_FloatTest {
         expResult.max = 100.0f;
         expResult.min = -100.0f;
         expResult.sum = BigDecimal.ZERO;
-        expResult.mean = Math_BigRational.ZERO;
+        expResult.mean = BigRational.ZERO;
         Stats_Float result = new Stats_Float(data);
         assertEquals(expResult, result);
     }

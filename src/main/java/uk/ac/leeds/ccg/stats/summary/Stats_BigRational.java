@@ -15,10 +15,10 @@
  */
 package uk.ac.leeds.ccg.stats.summary;
 
+import ch.obermuhlner.math.big.BigRational;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Objects;
-import uk.ac.leeds.ccg.math.number.Math_BigRational;
 
 /**
  * POJO for summary statistics of BigRational values.
@@ -39,17 +39,17 @@ public class Stats_BigRational extends Stats_Abstract {
     /**
      * For storing the sum of all values.
      */
-    public Math_BigRational sum;
+    public BigRational sum;
 
     /**
      * For storing the minimum value.
      */
-    public Math_BigRational min;
+    public BigRational min;
 
     /**
      * For storing the maximum value.
      */
-    public Math_BigRational max;
+    public BigRational max;
 
     /**
      * Description.
@@ -76,30 +76,30 @@ public class Stats_BigRational extends Stats_Abstract {
     /**
      * @param d The collection of values.
      */
-    public Stats_BigRational(Collection<Math_BigRational> d) {
+    public Stats_BigRational(Collection<BigRational> d) {
         super(d.size());
         int dataSize = d.size();
         switch (dataSize) {
             case 0:
                 break;
             case 1:
-                Math_BigRational v = d.stream().findAny().get();
+                BigRational v = d.stream().findAny().get();
                 sum = v;
                 min = v;
                 max = v;
                 mean = v;
                 break;
             default:
-                sum = Math_BigRational.ZERO;
-                Math_BigRational v2 = d.iterator().next();
+                sum = BigRational.ZERO;
+                BigRational v2 = d.iterator().next();
                 min = v2;
                 max = v2;
-                Iterator<Math_BigRational> ite = d.iterator();
+                Iterator<BigRational> ite = d.iterator();
                 while (ite.hasNext()) {
-                    Math_BigRational i = ite.next();
+                    BigRational i = ite.next();
                     sum = sum.add(i);
-                    min = Math_BigRational.min(i, min);
-                    max = Math_BigRational.max(i, max);
+                    min = BigRational.min(i, min);
+                    max = BigRational.max(i, max);
                 }
                 mean = sum.divide(dataSize);
         }

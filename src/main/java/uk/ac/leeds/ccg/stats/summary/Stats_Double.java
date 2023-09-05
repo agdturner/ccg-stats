@@ -20,9 +20,7 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Collection;
 import java.util.DoubleSummaryStatistics;
-import java.util.List;
 import java.util.Objects;
-import uk.ac.leeds.ccg.math.number.Math_BigRational;
 
 /**
  * POJO for summary statistics of double values.
@@ -83,7 +81,7 @@ public class Stats_Double extends Stats_Abstract {
         d.forEach(x -> {
             sum = sum.add(BigDecimal.valueOf(x));
         });
-        mean = Math_BigRational.valueOf(sum).divide(n);
+        mean = BigRational.valueOf(sum).divide(n);
     }
 
     /**
