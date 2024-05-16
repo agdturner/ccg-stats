@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Centre for Computational Geography.
+ * Copyright 2023 Centre for Computational Geography.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,7 +16,6 @@
 package uk.ac.leeds.ccg.stats.summary;
 
 import ch.obermuhlner.math.big.BigRational;
-import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -25,7 +24,7 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
- * POJO for summary statistics of float values.
+ * POJO for summary statistics of BigRational values.
  *
  * Proposed future developments:
  * <ul>
@@ -36,14 +35,14 @@ import java.util.stream.Collectors;
  * @author Andy Turner
  * @version 1.0
  */
-public class Stats_Float1 extends Stats_Float {
+public class Stats_BigRational1 extends Stats_BigRational {
 
     private static final long serialVersionUID = 1L;
 
     /**
      * An ordered store of the values.
      */
-    public final List<Float> data;
+    public transient final List<BigRational> data;
 
     /**
      * Records if {@link data} has changed since last {@link #init()}.
@@ -58,12 +57,12 @@ public class Stats_Float1 extends Stats_Float {
     /**
      * For storing the lower inter quartile range value.
      */
-    protected float q1;
+    protected BigRational q1;
 
     /**
      * For storing the upper inter quartile range value.
      */
-    protected float q3;
+    protected BigRational q3;
 
     /**
      * For storing the number of values equal to zero.
@@ -74,16 +73,11 @@ public class Stats_Float1 extends Stats_Float {
      * For storing the number of negative values.
      */
     public BigInteger nNeg;
-
-    /**
-     * Moments
-     */
-    protected Stats_Moments moments;
     
     /**
      * Create.
      */
-    public Stats_Float1() {
+    public Stats_BigRational1() {
         data = new ArrayList<>();
     }
 
@@ -91,7 +85,7 @@ public class Stats_Float1 extends Stats_Float {
      * @param d The initial collection of values. Elements should not be
      * {@code null, NaN, NEGATIVE_INFINITY, POSITIVE_INFINITY}.
      */
-    public Stats_Float1(Collection<Float> d) {
+    public Stats_BigRational1(Collection<BigRational> d) {
         super(d);
         data = d.stream().sorted().collect(Collectors.toList());
         init();
@@ -110,9 +104,9 @@ public class Stats_Float1 extends Stats_Float {
             case 0 -> {
             }
             case 1 -> {
-                Float v = data.stream().findAny().get();
-                median = BigRational.valueOf(v);
-                int c = v.compareTo(0.0f);
+                BigRational v = data.stream().findAny().get();
+                median = v;
+                int c = v.compareTo(BigRational.ZERO);
                 if (c == -1) {
                     nNeg = nNeg.add(BigInteger.ONE);
                 } else if (c == 0) {
@@ -123,8 +117,8 @@ public class Stats_Float1 extends Stats_Float {
             }
             default -> {
                 int c;
-                for (Float x : data) {
-                    c = x.compareTo(0.0f);
+                for (BigRational x : data) {
+                    c = x.compareTo(BigRational.ZERO);
                     if (c == -1) {
                         nNeg = nNeg.add(BigInteger.ONE);
                     } else if (c == 0) {
@@ -133,17 +127,14 @@ public class Stats_Float1 extends Stats_Float {
                 }
                 int h = dataSize / 2;
                 if (dataSize % 2 == 0) {
-                    median = BigRational.valueOf(
-                            BigDecimal.valueOf(data.get(h - 1))
-                                    .add(BigDecimal.valueOf(data.get(h))))
-                            .divide(2);
+                    median = (data.get(h - 1).add(data.get(h))).divide(2);
                 } else {
-                    median = BigRational.valueOf(data.get(h));
+                    median = data.get(h);
                 }
                 int q1p = dataSize / 4;
                 q1 = data.get(q1p);
                 q3 = data.get(dataSize - q1p - 1);
-                mean = BigRational.valueOf(sum).divide(dataSize);
+                mean = sum.divide(dataSize);
             }
         }
         max = data.get(data.size() - 1);
@@ -174,7 +165,7 @@ public class Stats_Float1 extends Stats_Float {
      */
     @Override
     public boolean equals(Object o) {
-        if (o instanceof Stats_Float1 s) {
+        if (o instanceof Stats_BigRational1 s) {
             //if (this.hashCode() == o.hashCode()) {
             if (q1 == s.q1) {
                 if (q3 == s.q3) {
@@ -197,13 +188,15 @@ public class Stats_Float1 extends Stats_Float {
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 37 * hash + Objects.hashCode(this.median);
-        hash = 37 * hash + (int) (Double.doubleToLongBits(this.q1) ^ (Double.doubleToLongBits(this.q1) >>> 32));
-        hash = 37 * hash + (int) (Double.doubleToLongBits(this.q3) ^ (Double.doubleToLongBits(this.q3) >>> 32));
-        hash = 37 * hash + Objects.hashCode(this.nZero);
-        hash = 37 * hash + Objects.hashCode(this.nNeg);
+        hash = 29 * hash + Objects.hashCode(this.median);
+        hash = 29 * hash + Objects.hashCode(this.q1);
+        hash = 29 * hash + Objects.hashCode(this.q3);
+        hash = 29 * hash + Objects.hashCode(this.nZero);
+        hash = 29 * hash + Objects.hashCode(this.nNeg);
         return hash;
     }
+
+    
 
     /**
      * @return {@link #median} for the collection computing it if necessary.
@@ -218,7 +211,7 @@ public class Stats_Float1 extends Stats_Float {
     /**
      * @return {@link #q1} for the collection computing it if necessary.
      */
-    public float getQ1() {
+    public BigRational getQ1() {
         if (!isUpToDate) {
             init();
         }
@@ -228,7 +221,7 @@ public class Stats_Float1 extends Stats_Float {
     /**
      * @return {@link #q3} for the collection computing it if necessary.
      */
-    public float getQ3() {
+    public BigRational getQ3() {
         if (!isUpToDate) {
             init();
         }
@@ -259,7 +252,7 @@ public class Stats_Float1 extends Stats_Float {
      * @return {@link #max} 
      */
     @Override
-    public float getMax() {
+    public BigRational getMax() {
         if (!isUpToDate) {
             init();
         }
@@ -270,7 +263,7 @@ public class Stats_Float1 extends Stats_Float {
      * @return {@link #min} 
      */
     @Override
-    public float getMin() {
+    public BigRational getMin() {
         if (!isUpToDate) {
             init();
         }
@@ -281,7 +274,7 @@ public class Stats_Float1 extends Stats_Float {
      * @return {@link #sum} 
      */
     @Override
-    public BigDecimal getSum() {
+    public BigRational getSum() {
         if (!isUpToDate) {
             init();
         }
@@ -316,7 +309,7 @@ public class Stats_Float1 extends Stats_Float {
      * @param x The value to add. Should not be
      * {@code null, NaN, NEGATIVE_INFINITY, POSITIVE_INFINITY}.
      */
-    public void add(Float x) {
+    public void add(BigRational x) {
         data.add(x);
         isUpToDate = false;
         getMoments().isUpToDate = false;
@@ -328,19 +321,9 @@ public class Stats_Float1 extends Stats_Float {
      * @param c The collection of values to add. Values should not be
      * {@code null, NaN, NEGATIVE_INFINITY, POSITIVE_INFINITY}.
      */
-    public void add(Collection<Float> c) {
+    public void add(Collection<BigRational> c) {
         data.addAll(c);
         isUpToDate = false;
         getMoments().isUpToDate = false;
-    }
-
-    /**
-     * @return {@link #moments} initialising and updating as necessary.
-     */
-    public Stats_Moments getMoments() {
-        if (moments == null) {
-            moments = new Stats_Moments(this);
-        }
-        return moments;
     }
 }

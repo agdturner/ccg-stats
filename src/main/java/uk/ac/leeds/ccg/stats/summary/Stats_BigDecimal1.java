@@ -107,9 +107,9 @@ public class Stats_BigDecimal1 extends Stats_BigDecimal {
         int dataSize = data.size();
         n = BigInteger.valueOf(dataSize);
         switch (dataSize) {
-            case 0:
-                break;
-            case 1:
+            case 0 -> {
+            }
+            case 1 -> {
                 BigDecimal v = data.stream().findAny().get();
                 median = BigRational.valueOf(v);
                 int c = v.compareTo(BigDecimal.ZERO);
@@ -120,8 +120,9 @@ public class Stats_BigDecimal1 extends Stats_BigDecimal {
                 }
                 q1 = v;
                 q3 = v;
-                break;
-            default:
+            }
+            default -> {
+                int c;
                 for (BigDecimal x : data) {
                     c = x.compareTo(BigDecimal.ZERO);
                     if (c == -1) {
@@ -140,7 +141,7 @@ public class Stats_BigDecimal1 extends Stats_BigDecimal {
                 int q1p = dataSize / 4;
                 q1 = data.get(q1p);
                 q3 = data.get(dataSize - q1p - 1);
-                break;
+            }
         }
     }
 
@@ -167,8 +168,7 @@ public class Stats_BigDecimal1 extends Stats_BigDecimal {
      */
     @Override
     public boolean equals(Object o) {
-        if (o instanceof Stats_BigDecimal1) {
-            Stats_BigDecimal1 s = (Stats_BigDecimal1) o;
+        if (o instanceof Stats_BigDecimal1 s) {
             //if (this.hashCode() == o.hashCode()) {
             if (super.equals(o)) {
                 if (this.median.compareTo(s.median) == 0) {

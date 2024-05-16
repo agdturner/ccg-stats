@@ -16,8 +16,8 @@
 package uk.ac.leeds.ccg.stats.summary;
 
 import ch.obermuhlner.math.big.BigRational;
+import java.math.BigInteger;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.Objects;
 
 /**
@@ -50,7 +50,12 @@ public class Stats_BigRational extends Stats_Abstract {
      * For storing the maximum value.
      */
     public BigRational max;
-
+    
+    /**
+     * Moments
+     */
+    protected Stats_Moments moments;
+    
     /**
      * Description.
      *
@@ -80,39 +85,58 @@ public class Stats_BigRational extends Stats_Abstract {
         super(d.size());
         int dataSize = d.size();
         switch (dataSize) {
-            case 0:
-                break;
-            case 1:
+            case 0 -> {
+            }
+            case 1 -> {
                 BigRational v = d.stream().findAny().get();
                 sum = v;
                 min = v;
                 max = v;
                 mean = v;
-                break;
-            default:
+            }
+            default -> {
                 sum = BigRational.ZERO;
                 BigRational v2 = d.iterator().next();
                 min = v2;
                 max = v2;
-                Iterator<BigRational> ite = d.iterator();
-                while (ite.hasNext()) {
-                    BigRational i = ite.next();
+                for (BigRational i : d) {
                     sum = sum.add(i);
                     min = BigRational.min(i, min);
                     max = BigRational.max(i, max);
                 }
                 mean = sum.divide(dataSize);
+            }
+
         }
     }
 
+    /**
+     * @param d The collection of values.
+     */
+    protected final void init(Collection<BigRational> d) {
+        n = BigInteger.valueOf(d.size());
+        max = d.parallelStream().findAny().get();
+        min = max;
+        sum = BigRational.ZERO;
+        for (BigRational x : d) {
+            if (x == null) {
+                int debug = 1;
+            } else {
+                max = BigRational.max(max, x);
+                min = BigRational.min(min, x);
+                sum = sum.add(x);
+            }
+        }
+        mean = sum.divide(n);
+    }
+    
     /**
      * @param o The object to test for equality.
      * @return {@code true} iff {@code this} and o are equal.
      */
     @Override
     public boolean equals(Object o) {
-        if (o instanceof Stats_BigRational) {
-            Stats_BigRational s = (Stats_BigRational) o;
+        if (o instanceof Stats_BigRational s) {
             //if (s.hashCode() == this.hashCode()) {
             if (super.equals(o)) {
                 if (s.sum.compareTo(sum) == 0) {
@@ -138,5 +162,36 @@ public class Stats_BigRational extends Stats_Abstract {
         hash = 67 * hash + Objects.hashCode(this.min);
         hash = 67 * hash + Objects.hashCode(this.max);
         return hash;
+    }
+    
+    /**
+     * @return {@link #moments} initialising and updating as necessary.
+     */
+    public Stats_Moments getMoments() {
+        if (moments == null) {
+            moments = new Stats_Moments(this);
+        }
+        return moments;
+    }
+    
+    /**
+     * @return {@link #max} 
+     */
+    public BigRational getMax() {
+        return max;
+    }
+    
+    /**
+     * @return {@link #min} 
+     */
+    public BigRational getMin() {
+        return min;
+    }
+    
+    /**
+     * @return {@link #sum} 
+     */
+    public BigRational getSum() {
+        return sum;
     }
 }
