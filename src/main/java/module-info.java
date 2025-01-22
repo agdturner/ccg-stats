@@ -23,4 +23,5 @@ module uk.ac.leeds.ccg.stats {
     requires uk.ac.leeds.ccg.generic;
     requires transitive uk.ac.leeds.ccg.math;
     exports uk.ac.leeds.ccg.stats.summary;
+    exports uk.ac.leeds.ccg.stats.range;
 }
