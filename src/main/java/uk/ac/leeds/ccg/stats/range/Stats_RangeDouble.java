@@ -20,23 +20,38 @@ package uk.ac.leeds.ccg.stats.range;
  * 
  * @author Andy Turner
  */
-public class Stats_RangeDouble<T extends Comparable<T>> implements Comparable<Stats_RangeDouble<T>> {
+public class Stats_RangeDouble implements Comparable<Stats_RangeDouble> {
     
+    /**
+     * The minimum of the range.
+     */
     double min;
-
+    
+    /**
+     * The maximum of the range.
+     */
     double max;
     
+    /**
+     * @param min What {@link #min} is set to.
+     * @param max What {@link #max} is set to.
+     */
     public Stats_RangeDouble(double min, double max) {
         this.min = min;
         this.max = max;
     }
     
+    /**
+     * @param value
+     * @return {@code true} iff value is greater than or equal to {@link #min}
+     * and less than {@link #max}.
+     */
     public boolean contains(double value) {
         return value >= min && value < max;
     }
 
     @Override
-    public int compareTo(Stats_RangeDouble<T> other) {
+    public int compareTo(Stats_RangeDouble other) {
         if (this.min == other.min) {
             return Double.compare(this.max, other.max);
         } else {

@@ -67,18 +67,18 @@ public class Stats_BigDecimal extends Stats_Abstract {
         int dataSize = d.size();
         n = BigInteger.valueOf(dataSize);
         switch (dataSize) {
-            case 0:
-                break;
-            case 1:
+            case 0 -> {
+            }
+            case 1 -> {
                 BigDecimal v = d.stream().findAny().get();
                 sum = v;
                 min = v;
                 max = v;
                 mean = BigRational.valueOf(v);
-                break;
-            default:
+            }
+            default -> {
                 sum = BigDecimal.ZERO;
-                v = d.iterator().next();
+                BigDecimal v = d.iterator().next();
                 min = v;
                 max = v;
                 for (BigDecimal x : d) {
@@ -87,7 +87,7 @@ public class Stats_BigDecimal extends Stats_Abstract {
                     max = max.max(x);
                 }
                 mean = BigRational.valueOf(sum).divide(n);
-                break;
+            }
         }
     }
 
@@ -113,8 +113,7 @@ public class Stats_BigDecimal extends Stats_Abstract {
      */
     @Override
     public boolean equals(Object o) {
-        if (o instanceof Stats_BigDecimal) {
-            Stats_BigDecimal s = (Stats_BigDecimal) o;
+        if (o instanceof Stats_BigDecimal s) {
             //if (this.hashCode() == o.hashCode()) {
             if (super.equals(o)) {
                 if (this.sum.compareTo(s.sum) == 0) {
